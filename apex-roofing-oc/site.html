@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Roofing OC</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #0a0a0a;
+            color: #ffffff;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+        }
+
+        /* Spline viewer sits on top of canvas if URL is provided */
+        spline-viewer {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Nav ── */
+        nav {
+            padding: 24px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            background: rgba(10,10,10,0.4);
+        }
+
+        .nav-logo {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-cta {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .nav-cta:hover { opacity: 0.85; }
+
+        /* ── Hero ── */
+        .hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 80px 24px;
+            min-height: 88vh;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 100px;
+            padding: 6px 18px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.65);
+            margin-bottom: 36px;
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        .badge-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #ef4444;
+            animation: pulse 2s infinite;
+        }
+
+        h1 {
+            font-size: clamp(48px, 9vw, 100px);
+            font-weight: 900;
+            line-height: 0.95;
+            letter-spacing: -4px;
+            margin-bottom: 28px;
+            animation: fadeUp 0.6s ease 0.1s forwards;
+            opacity: 0;
+        }
+
+        h1 .white { color: #ffffff; }
+
+        h1 .accent {
+            background: linear-gradient(135deg, #ef4444, #ff8f8f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tagline {
+            font-size: clamp(16px, 2.2vw, 21px);
+            color: rgba(255,255,255,0.45);
+            max-width: 580px;
+            line-height: 1.65;
+            margin-bottom: 52px;
+            animation: fadeUp 0.6s ease 0.2s forwards;
+            opacity: 0;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeUp 0.6s ease 0.3s forwards;
+            opacity: 0;
+        }
+
+        .cta-primary {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            letter-spacing: -0.3px;
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 24px 48px rgba(0,0,0,0.4);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: rgba(255,255,255,0.7);
+            border: 1px solid rgba(255,255,255,0.18);
+            padding: 18px 40px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: border-color 0.2s;
+        }
+
+        .cta-secondary:hover { border-color: rgba(255,255,255,0.4); }
+
+        /* ── Trust Bar ── */
+        .trust-bar {
+            padding: 28px 48px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            background: rgba(10,10,10,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 64px;
+            flex-wrap: wrap;
+        }
+
+        .trust-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .trust-number {
+            font-size: 30px;
+            font-weight: 900;
+            color: #ef4444;
+            letter-spacing: -1px;
+        }
+
+        .trust-label {
+            font-size: 11px;
+            color: rgba(255,255,255,0.35);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        /* ── Animations ── */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.8); }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Mobile ── */
+        @media (max-width: 768px) {
+            nav { padding: 16px 20px; }
+            h1 { letter-spacing: -2px; }
+            .trust-bar { gap: 28px; padding: 24px 20px; }
+            .trust-item { min-width: 80px; }
+        }
+
+        @media (max-width: 480px) {
+            .cta-group { flex-direction: column; align-items: stretch; }
+            .cta-primary, .cta-secondary { text-align: center; }
+        }
+    </style>
+    
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+
+    <div class="content">
+        <nav>
+            <div class="nav-logo">Apex Roofing OC</div>
+            <a href="tel:555-000-0000" class="nav-cta">Call Now</a>
+        </nav>
+
+        <div class="hero">
+            <div class="badge">
+                <span class="badge-dot"></span>
+                Licensed & insured — free estimates
+            </div>
+
+            <h1>
+                <span class="white">Protect What</span><br>
+                <span class="accent">Matters Most.</span>
+            </h1>
+
+            <p class="tagline">Expert roofing installation, repair, and replacement. Serving homeowners with quality craftsmanship and honest pricing since day one.</p>
+
+            <div class="cta-group">
+                <a href="tel:555-000-0000" class="cta-primary">Get Free Estimate →</a>
+                <a href="mailto:hello@yourbusiness.com" class="cta-secondary">See Our Work</a>
+            </div>
+        </div>
+
+        <div class="trust-bar">
+            <div class="trust-item">
+                <span class="trust-number">1,500+</span>
+                <span class="trust-label">Roofs Installed</span>
+            </div>
+            <div class="trust-item">
+                <span class="trust-number">4.9★</span>
+                <span class="trust-label">Google Rating</span>
+            </div>
+            <div class="trust-item">
+                <span class="trust-number">A+</span>
+                <span class="trust-label">BBB Rated</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+(function() {
+
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let W = canvas.width = window.innerWidth;
+    let H = canvas.height = window.innerHeight;
+    window.addEventListener('resize', () => {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+    });
+    const C = {r: 239, g: 68, b: 68};
+    let mouse = {x: W / 2, y: H / 2};
+    document.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+
+    class Drop {
+        constructor(init) {
+            this.reset(init);
+        }
+        reset(init) {
+            this.x = Math.random() * (W + 300) - 150;
+            this.y = init ? Math.random() * H : -30;
+            this.len = 20 + Math.random() * 55;
+            this.speed = 14 + Math.random() * 12;
+            this.alpha = 0.04 + Math.random() * 0.22;
+            this.w = 0.4 + Math.random() * 0.7;
+        }
+        update() {
+            const wind = (mouse.x / W - 0.5) * 0.5 - 0.25;
+            this.x += this.speed * wind;
+            this.y += this.speed;
+            if (this.y > H + 30) this.reset(false);
+        }
+        draw() {
+            const wind = (mouse.x / W - 0.5) * 0.5 - 0.25;
+            const angle = Math.PI / 2 + wind;
+            const ex = this.x - Math.cos(angle) * this.len;
+            const ey = this.y - Math.sin(angle) * this.len;
+            const grad = ctx.createLinearGradient(ex, ey, this.x, this.y);
+            grad.addColorStop(0, 'transparent');
+            grad.addColorStop(1, `rgba(${C.r},${C.g},${C.b},1)`);
+            ctx.save(); ctx.globalAlpha = this.alpha;
+            ctx.strokeStyle = grad; ctx.lineWidth = this.w;
+            ctx.beginPath(); ctx.moveTo(ex, ey); ctx.lineTo(this.x, this.y); ctx.stroke();
+            ctx.restore();
+        }
+    }
+
+    // Small impact splashes at bottom
+    const impacts = [];
+    class Impact {
+        constructor(x) {
+            this.x = x; this.y = H - 1;
+            this.r = 0; this.alpha = 0.5;
+        }
+        update() { this.r += 2.5; this.alpha -= 0.06; }
+        draw() {
+            if (this.alpha <= 0) return;
+            ctx.save(); ctx.globalAlpha = this.alpha;
+            ctx.strokeStyle = `rgb(${C.r},${C.g},${C.b})`;
+            ctx.lineWidth = 0.6;
+            ctx.beginPath(); ctx.ellipse(this.x, this.y, this.r, this.r * 0.3, 0, 0, Math.PI * 2);
+            ctx.stroke(); ctx.restore();
+        }
+        dead() { return this.alpha <= 0; }
+    }
+
+    const drops = Array.from({length: 220}, (_, i) => new Drop(true));
+
+    function loop() {
+        ctx.clearRect(0, 0, W, H);
+        const bg = ctx.createLinearGradient(0, 0, 0, H);
+        bg.addColorStop(0, '#060809'); bg.addColorStop(1, '#0a0a0a');
+        ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+
+        // Storm glow on cursor
+        const g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 180);
+        g.addColorStop(0, `rgba(${C.r},${C.g},${C.b},0.07)`); g.addColorStop(1, 'transparent');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+
+        drops.forEach(d => {
+            d.update();
+            if (d.y >= H - 32 && Math.random() < 0.03) impacts.push(new Impact(d.x));
+            d.draw();
+        });
+
+        for (let i = impacts.length - 1; i >= 0; i--) {
+            impacts[i].update(); impacts[i].draw();
+            if (impacts[i].dead()) impacts.splice(i, 1);
+        }
+        requestAnimationFrame(loop);
+    }
+    loop();
+})();
+</script>
+</body>
+</html>
