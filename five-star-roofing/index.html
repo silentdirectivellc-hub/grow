@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Built for Five Star Roofing — interactive tour</title>
+<style>
+:root {
+  --bg: #020617; --panel: #0f172a; --line: #1e293b;
+  --text: #e2e8f0; --muted: #94a3b8; --accent: #10b981;
+  --violet: #8b5cf6; --amber: #fbbf24; --red: #fca5a5;
+  --blue: #0ea5e9; --pink: #f472b6;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 600px; margin: 0 auto; padding: 24px 18px 80px; min-height: 100vh; }
+
+/* Progress bar */
+.progress { display: flex; gap: 6px; margin-bottom: 22px; }
+.progress .dot { flex: 1; height: 4px; border-radius: 2px; background: var(--line); transition: background 0.3s; }
+.progress .dot.active { background: var(--accent); }
+.progress .dot.complete { background: var(--violet); }
+
+.step-label { color: var(--violet); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; margin-bottom: 8px; }
+
+/* Scene (intro card) */
+.scene { display: none; animation: fadein 0.4s ease; }
+.scene.active { display: block; }
+@keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+h1 { color: var(--accent); font-size: 28px; margin: 0 0 8px; line-height: 1.2; font-weight: 800; }
+h2 { color: #fff; font-size: 22px; margin: 0 0 6px; font-weight: 800; }
+.sub { color: var(--muted); font-size: 14px; margin-bottom: 22px; }
+.url { color: var(--accent); font-weight: 600; }
+.biz { color: var(--accent); font-weight: 700; }
+
+/* Mockup container */
+.mockup { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin: 14px 0 18px; }
+
+/* Card 1: Website */
+.web-frame { background: #fff; color: #1a1a1a; border-radius: 10px; overflow: hidden; }
+.web-nav { background: #1a3a8a; padding: 11px 14px; display: flex; justify-content: space-between; align-items: center; }
+.web-nav .logo { color: #fff; font-weight: 800; font-size: 14px; }
+.web-nav .phone { color: #fff; font-size: 11px; background: #10b981; padding: 5px 10px; border-radius: 4px; font-weight: 700; }
+.web-hero { padding: 16px 14px; }
+.web-hero h3 { color: #1a1a1a; margin: 0 0 5px; font-size: 16px; }
+.web-hero .tag { color: #555; font-size: 12px; margin: 0 0 12px; }
+.web-cta { background: #1a3a8a; color: #fff; padding: 9px 14px; border-radius: 6px; display: inline-block; font-size: 12px; font-weight: 700; }
+.web-feats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; padding: 0 14px 14px; }
+.web-feats .f { background: #f3f6fd; padding: 8px; border-radius: 6px; font-size: 10px; color: #1a3a8a; text-align: center; font-weight: 600; }
+
+/* Card 2: Reviews */
+.rev-frame { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rev-col { background: #fff; border-radius: 10px; padding: 12px; color: #1a1a1a; min-height: 130px; }
+.rev-col h4 { margin: 0 0 6px; font-size: 12px; }
+.stars { color: #f59e0b; font-size: 16px; margin: 4px 0; }
+.rev-col .body { font-size: 10px; color: #555; line-height: 1.4; margin-bottom: 8px; }
+.rev-col.public .btn { display: inline-block; background: #4285f4; color: #fff; padding: 5px 10px; border-radius: 4px; font-size: 9px; font-weight: 700; }
+.rev-col.private { background: #fef3c7; }
+.rev-col.private .body { color: #92400e; }
+.rev-col.private .btn { display: inline-block; background: #f59e0b; color: #fff; padding: 5px 10px; border-radius: 4px; font-size: 9px; font-weight: 700; }
+
+/* Card 3: Phone screen */
+.phone { max-width: 240px; margin: 0 auto; background: #1a1a1a; border-radius: 22px; padding: 8px; }
+.phone-screen { background: #f7f9fc; border-radius: 16px; padding: 14px; min-height: 300px; color: #1a1a1a; }
+.phone-bar { font-size: 10px; color: #555; text-align: center; margin-bottom: 8px; }
+.bubble { padding: 7px 11px; border-radius: 14px; margin: 5px 0; max-width: 78%; font-size: 12px; line-height: 1.3; }
+.bubble.in { background: #e9eef6; color: #1a1a1a; }
+.bubble.out { background: #007aff; color: #fff; margin-left: auto; }
+.missed-call { background: #fee2e2; color: #991b1b; padding: 7px 11px; border-radius: 8px; font-size: 11px; font-weight: 700; text-align: center; margin-bottom: 8px; }
+
+/* Card 4: SMS reactivation */
+.sms-wrap { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.sms-row { background: #fff; color: #1a1a1a; border-radius: 10px; padding: 12px; }
+.sms-meta { font-size: 10px; color: #888; margin-bottom: 5px; font-weight: 600; }
+.sms-body { font-size: 12px; line-height: 1.45; }
+.sms-tag { display: inline-block; background: #d1fae5; color: #065f46; padding: 3px 8px; border-radius: 999px; font-size: 9px; font-weight: 700; margin-top: 6px; }
+
+/* Card 5: GBP + webchat */
+.gbp-frame { background: #fff; border-radius: 10px; padding: 14px; color: #1a1a1a; }
+.gbp-header { display: flex; align-items: center; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+.gbp-logo { width: 36px; height: 36px; background: #4285f4; border-radius: 50%; color: #fff; text-align: center; line-height: 36px; font-weight: 800; font-size: 14px; }
+.gbp-biz { font-size: 13px; font-weight: 700; }
+.gbp-sub { font-size: 11px; color: #4caf50; }
+.gbp-msg { padding: 10px 0; font-size: 12px; }
+.gbp-msg .row { display: flex; flex-direction: column; margin: 4px 0; }
+.gbp-msg .row.right { align-items: flex-end; }
+.gbp-msg .you { background: #e3f2fd; padding: 8px 11px; border-radius: 12px; max-width: 75%; }
+.gbp-msg .biz { background: #f5f5f5; padding: 8px 11px; border-radius: 12px; max-width: 75%; }
+.webchat-bubble { position: relative; background: var(--accent); color: #fff; border-radius: 22px; padding: 10px 14px; font-size: 12px; max-width: 220px; margin-top: 14px; margin-left: auto; }
+.webchat-bubble::after { content: ""; position: absolute; bottom: -8px; right: 16px; width: 0; height: 0; border-style: solid; border-width: 10px 8px 0 0; border-color: var(--accent) transparent transparent transparent; }
+
+/* Advance button (the self-pull CTA) */
+.advance { display: block; width: 100%; background: var(--accent); color: #022c22; border: 0; border-radius: 14px; padding: 18px 22px; font-size: 17px; font-weight: 800; cursor: pointer; text-align: center; margin-top: 16px; transition: transform 0.1s, background 0.2s; font-family: inherit; }
+.advance:hover { background: #34d399; transform: translateY(-1px); }
+.advance:active { transform: translateY(0); }
+.back { display: block; text-align: center; color: var(--muted); text-decoration: underline; padding: 14px 8px 4px; font-size: 12px; background: none; border: 0; cursor: pointer; width: 100%; font-family: inherit; }
+
+/* Final activate scene */
+.activate { background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 16px; padding: 28px 22px; text-align: center; margin-top: 18px; }
+.activate h2 { color: #fff; font-size: 24px; margin: 0 0 6px; font-weight: 800; }
+.activate .price-line { color: #fff; font-size: 16px; margin: 8px 0 18px; opacity: 0.95; }
+.activate .price-line strong { font-size: 36px; font-weight: 900; }
+.activate a.cta { display: block; background: #fff; color: #047857; text-decoration: none; padding: 17px 20px; border-radius: 12px; font-weight: 800; font-size: 16px; }
+.activate .footnote { color: #d1fae5; font-size: 12px; margin-top: 10px; }
+
+.addon { background: var(--panel); border: 1px dashed var(--violet); border-radius: 14px; padding: 18px; margin-top: 20px; }
+.addon .label { color: var(--violet); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 800; margin-bottom: 5px; }
+.addon h3 { color: #fff; font-size: 15px; margin: 0 0 6px; }
+.addon p { color: var(--muted); font-size: 12px; margin: 0 0 12px; }
+.addon a.addon-cta { display: inline-block; background: var(--violet); color: #fff; text-decoration: none; padding: 9px 14px; border-radius: 10px; font-weight: 700; font-size: 12px; }
+
+.genie { background: linear-gradient(135deg, #1e1b4b 0%, #172554 100%); border: 2px solid var(--violet); border-radius: 16px; padding: 20px; margin-top: 22px; }
+.genie h3 { color: var(--amber); font-size: 17px; margin: 0 0 6px; font-weight: 800; }
+.genie p { color: #cbd5e1; font-size: 13px; line-height: 1.5; margin: 0; }
+.footer-note { color: var(--muted); font-size: 11px; text-align: center; margin-top: 32px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="progress" id="progress">
+  <div class="dot active"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+</div>
+
+<!-- SCENE 0: intro -->
+<div class="scene active" data-step="0">
+  <span class="step-label">your build · ready to walk through</span>
+  <h1>5 things i built for <span class="biz">five star roofing</span></h1>
+  <p class="sub">pulled up <span class="url">fivestarcontracting.net</span> this morning. spent a couple hours rigging the full front office for your shop. five pieces, all running on your business. click through, see each one, see what it'll do for the phone bill.</p>
+  <div class="mockup" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 24px; text-align: center;">
+    <div style="font-size: 48px; margin-bottom: 8px;">🛠️</div>
+    <div style="color: #fff; font-weight: 700; font-size: 16px; margin-bottom: 4px;">five star roofing · front office build</div>
+    <div style="color: var(--muted); font-size: 12px;">5 pieces · live in 7 days · cancel anytime</div>
+  </div>
+  <button class="advance" data-go="1">show me what you built →</button>
+</div>
+
+<!-- SCENE 1: Functional Website + Quote Form + Chat Widget -->
+<div class="scene" data-step="1">
+  <span class="step-label">piece 1 of 5 · functional website</span>
+  <h2>your new site, with chat widget AND quote form</h2>
+  <p class="sub">10 pages, mobile-optimized. quote form on the homepage, chat widget on every page. both feed your phone as a real text. when a homeowner submits the form OR messages the chat, you get the lead in 5 seconds. no app to install.</p>
+  <div class="mockup">
+    <div class="web-frame">
+      <div class="web-nav"><span class="logo">FIVE STAR ROOFING</span><span class="phone">📞 (718) 313-9200</span></div>
+      <div class="web-hero" style="background: #e8f0ff; padding: 14px;">
+        <h3 style="color: #1a3a8a; margin: 0 0 4px;">bronx's fastest roofing crew · 24/7 storm response</h3>
+        <p class="tag" style="margin: 0 0 10px;">licensed, insured, 4.9★ on google · free inspections across bronx</p>
+      </div>
+      <div style="padding: 14px; background: #1a3a8a; color: #fff;">
+        <div style="font-weight: 800; font-size: 13px; margin-bottom: 10px; text-align: center;">GET A FREE ESTIMATE</div>
+        <div style="background: #fff; border-radius: 4px; padding: 6px 9px; margin: 6px 0; color: #999; font-size: 11px;">Full Name</div>
+        <div style="background: #fff; border-radius: 4px; padding: 6px 9px; margin: 6px 0; color: #999; font-size: 11px;">Phone *</div>
+        <div style="background: #fff; border-radius: 4px; padding: 6px 9px; margin: 6px 0; color: #999; font-size: 11px;">Email</div>
+        <div style="background: #fff; border-radius: 4px; padding: 6px 9px; margin: 6px 0; color: #999; font-size: 11px; min-height: 32px;">what's going on with the roof?</div>
+        <div style="background: #10b981; color: #fff; text-align: center; padding: 8px; border-radius: 4px; font-weight: 800; font-size: 13px; margin-top: 8px;">request estimate</div>
+      </div>
+      <div style="background: #fff; padding: 10px 14px; font-size: 11px; color: #555; border-top: 1px solid #eee;">
+        💬 <strong style="color: #10b981;">live chat:</strong> typically replies in &lt;2 min
+      </div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top: 12px; font-size: 12px; color: var(--muted);">every submission texts your phone instantly. you see the lead before they hit "send" on the next shop.</p>
+  <button class="advance" data-go="2">show me my review funnel →</button>
+  <button class="back" data-go="0">← back</button>
+</div>
+
+<!-- SCENE 2: Review Funnel -->
+<div class="scene" data-step="2">
+  <span class="step-label">piece 2 of 5 · 5-star review funnel</span>
+  <h2>the bad reviews never make it public</h2>
+  <p class="sub">after every job, the customer gets a 1-5 star ask. 4-5 stars routes straight to google. 1-3 stars goes to a private form you see first. fix it before it hits the internet. one of the most copied plays in the contractor space.</p>
+  <div class="mockup">
+    <div class="rev-frame">
+      <div class="rev-col public">
+        <h4>happy (4-5★)</h4>
+        <div class="stars">★★★★★</div>
+        <div class="body">"five star roofing came out same day. tech was great." routed to google. ranking goes up.</div>
+        <span class="btn">post on google</span>
+      </div>
+      <div class="rev-col private">
+        <h4>unhappy (1-3★)</h4>
+        <div class="stars">★★☆☆☆</div>
+        <div class="body">"appointment was late." routed private. you see it. you fix it before google does.</div>
+        <span class="btn">private feedback</span>
+      </div>
+    </div>
+  </div>
+  <button class="advance" data-go="3">show me my missed-call rescue →</button>
+  <button class="back" data-go="1">← back</button>
+</div>
+
+<!-- SCENE 3: Missed-Call Textback -->
+<div class="scene" data-step="3">
+  <span class="step-label">piece 3 of 5 · missed-call text back</span>
+  <h2>every missed call gets a text in 30 seconds</h2>
+  <p class="sub">every call you can't pick up. after-hours, on a job, double-booked. before they call the shop down the street, they get a text from <span class="biz">five star roofing</span> asking what they need.</p>
+  <div class="mockup">
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="phone-bar">9:42 AM · five star roofing</div>
+        <div class="missed-call">📞 missed call from five star roofing</div>
+        <div class="bubble in">hey, this is five star roofing. sorry we missed you. what's going on, and when do you need someone out?</div>
+        <div class="bubble out">roof's been leaking since last night. today if possible</div>
+        <div class="bubble in">crew can be out 2 PM today, book it?</div>
+        <div class="bubble out">yes</div>
+        <div class="bubble in">booked. confirmation 30 min before he arrives.</div>
+      </div>
+    </div>
+  </div>
+  <button class="advance" data-go="4">show me my reactivation campaigns →</button>
+  <button class="back" data-go="2">← back</button>
+</div>
+
+<!-- SCENE 4: One-Click Marketing Campaigns -->
+<div class="scene" data-step="4">
+  <span class="step-label">piece 4 of 5 · one-click reactivation</span>
+  <h2>your past customers, mined for jobs</h2>
+  <p class="sub">every customer who paid you in the last 18 months sits in your CRM doing nothing. one click fires a text to all of them. typical: 8-15% book again.</p>
+  <div class="mockup">
+    <div class="sms-wrap">
+      <div class="sms-row">
+        <div class="sms-meta">annual roof inspection reminder → 347 past customers</div>
+        <div class="sms-body">"hey it's been a year since we last inspected your roof. storm season's coming, want us to swing by and check it free before you need it?"</div>
+        <span class="sms-tag">2.3% replied · 8 booked · $2,720 recovered</span>
+      </div>
+      <div class="sms-row">
+        <div class="sms-meta">referral ask → last 50 happy customers</div>
+        <div class="sms-body">"any neighbors mention roof or storm damage? we'll knock $25 off their bill and yours."</div>
+        <span class="sms-tag">4 referrals · 2 booked · $680 added</span>
+      </div>
+    </div>
+  </div>
+  <button class="advance" data-go="5">show me my webchat setup →</button>
+  <button class="back" data-go="3">← back</button>
+</div>
+
+<!-- SCENE 5: Webchat + GBP -->
+<div class="scene" data-step="5">
+  <span class="step-label">piece 5 of 5 · webchat + google messaging</span>
+  <h2>two new doors for inbound</h2>
+  <p class="sub">webchat widget on your site + google business profile messaging (homeowners click "message" from google instead of calling). both feed your phone. no app to install. most contractors don't have this. you're now ahead.</p>
+
+
+  <div class="mockup">
+    <div class="gbp-frame">
+      <div class="gbp-header">
+        <div class="gbp-logo">FS</div>
+        <div>
+          <div class="gbp-biz">Five Star Roofing</div>
+          <div class="gbp-sub">✓ verified · 4.9★ · bronx</div>
+        </div>
+      </div>
+      <div class="gbp-msg">
+        <div class="row"><div class="you">do you guys do roof inspections?</div></div>
+        <div class="row right"><div class="biz">yep, inspections are free. want me to pencil you in this week?</div></div>
+        <div class="row"><div class="you">thursday morning works</div></div>
+        <div class="row right"><div class="biz">booked. 9 AM thursday.</div></div>
+      </div>
+      <div class="webchat-bubble">hey, real human or text agent. ask us anything, we'll get back in &lt;2 min.</div>
+    </div>
+  </div>
+  <button class="advance" data-go="6">show me my dashboard →</button>
+  <button class="back" data-go="4">← back</button>
+</div>
+
+<!-- SCENE 6 (NEW): Dashboard / Control Center -->
+<div class="scene" data-step="6">
+  <span class="step-label">your control center · all 5 pieces land here</span>
+  <h2>your dashboard, where every lead lands</h2>
+  <p class="sub">the website chat, the quote form, the missed-call text-backs, the review responses, the reactivation replies. all 5 pieces funnel into one inbox. you check it once a day. you reply if you want, or let the automation handle it. nothing slips.</p>
+  <div class="mockup" style="padding: 8px;">
+    <div style="display: grid; grid-template-columns: 110px 1fr; background: #fff; border-radius: 8px; overflow: hidden; min-height: 360px; font-size: 11px;">
+      <div style="background: #1a1d2e; color: #b8c0d4; padding: 12px 8px;">
+        <div style="color: #fff; font-weight: 800; font-size: 11px; margin-bottom: 14px; padding: 4px;">FIVE STAR ROOFING</div>
+        <div style="padding: 6px 4px; color: #94a3b8; font-size: 10px;">📊 Launchpad</div>
+        <div style="padding: 6px 4px; color: #94a3b8; font-size: 10px;">🏠 Dashboard</div>
+        <div style="padding: 6px 4px; background: #facc15; color: #1a1d2e; font-size: 10px; font-weight: 800; border-radius: 4px; margin: 2px 0;">💬 Conversations <span style="background:#ef4444;color:#fff;padding:1px 5px;border-radius:8px;font-size:9px;margin-left:4px">14</span></div>
+        <div style="padding: 6px 4px; color: #94a3b8; font-size: 10px;">📅 Calendars</div>
+        <div style="padding: 6px 4px; color: #94a3b8; font-size: 10px;">👥 Contacts</div>
+        <div style="padding: 6px 4px; color: #94a3b8; font-size: 10px;">💼 Opportunities</div>
+        <div style="padding: 6px 4px; color: #94a3b8; font-size: 10px;">💳 Payments</div>
+        <div style="padding: 6px 4px; color: #94a3b8; font-size: 10px;">📣 Marketing</div>
+        <div style="padding: 6px 4px; color: #94a3b8; font-size: 10px;">⚡ Automation</div>
+        <div style="padding: 6px 4px; color: #94a3b8; font-size: 10px;">🌐 Sites</div>
+        <div style="padding: 6px 4px; color: #94a3b8; font-size: 10px;">⭐ Reputation</div>
+      </div>
+      <div style="display: grid; grid-template-columns: 130px 1fr 110px; background: #fff;">
+        <div style="background: #f7f8fb; border-right: 1px solid #e5e7eb; padding: 8px;">
+          <div style="font-size: 10px; color: #555; font-weight: 700; margin-bottom: 6px;">UNREAD · 14</div>
+          <div style="padding: 7px 6px; background: #eff6ff; border-radius: 4px; border-left: 3px solid #3b82f6; margin-bottom: 4px;">
+            <div style="font-weight: 700; color: #1a1a1a; font-size: 11px;">📞 (718) 313-9200</div>
+            <div style="color: #1a1a1a; font-size: 10px;">missed call &middot; auto-text fired</div>
+            <div style="color: #888; font-size: 9px; margin-top: 2px;">9:42 AM &middot; today</div>
+          </div>
+          <div style="padding: 7px 6px; border-radius: 4px; margin-bottom: 4px;">
+            <div style="font-weight: 600; color: #1a1a1a; font-size: 11px;">Melissa C.</div>
+            <div style="color: #555; font-size: 10px;">website quote form</div>
+            <div style="color: #888; font-size: 9px;">8:14 AM</div>
+          </div>
+          <div style="padding: 7px 6px; border-radius: 4px; margin-bottom: 4px;">
+            <div style="font-weight: 600; color: #1a1a1a; font-size: 11px;">Tim Hecker</div>
+            <div style="color: #555; font-size: 10px;">webchat reply</div>
+            <div style="color: #888; font-size: 9px;">yesterday</div>
+          </div>
+          <div style="padding: 7px 6px; border-radius: 4px;">
+            <div style="font-weight: 600; color: #1a1a1a; font-size: 11px;">Beth Coyne</div>
+            <div style="color: #555; font-size: 10px;">6-mo reactivation</div>
+            <div style="color: #888; font-size: 9px;">yesterday</div>
+          </div>
+        </div>
+        <div style="padding: 10px; background: #fff; color: #1a1a1a;">
+          <div style="font-weight: 700; font-size: 12px; margin-bottom: 8px; color: #1a1a1a;">(718) 313-9200</div>
+          <div style="background: #3b82f6; color: #fff; padding: 8px 10px; border-radius: 12px; font-size: 11px; line-height: 1.4; max-width: 95%; margin-bottom: 6px;">
+            Hey Frank, Melissa just requested a quote from your contact page.<br><br>
+            <strong>Name:</strong> Melissa<br>
+            <strong>Phone:</strong> (216) 402-0125<br>
+            <strong>Message:</strong> Roof leaking near the chimney after the storm. Wants a quote.<br><br>
+            <strong>CONTACT THEM ASAP</strong><br>
+            <em>Source: Website Quote Form</em>
+          </div>
+          <div style="background: #e9eef6; color: #1a1a1a; padding: 8px 10px; border-radius: 12px; font-size: 11px; max-width: 80%; margin-left: auto; margin-bottom: 6px;">Got it. Calling now.</div>
+          <div style="margin-top: 8px; padding-top: 6px; border-top: 1px solid #eee; color: #888; font-size: 10px;">
+            <input type="text" placeholder="Type a message..." style="width:100%; padding:5px 8px; border:1px solid #ddd; border-radius:4px; font-size:11px;">
+          </div>
+        </div>
+        <div style="background: #f7f8fb; border-left: 1px solid #e5e7eb; padding: 8px; font-size: 10px; color: #1a1a1a;">
+          <div style="font-weight: 700; margin-bottom: 6px;">CONTACT</div>
+          <div style="color: #555; margin-bottom: 8px; font-size: 9px;">Frank Caco Jr<br>Bronx</div>
+          <div style="font-weight: 700; margin: 8px 0 4px;">AUTOMATIONS</div>
+          <div style="color: #10b981; font-size: 9px;">✓ 1-yr followup active</div>
+          <div style="color: #10b981; font-size: 9px;">✓ review request queued</div>
+          <div style="color: #10b981; font-size: 9px;">✓ tagged: hot lead</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top: 12px; font-size: 12px; color: var(--muted);">this is your daily check-in. takes 5 minutes. everything else runs in the background.</p>
+  <button class="advance" data-go="7">show me the price →</button>
+  <button class="back" data-go="5">← back</button>
+</div>
+
+<!-- SCENE 7: Activate (was Scene 6) -->
+<div class="scene" data-step="7">
+  <span class="step-label">all 5 + your dashboard · ready when you are</span>
+  <h2 style="color: var(--accent); font-size: 26px;">live on five star roofing in 7 days</h2>
+  <p class="sub">the website, the reviews, the missed-call text, the reactivation campaigns, the webchat. all five built. all five funneling into your one dashboard. one bill.</p>
+  <div class="activate">
+    <h2>$0 today</h2>
+    <p class="price-line"><strong>$297</strong>/mo after. cancel anytime.</p>
+    <a class="cta" href="https://buy.stripe.com/6oU00l79EgC68Yx1knffy12">activate my 5-piece system ($0 today)</a>
+    <p class="footnote">try it free. card on file. live within a week.</p>
+  </div>
+
+  <!-- Sarah add-on removed 2026-05-24 per Daniel: pseudo-bump UX confuses prospects.
+       Sarah will live as a post-purchase upsell after they pay $297 (week-2 build). -->
+
+
+  <div class="genie">
+    <h3>P.S. anything else you've been wanting to build?</h3>
+    <p>if there's a tool, form, automation, or one-off you've been wanting for five star roofing but nobody could put it together, reply to the email or text us, I'll build that too. throw it in as a bonus.</p>
+  </div>
+
+  <button class="back" data-go="5">← back to webchat</button>
+  <p class="footer-note">silent directive llc · bronx · built for five star roofing · built for you</p>
+</div>
+
+<script>
+(function() {
+  const scenes = document.querySelectorAll('.scene');
+  const dots = document.querySelectorAll('#progress .dot');
+  const TOTAL_STEPS = 7;
+
+  function go(step) {
+    scenes.forEach(s => s.classList.toggle('active', parseInt(s.dataset.step) === step));
+    dots.forEach((d, i) => {
+      d.classList.remove('active', 'complete');
+      if (i < step) d.classList.add('complete');
+      else if (i === step) d.classList.add('active');
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Track for Clarity heatmap funnel data
+    try {
+      if (window.clarity) window.clarity('event', 'tour_step_' + step);
+    } catch (e) {}
+  }
+
+  document.querySelectorAll('[data-go]').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const target = parseInt(this.dataset.go);
+      if (!isNaN(target) && target >= 0 && target <= TOTAL_STEPS) go(target);
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
