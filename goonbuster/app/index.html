@@ -65,6 +65,76 @@
   .mst:last-child{border-bottom:0}
   .mk{width:24px;height:24px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;flex:none}
   .mk.hit{border-color:var(--accent);background:rgba(34,227,160,.15);color:var(--accent);font-weight:900}
+  .expander summary{cursor:pointer;list-style:none;font-weight:800;font-size:14px;color:var(--accent)}
+  .expander summary::-webkit-details-marker{display:none}
+  .expander summary:after{content:'▾';float:right}
+  .expander[open] summary:after{content:'▴'}
+  .expander .expbody{margin-top:12px}
+  /* progress ring */
+  .ringwrap{position:relative;width:150px;height:150px;margin:6px auto 0}
+  .ringwrap svg{transform:rotate(-90deg)}
+  .ringwrap .rtrack{fill:none;stroke:var(--line);stroke-width:8}
+  .ringwrap .rfill{fill:none;stroke:var(--accent);stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset .6s ease}
+  .ringnum{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ringnum b{font-size:44px;font-weight:900;letter-spacing:-2px;line-height:1}
+  .ringnum span{font-size:11px;color:var(--mut);font-weight:700}
+  .rewirepct{text-align:center;font-size:12.5px;color:var(--mut);margin-top:6px}
+  /* growth stage */
+  .stagecard{display:flex;align-items:center;gap:12px}
+  .stageemoji{font-size:34px;line-height:1}
+  .stagename{font-weight:900;font-size:16px;text-transform:capitalize}
+  .stagenext{color:var(--mut);font-size:12.5px;margin-top:2px}
+  /* coming back timeline */
+  .cbrow{display:flex;gap:8px;overflow-x:auto;padding:4px 0 2px;-webkit-overflow-scrolling:touch}
+  .cbrow::-webkit-scrollbar{display:none}
+  .chip{flex:none;background:var(--line);border-radius:11px;padding:9px 12px;font-size:12px;font-weight:700;color:var(--mut);min-width:88px;text-align:center;border:1px solid transparent}
+  .chip.done{background:rgba(34,227,160,.14);color:var(--accent);border-color:rgba(34,227,160,.3)}
+  .chip.next{background:rgba(251,191,36,.14);color:var(--amber);border-color:rgba(251,191,36,.35)}
+  .chip b{display:block;font-size:14px;margin-bottom:2px}
+  /* lessons */
+  .lgrid{display:flex;flex-direction:column;gap:8px}
+  .lrow{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 14px;cursor:pointer;display:flex;align-items:center;gap:10px}
+  .lrow.locked{opacity:.45;cursor:default}
+  .lrow.read{border-color:rgba(34,227,160,.35)}
+  .lnum{width:28px;height:28px;border-radius:50%;background:var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex:none}
+  .lrow.read .lnum{background:rgba(34,227,160,.18);color:var(--accent)}
+  .ltitle{font-size:14.5px;font-weight:700;flex:1}
+  .lcheck{color:var(--accent);font-size:15px}
+  .courseprog{font-size:12.5px;color:var(--mut);margin-bottom:10px}
+  .lessonbody{font-size:15px;color:#e7e9ef;line-height:1.65;margin-top:10px;white-space:pre-line}
+  /* journal */
+  .jentry{border-bottom:1px solid var(--line);padding:12px 0}
+  .jentry:last-child{border-bottom:0}
+  .jmeta{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:var(--mut);margin-bottom:5px}
+  .jtag{background:var(--line);border-radius:6px;padding:2px 7px;font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--accent)}
+  .jtext{font-size:14px;color:#e7e9ef;white-space:pre-line}
+  /* pattern card */
+  .patrow{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+  .patrow:last-of-type{border-bottom:0}
+  .patrow b{font-weight:800}
+  .tactictag{background:rgba(34,227,160,.1);border:1px solid rgba(34,227,160,.3);border-radius:10px;padding:10px 12px;font-size:13px;color:#e7e9ef;margin-top:10px}
+  .tactictag span{display:block;color:var(--accent);font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:800;margin-bottom:3px}
+  /* relapse capture */
+  .chipgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 4px}
+  .chipbtn{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 8px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;text-align:center}
+  .chipbtn.sel{border-color:var(--accent);color:var(--accent)}
+  /* badges */
+  .bgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
+  .badge{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 6px;text-align:center}
+  .badge.earned{border-color:rgba(34,227,160,.4);background:rgba(34,227,160,.06)}
+  .badge.locked{opacity:.4}
+  .badgeemoji{font-size:24px;display:block;margin-bottom:4px}
+  .badgename{font-size:10.5px;font-weight:800;color:#e7e9ef}
+  .badge.locked .badgename{color:var(--mut)}
+  /* toast */
+  .toastwrap{position:fixed;top:calc(14px + env(safe-area-inset-top));left:0;right:0;display:flex;justify-content:center;z-index:80;pointer-events:none}
+  .toast{background:var(--card);border:1px solid var(--accent);border-radius:14px;padding:12px 18px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 30px rgba(0,0,0,.5);animation:toastin .35s ease, toastout .4s ease 2.1s forwards}
+  .toastemoji{font-size:24px}
+  .toasttitle{font-weight:900;font-size:13.5px}
+  .toastsub{font-size:11.5px;color:var(--mut)}
+  @keyframes toastin{from{opacity:0;transform:translateY(-14px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+  @keyframes toastout{to{opacity:0;transform:translateY(-10px) scale(.96)}}
+  .filterbox{margin-bottom:10px}
   /* tabbar */
   nav{position:fixed;bottom:0;left:0;right:0;background:rgba(9,10,16,.92);backdrop-filter:blur(12px);border-top:1px solid var(--line);z-index:40}
   .tabs{max-width:520px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 90px 1fr 1fr;align-items:center;padding:8px 8px calc(8px + env(safe-area-inset-bottom))}
@@ -115,6 +185,9 @@
     <div class="lbl">when did your current streak start?</div>
     <input type="date" id="startin">
     <p class="fine" style="text-align:left;margin:6px 0 14px">fresh start? leave it as today. already clean a while? set the real date, you keep your days.</p>
+    <div class="lbl">your dependency score from the 60-second check <span class="mut" style="font-weight:400">(skip if you don't remember)</span></div>
+    <input type="text" id="scorein" inputmode="numeric" placeholder="e.g. 78 (leave blank to skip)">
+    <div style="height:14px"></div>
     <button class="btn" onclick="finishOnb()">lock it in</button>
   </div>
 </div>
@@ -172,6 +245,28 @@
       <div class="stat"><b id="stsurf">0</b><span>urges beaten</span></div>
       <div class="stat"><b id="stchk">0</b><span>check-ins</span></div>
     </div>
+    <div class="card" style="text-align:center">
+      <span class="eyebrow">brain rewiring</span>
+      <div class="ringwrap">
+        <svg width="150" height="150" viewBox="0 0 150 150">
+          <circle class="rtrack" cx="75" cy="75" r="66"></circle>
+          <circle class="rfill" id="ringfill" cx="75" cy="75" r="66" stroke-dasharray="414.7" stroke-dashoffset="414.7"></circle>
+        </svg>
+        <div class="ringnum"><b id="ringpct">0</b><span>percent</span></div>
+      </div>
+      <div class="rewirepct" id="ringsub">0/90 days toward a full rewire</div>
+    </div>
+    <div class="card stagecard">
+      <div class="stageemoji" id="stageemoji">🌱</div>
+      <div>
+        <div class="stagename" id="stagename">seed</div>
+        <div class="stagenext" id="stagenext"></div>
+      </div>
+    </div>
+    <div class="card">
+      <span class="eyebrow">what's coming back</span>
+      <div class="cbrow" id="cbrow" style="margin-top:8px"></div>
+    </div>
     <div class="card">
       <span class="eyebrow">today's rep</span>
       <p id="todayaction" style="font-size:15px;font-weight:700;margin-top:6px"></p>
@@ -188,6 +283,53 @@
       <button class="btn" style="background:var(--red);color:#fff" onclick="doRelapse()">confirm reset</button>
       <button class="btn ghost" onclick="hideRelapse()">never mind, streak lives</button>
     </div>
+    <div class="conf card" id="relcapture">
+      <p style="font-weight:800;margin-bottom:4px">quick intel (optional, 2 taps)</p>
+      <p class="mut" style="font-size:13px;margin-bottom:10px">this builds your pattern card. skip if you'd rather not.</p>
+      <div class="lbl" style="margin-top:0">what triggered it?</div>
+      <div class="chipgrid" id="trigpick">
+        <div class="chipbtn" data-v="boredom">boredom</div>
+        <div class="chipbtn" data-v="stress">stress</div>
+        <div class="chipbtn" data-v="lonely">lonely</div>
+        <div class="chipbtn" data-v="late-night scroll">late-night scroll</div>
+        <div class="chipbtn" data-v="saw something">saw something</div>
+        <div class="chipbtn" data-v="other">other</div>
+      </div>
+      <div class="lbl">where?</div>
+      <div class="chipgrid" id="placepick">
+        <div class="chipbtn" data-v="bed">bed</div>
+        <div class="chipbtn" data-v="bathroom">bathroom</div>
+        <div class="chipbtn" data-v="desk">desk</div>
+        <div class="chipbtn" data-v="out">out</div>
+        <div class="chipbtn" data-v="other">other</div>
+      </div>
+      <div style="height:6px"></div>
+      <button class="btn" onclick="saveRelapseCapture()">save intel</button>
+      <button class="btn ghost" onclick="skipRelapseCapture()">skip</button>
+    </div>
+    <div class="card" id="patcard" style="display:none">
+      <span class="eyebrow">your pattern</span>
+      <p class="mut" style="font-size:12.5px;margin-top:6px">your enemy has a schedule. now you know it.</p>
+      <div class="patrow"><span class="mut">most common trigger</span><b id="pattrig">-</b></div>
+      <div class="patrow"><span class="mut">most common place</span><b id="patplace">-</b></div>
+      <div class="patrow"><span class="mut">most common time</span><b id="pattime">-</b></div>
+      <div class="tactictag"><span>counter-tactic</span><span id="pattactic"></span></div>
+    </div>
+    <div class="card">
+      <span class="eyebrow">badges</span>
+      <div class="bgrid" id="bgrid" style="margin-top:10px"></div>
+    </div>
+    <details class="card expander" id="planexp">
+      <summary>your 90-day rewire plan</summary>
+      <div class="expbody">
+        <p class="mut" style="margin-bottom:12px" id="planintro"></p>
+        <div class="card today"><span class="eyebrow">where you are</span><p id="phasenow" style="font-weight:800;font-size:15px;margin-top:6px"></p><p class="mut" id="phasedesc" style="font-size:13.5px;margin-top:4px"></p></div>
+        <div class="card phase"><b>day 1-7 · detox</b><p class="mut" style="font-size:13.5px">the urges peak, then fade. panic button + daily check-ins carry you through the hardest week. phone out of the bedroom, cold showers, move your body.</p></div>
+        <div class="card phase"><b>day 8-30 · momentum</b><p class="mut" style="font-size:13.5px">brain fog lifts, energy and focus come back. build the replacement life: training, sunlight, real conversations, skill work.</p></div>
+        <div class="card phase"><b>day 31-90 · rewired</b><p class="mut" style="font-size:13.5px">the default changes. confidence, drive and control become normal. now you help the next guy through week one.</p></div>
+        <div class="card"><span class="eyebrow">milestones</span><div id="msts"></div></div>
+      </div>
+    </details>
   </div>
 
   <!-- CHECK-IN -->
@@ -211,27 +353,48 @@
     <div class="card hist" style="margin-top:16px"><span class="eyebrow">last 14 days</span><div id="hist"></div></div>
   </div>
 
-  <!-- PLAN -->
-  <div class="view" id="v-plan">
-    <h2 class="big">your 90-day rewire</h2>
-    <p class="mut" style="margin-bottom:12px" id="planintro"></p>
-    <div class="card today"><span class="eyebrow">where you are</span><p id="phasenow" style="font-weight:800;font-size:15px;margin-top:6px"></p><p class="mut" id="phasedesc" style="font-size:13.5px;margin-top:4px"></p></div>
-    <div class="card phase"><b>day 1-7 · detox</b><p class="mut" style="font-size:13.5px">the urges peak, then fade. panic button + daily check-ins carry you through the hardest week. phone out of the bedroom, cold showers, move your body.</p></div>
-    <div class="card phase"><b>day 8-30 · momentum</b><p class="mut" style="font-size:13.5px">brain fog lifts, energy and focus come back. build the replacement life: training, sunlight, real conversations, skill work.</p></div>
-    <div class="card phase"><b>day 31-90 · rewired</b><p class="mut" style="font-size:13.5px">the default changes. confidence, drive and control become normal. now you help the next guy through week one.</p></div>
-    <div class="card"><span class="eyebrow">milestones</span><div id="msts"></div></div>
+  <!-- LESSONS -->
+  <div class="view" id="v-lessons">
+    <h2 class="big">rewire course</h2>
+    <p class="mut" style="margin-bottom:10px">30 short lessons. one unlocks per day of your streak. read them, don't skim them.</p>
+    <p class="courseprog" id="courseprog">0/30 read</p>
+    <div class="lgrid" id="lgrid"></div>
+  </div>
+
+  <!-- LESSON READER -->
+  <div class="view" id="v-lesson">
+    <button class="icobtn" onclick="closeLesson()" style="margin-bottom:12px">← back to course</button>
+    <span class="eyebrow" id="lreadnum">lesson 1</span>
+    <h2 class="big" id="lreadtitle" style="margin-top:4px"></h2>
+    <div class="card"><div class="lessonbody" id="lreadbody"></div></div>
+    <button class="btn" id="lreadmark" onclick="markLessonRead()">mark as read</button>
+  </div>
+
+  <!-- JOURNAL -->
+  <div class="view" id="v-journal">
+    <h2 class="big">journal</h2>
+    <p class="mut" style="margin-bottom:12px">write whenever. check-ins show up here too.</p>
+    <textarea id="jentry" placeholder="what's actually going on today..."></textarea>
+    <div style="height:10px"></div>
+    <button class="btn" onclick="saveJournal()">save entry</button>
+    <div class="card" style="margin-top:16px">
+      <span class="eyebrow">your stream</span>
+      <input type="text" id="jfilter" class="filterbox" placeholder="filter entries..." style="margin-top:10px" oninput="renderJournal()">
+      <div id="jstream"></div>
+    </div>
   </div>
 </div>
 
 <nav>
   <div class="tabs">
     <button class="tab on" id="t-streak" onclick="go('streak')"><span class="ti">🔥</span>streak</button>
-    <button class="tab" id="t-checkin" onclick="go('checkin')"><span class="ti">✅</span>check-in</button>
+    <button class="tab" id="t-lessons" onclick="go('lessons')"><span class="ti">🧠</span>lessons</button>
     <div class="fabwrap"><button class="fab" onclick="openPanic()">PANIC</button></div>
-    <button class="tab" id="t-plan" onclick="go('plan')"><span class="ti">🧠</span>plan</button>
+    <button class="tab" id="t-journal" onclick="go('journal')"><span class="ti">📓</span>journal</button>
     <button class="tab" onclick="openCommunity()"><span class="ti">👥</span>crew</button>
   </div>
 </nav>
+<div class="toastwrap" id="toastwrap"></div>
 
 <script>
 var LS = window.localStorage;
@@ -255,6 +418,9 @@ function finishOnb(){
   if(!why){ document.getElementById('whyin').placeholder='write at least one real sentence. it matters mid-urge.'; return; }
   var st=document.getElementById('startin').value || today();
   s('why', why); s('start', st); if(!g('best',null)) s('best','0'); if(!g('resets',null)) s('resets','0'); if(!g('surfed',null)) s('surfed','0');
+  var scoreRaw=(document.getElementById('scorein').value||'').trim();
+  var scoreNum=parseInt(scoreRaw,10);
+  if(!isNaN(scoreNum) && scoreNum>=0 && scoreNum<=100){ s('score', String(scoreNum)); }
   document.getElementById('onb').classList.remove('on'); render();
 }
 
@@ -276,7 +442,111 @@ var ACTIONS_MOMENTUM=["10 minutes of morning sunlight before any screen","train 
 var ACTIONS_REWIRED=["drop one honest reply helping a guy in the crew who's on day 1","do the hard task you've been dodging, first thing","one real conversation with a stranger today","deep work: 50 minutes, one tab, phone in another room","train hard today, you're past excuses","write a 3-line weekly review in your check-in","plan something next month you'll actually look forward to"];
 var MILESTONES=[1,3,7,14,21,30,45,60,90];
 
+/* ---------- GROWTH STAGES ---------- */
+var STAGES=[
+  {min:0,max:2,name:'seed',emoji:'🌱'},
+  {min:3,max:6,name:'sprout',emoji:'🌿'},
+  {min:7,max:13,name:'sapling',emoji:'🌾'},
+  {min:14,max:29,name:'growing',emoji:'🌲'},
+  {min:30,max:59,name:'strong',emoji:'🌳'},
+  {min:60,max:89,name:'rooted',emoji:'🏔'},
+  {min:90,max:99999,name:'rewired',emoji:'🔥'}
+];
+function stageFor(days){ for(var i=0;i<STAGES.length;i++){ if(days>=STAGES[i].min && days<=STAGES[i].max) return STAGES[i]; } return STAGES[STAGES.length-1]; }
+
+/* ---------- WHAT'S COMING BACK TIMELINE ---------- */
+var COMEBACK=[
+  {d:3,label:'sleep deepens'},
+  {d:7,label:'energy returns'},
+  {d:14,label:'focus sharpens'},
+  {d:30,label:'confidence rebuilds'},
+  {d:60,label:'drive is back'},
+  {d:90,label:'rewired, new default'}
+];
+
+/* ---------- LESSONS (rewire course) ---------- */
+var LESSONS=[
+{t:"why you're not broken",b:"Porn didn't break your brain, it trained it. Every hit floods you with dopamine, the same chemical that fires for food, connection, any win. Your brain doesn't know a real win from a screen, it just learns the fastest path to feeling good and wants more of it, faster, stranger, longer. That's not a character flaw. That's a normal brain responding to an abnormal signal. The wiring that got you here is the same wiring that gets you out, once you stop feeding it the shortcut. You're not fixing something broken. You're retraining something that works exactly as designed."},
+{t:"the urge wave",b:"An urge feels like it'll last forever. It won't. Craving builds fast, peaks somewhere around 3 to 10 minutes, then drops on its own, whether you act on it or not. That's the wave. Your only job during an urge is to not paddle toward it. Don't fight it, don't argue with it, let it move through you like weather. Sit down, breathe, name it out loud if you have to: this is an urge, it peaks and dies. Every time you ride one out without feeding it, the next one gets a little weaker. You're not white-knuckling forever, you're outlasting five minutes, over and over, until it stops showing up as often."},
+{t:"your brain on novelty",b:"Ever notice the content had to keep getting weirder to hit the same way? That's dopamine tolerance. Your brain adapts to repeated stimulation by dulling its own response, so the same content stops working and you chase something new, more extreme, more tabs open, to get the same hit. This is exactly how the algorithm behind every platform is built too, feeding you novelty because novelty keeps you scrolling. Porn and your phone are running the same trick on the same system. Once you see the mechanism, the pull looks like what it is: not desire, just a habit loop hunting its next dose. Naming it takes some of its power away."},
+{t:"trigger mapping",b:"You don't relapse randomly. There's almost always a trigger, a specific state or situation right before the urge shows up. Boredom. Stress. Loneliness. Being tired late at night. Seeing something that wasn't even trying to trigger you. Being alone with unstructured time. For the next week, every time an urge hits, write down what was happening 10 minutes before, where you were, what you felt. Patterns show up fast, usually within 5 to 7 entries. Once you can name your top two or three triggers, you're not fighting a vague enemy anymore, you're defending specific terrain. That's a fight you can actually win."},
+{t:"urge surfing technique",b:"Urge surfing works better than white-knuckling. Instead of fighting the urge or arguing your way out of it, you observe it like a wave: where do you feel it in your body, tight chest, restless hands, buzzing head. Rate the intensity 1 to 10 right now. Breathe slow, four seconds in, hold, six seconds out. Check the intensity again in 90 seconds, it almost always drops. You're not suppressing the urge and you're not obeying it, you're watching it rise and fall without grabbing the wheel. That's the whole skill. It gets easier every time you practice it, and it works on more than just this."},
+{t:"the negotiation trap",b:"Relapse almost never starts with the act. It starts with a conversation you have with yourself. Just this once. I've been good all week, I earned it. I'll start over tomorrow, today doesn't count. That voice sounds reasonable in the moment, that's the trap. It's not offering you a break, it's offering you the first domino. The move isn't to win the argument, it's to refuse to have it. The second you notice the negotiation starting, that's your signal to leave the room, not to debate. You don't owe that voice a rebuttal, you owe it a closed door. Walk away from the conversation enough times and it gets quieter."},
+{t:"environment design",b:"Willpower is a bad long-term strategy because it runs out, environment doesn't. Urges live in specific rooms, at specific times, with a specific device in your hand. If every relapse happens in bed at night on your phone, the fix isn't more willpower at 11pm, it's a charger outside the bedroom so the option isn't even in the room with you. Delete the apps that make it easy. Filter the browser you actually use. Change where you charge your phone, change your evening layout. You're not trying to become a stronger person in a stacked room. You're building a room where the fight almost never has to happen."},
+{t:"phone hygiene",b:"Your phone is the delivery device for almost every relapse, treat it like one. Turn on the strictest content filter your phone allows, and give the passcode to a friend or accountability partner so you can't quietly turn it off in a weak moment. Block the specific apps and sites from your trigger map. Move your charger out of the bedroom, full stop, that single change kills a huge share of late-night relapses. Turn off autoplay everywhere you can. None of this is about being a monk. It's about removing the one-tap path so a 2am urge hits friction instead of a straight line to the screen."},
+{t:"sleep is the multiplier",b:"Bad sleep doesn't just make you tired, it wrecks your prefrontal cortex, the part of your brain running impulse control and long-term thinking. Run on five hours a few nights and your ability to say no to a short-term hit drops hard, while the pull toward it gets louder. This is why late-night hours are relapse-heavy for almost everyone, you're not weak at midnight, you're running on a broken brake system. Fixing sleep isn't a nice-to-have next to quitting, it's one of the highest-leverage moves you can make. Same bedtime nightly, phone out of the room, dark room, no screens the last 30 minutes. Better sleep, stronger you, every other fight gets easier."},
+{t:"exercise as dopamine repair",b:"Exercise raises your baseline dopamine sensitivity instead of tanking it. Porn spikes dopamine hard and fast then crashes you into a dull mood, consistent training does the opposite: smaller spikes, but your system gets better at responding to normal life again, food tasting good, conversations feeling good, small wins actually registering. You don't need a gym program to get this. 20 pushups the second an urge hits does two things at once, burns the restless energy and banks a rep toward a brain that responds to real things again. Move your body daily, hard beats easy, but showing up beats intensity. This is medicine, not punishment."},
+{t:"boredom is a trigger not a rest state",b:"Boredom feels like nothing is happening, but for a brain trained on constant stimulation, boredom is a loud signal: feed me something. Unstructured empty time is one of the highest-risk states there is, right up with late-night and stress. The fix isn't forcing yourself to sit in discomfort until you build tolerance, though some of that helps. The real fix is a short list, written in advance, of things you do the moment boredom shows up: a walk, a call to a friend, a specific book, pushups, a hobby you can pick up for ten minutes. Decide the plan now, while you're calm, not mid-urge when the voice is already talking."},
+{t:"the flatline",b:"Somewhere around week two or three, a lot of guys hit the flatline: low energy, flat mood, zero motivation, sometimes lower libido than during the addiction. This is the single biggest relapse trigger in the whole process, because it feels like quitting broke you. Here's the truth: the flatline is your dopamine system recalibrating after running hot for months or years on an artificial supply. It's not damage, it's repair, and repair is uncomfortable before it's good. It passes, usually within a week or two, and what's on the other side is a baseline that responds to real life again. If you're in it right now, this is supposed to feel like nothing. Keep going."},
+{t:"relapse math",b:"One slip is one data point. It tells you a trigger you missed, a room you weren't ready for, a moment the plan didn't cover. That's useful information, not a verdict on you as a person. The real damage doesn't come from the slip, it comes from the spiral after it: I already messed up, might as well keep going, turning one bad hour into a bad week. That's the trap that actually resets people for months, not the slip itself. The math that matters: a slip costs you a day. A spiral costs you the streak and the identity work you'd already built. Log it, learn from it, restart the next rep immediately."},
+{t:"identity shift",b:"There's a difference between I'm resisting porn and I'm a guy who doesn't watch porn. The first is a daily fight against a thing you still secretly want. The second is just who you are now, no fight required, the same way a non-smoker doesn't white-knuckle past a pack of cigarettes, they're just not a smoker. Early on you're in the first mode, and that's fine, that's the work. But the goal isn't lifelong resistance, it's identity change, enough reps that not-watching becomes the boring default instead of the daily battle. Every day you hold the line is a vote for the second identity, and eventually the vote wins the election."},
+{t:"morning routine",b:"How you spend the first 30 minutes after waking sets the tone for your whole dopamine system that day. Grab your phone first thing and you're front-loading cheap stimulation before you've done anything real, training your brain that easy hits come first. Flip it: sunlight in your eyes within the first 20 minutes if you can get it, it kickstarts your circadian rhythm and mood chemistry for the day. Water before caffeine. Some kind of movement, even a short walk. Phone stays away until you've done one real thing. This isn't about being a productivity robot, it's about not opening the day by handing your brain the exact pattern you're unlearning."},
+{t:"social confidence rebuild",b:"Heavy porn use quietly trains you out of real social risk. Why approach someone or start a hard conversation when a guaranteed hit is one tap away with zero rejection risk. Over time that atrophies actual social courage, the same way a muscle you stop using goes soft. The fix is reps, small ones, not a personality overhaul overnight. Say something to a stranger in line. Text the friend you've been putting off. Speak up in a group instead of staying quiet. Every small social rep rebuilds the exact muscle porn let go slack. Most guys report this coming back faster than expected once the fog from heavy use starts lifting, often week two or three."},
+{t:"what to do with the extra energy",b:"A lot of guys quit and suddenly have energy they don't know what to do with, a drive with nowhere to go. That's a good problem, but unused energy turns into pressure, and pressure looks for a release, sometimes the old one. Point it somewhere on purpose. Start the project you've been putting off. Train harder. Learn the skill you keep saying you don't have time for. Take on something at work you'd normally dodge. The energy coming back is proof the rewiring is working, it's not random, it's the dopamine system waking back up to respond to real effort. Don't let it sit idle, give it a job before boredom gives it one for you."},
+{t:"dating while rewiring",b:"Quitting doesn't mean pausing your life, including dating. But go in with realistic expectations, early on, especially through the flatline, your libido and confidence might be inconsistent, and that's normal, not a sign something's wrong. Be honest about pace, don't rush into anything that reintroduces heavy visual stimulation as a substitute, that's just swapping one shortcut for another dressed up as real. Actual conversations and actual dates are part of what rebuilds the system porn flattened, responsiveness to real people instead of a screen. Go slow, stay present, don't perform. The goal isn't proving you're fixed to someone else. It's building a life where real connection feels better than the thing you gave up."},
+{t:"the chaser effect",b:"Ever notice the day after a relapse sometimes feels harder than the days building up to it? That's the chaser effect, a pattern where acting on an urge doesn't satisfy the system, it primes it for more. The spike and crash leaves your brain hunting for another hit, often within 24 to 48 hours, urges that feel stronger than normal. If you slip and the next day feels brutal, that's not a sign you're worse off or doomed, it's a known, temporary chemical aftershock. Expect it, don't panic at it. Ride that wave the same way you'd ride any other, breathe, remove yourself from triggers, wait it out. It passes faster than it feels like it will."},
+{t:"stress without the escape hatch",b:"For a long time, porn was probably your stress release, the thing you turned to when work piled up, when an argument left you wound up. Removing it doesn't remove the stress, it removes the escape hatch, and that gap has to get filled or the pressure builds. Build a short list of real releases before you need them: a hard workout, a walk outside, calling someone you trust, writing it out, deliberately slow breathing for two minutes. None of these give the instant hit porn did, that's the point, you're training your system to tolerate discomfort instead of instantly numbing it. Every real release under real stress is a rep that compounds."},
+{t:"dopamine stacking real rewards",b:"After heavy porn use, everyday pleasures can feel muted for a while, food, music, hanging out, all a little flat compared to what you're used to. That's temporary, and you can speed the repair by deliberately stacking small real rewards through your day instead of waiting for motivation to show up on its own. A good meal, eaten slowly, noticed. Music you actually like, not background noise. A workout that leaves you spent in a good way. A real laugh with a friend. None of these compete with what you gave up, and they're not supposed to, they're rebuilding your baseline sensitivity to normal life. Do this on purpose and the flatness lifts faster than just waiting it out."},
+{t:"the 90-day myth and truth",b:"90 days gets thrown around as the magic rewire number, and it's a useful target, but the honest version is more nuanced. A lot of the acute stuff, urge intensity, mood swings, the worst of the flatline, meaningfully improves well before day 90 for most guys, often by week 4 to 6. But full habit-pattern change, the kind where not-watching is just boring and automatic with zero internal debate, keeps deepening for months beyond that, sometimes close to a year for heavy, long-term use. 90 days isn't a finish line where you're suddenly immune. It's the point where the hardest part is behind you and the habit has real structural integrity. Keep building past it."},
+{t:"helping the next guy",b:"Teaching something locks it into your identity harder than almost anything else you can do. The moment you're explaining urge surfing to a guy on day 2, or telling him the flatline is normal, you're not just helping him, you're re-proving it to yourself, out loud, in your own words. This is one of the most underrated relapse-prevention tools there is. You don't need to be an expert or 90 days in, just a few steps ahead of someone else. Drop an honest reply to a guy struggling in the crew. Share what actually worked for you, not a script, the real thing. It costs five minutes and strengthens your own commitment every time."},
+{t:"your new relationship with boredom",b:"Early on, boredom is dangerous, it's a trigger, treat it like one. But somewhere past the first month, something shifts, boredom stops being an emergency and starts being just boredom, a normal, mildly uncomfortable state that doesn't need solving immediately. That shift matters more than it sounds like. A brain that can sit in boredom without needing a hit is a brain that's actually rewired, not just resisting. You get there by practice, not willpower, every time you let boredom sit a few minutes before reaching for a distraction, you're building tolerance for it. Eventually a slow afternoon isn't a threat, it's just a slow afternoon, and you can do something with it or nothing at all."},
+{t:"handling triggers you can't remove",b:"You can delete apps and change your phone habits, but you can't delete billboards, beach days, gym mirrors, or ads that show up mid-scroll on a site you need. Some triggers can't be engineered away, so you need a different tool: a fast, practiced reset instead of avoidance. The move is simple, which is why it works: notice it, name it internally, that's a trigger not a decision point, redirect your eyes within a few seconds, keep moving. Don't linger to test yourself, don't feel guilty it registered at all, registering is normal, dwelling is the choice point. The goal isn't a world with zero triggers, it's a fast, automatic response that doesn't need a debate every time."},
+{t:"the voice that says you're cured, test it",b:"Somewhere past a big milestone, 30 days, 60 days, maybe further, a voice shows up that sounds different from the negotiation trap. This one says you've got this handled now, you understand the mechanism, surely one time wouldn't undo months of work, you could probably manage it now unlike before. This is one of the most dangerous moments in the whole process, because it doesn't feel like weakness, it feels like confidence. It's not. Being rewired doesn't mean being immune, it means the pull is quieter, not gone. Testing it isn't proof of strength, it's the same trap wearing a better outfit. Recognize the voice and refuse to run the experiment at all."},
+{t:"building the life that makes porn boring",b:"The long game isn't permanent resistance against a thing you still want, it's building a life interesting enough, full enough, and rewarding enough that porn just stops competing. Real goals you're actually working toward, not vague ones. Relationships you're investing real time in. Physical training that gives you a body and energy you're proud of. Skills you're building because you want to, not because you have to. Hobbies that give you a version of engagement and flow a screen never actually gave you, it just imitated it. This isn't about replacing one addiction with a busier schedule. It's the old habit losing its appeal naturally because your actual life started paying out better than the screen ever did."},
+{t:"slips vs falls",b:"A slip is one instance, isolated, acknowledged, learned from, streak resets, you go again the same day. A fall is what happens when a slip isn't caught, when spiral thinking kicks in and one bad moment turns into a bad week, full relapse into old patterns and triggers all at once. The difference isn't the initial event, it's what happens in the hour right after. Damage control: don't isolate, tell someone or at least log it honestly, get back to your normal routine immediately, same bedtime, same workout, same morning routine, and start the next rep before the day is even over if you can. Speed of response is what keeps a slip from becoming a fall."},
+{t:"maintenance mode",b:"Day 91 and beyond isn't a victory lap where you stop thinking about any of this, but it is a different phase. The daily internal debate mostly quiets down, urges are rarer and weaker, and the identity shift has real weight now, you're not resisting, you mostly just don't want it the way you used to. Maintenance mode still has rules though, keep the environment design in place, don't get cocky and move the charger back into the bedroom. Keep checking in occasionally even if not daily. Stay aware that stress, bad sleep, or a rough patch can still spike an urge even a year out. Maintenance isn't paranoia, it's just not taking your foot fully off the gas."},
+{t:"the man on the other side",b:"Somewhere in this process, usually without a single dramatic moment, you become a different guy than the one who started. More present in conversations because you're not half-checked-out thinking about a screen. More energy because your dopamine system isn't stuck in crash mode. More confident because you've proven to yourself, day after day, that you do what you say you'll do. That last one matters more than people expect, self-trust rebuilt through small kept promises bleeds into work, relationships, discipline you didn't have before. You didn't get here by being perfect. You got here by getting back up every single time, faster than the fall. That's the whole game, and you're already playing it."}
+];
+
+/* ---------- RELAPSE INTELLIGENCE ---------- */
+var TRIGGER_TACTICS={
+  'boredom':"boredom is your #1 flag. build the short list now (walk, call a friend, pushups, a hobby) so the second boredom hits, you already know the move instead of freestyling it.",
+  'stress':"stress is looking for the escape hatch you used to have. swap it for a real release before the day starts: hard workout, a walk outside, or texting someone you trust the second pressure builds.",
+  'lonely':"loneliness sends you looking for connection, and a screen fakes it fast. the real fix is slower but it sticks: one real text or call, same time each day, before the isolation gets loud.",
+  'late-night scroll':"late night is when your brakes are weakest, that's biology not weakness. the move is upstream: phone charges outside the bedroom, screens off the last 30 minutes, decide this now while you're clear-headed.",
+  'saw something':"you can't delete every trigger in the wild. the skill is a fast reset: notice it, name it internally, redirect your eyes, keep moving. don't linger to test yourself.",
+  'other':"whatever it is, the pattern still applies: notice the trigger early, have one pre-decided move ready, and don't debate it in the moment. decide now, not mid-urge."
+};
+function tacticFor(trig){ return TRIGGER_TACTICS[trig] || TRIGGER_TACTICS['other']; }
+
+/* ---------- BADGES ---------- */
+var BADGES=[
+  {id:'day1',name:'day 1',emoji:'🔥',check:function(st){return st.days>=1;}},
+  {id:'spark3',name:'3-day spark',emoji:'✨',check:function(st){return st.days>=3;}},
+  {id:'week7',name:'week warrior',emoji:'🗡',check:function(st){return st.days>=7;}},
+  {id:'deep14',name:'two weeks deep',emoji:'🌊',check:function(st){return st.days>=14;}},
+  {id:'unbroken21',name:'21 unbroken',emoji:'⛓',check:function(st){return st.days>=21;}},
+  {id:'monk30',name:'monk mode',emoji:'🧘',check:function(st){return st.days>=30;}},
+  {id:'iron45',name:'45 iron',emoji:'🛡',check:function(st){return st.days>=45;}},
+  {id:'rooted60',name:'60 rooted',emoji:'🏔',check:function(st){return st.days>=60;}},
+  {id:'rewired90',name:'90 rewired',emoji:'👑',check:function(st){return st.days>=90;}},
+  {id:'slayer5',name:'urge slayer',emoji:'⚔',check:function(st){return st.surfed>=5;}},
+  {id:'reaper20',name:'urge reaper',emoji:'💀',check:function(st){return st.surfed>=20;}},
+  {id:'chk7',name:'7 check-ins straight',emoji:'✅',check:function(st){return st.chkStreak>=7;}},
+  {id:'firstj',name:'first journal entry',emoji:'📓',check:function(st){return st.journalCount>=1;}},
+  {id:'comeback',name:'the comeback',emoji:'🦅',check:function(st){return st.comeback;}}
+];
+
 /* ---------- RENDER ---------- */
+function checkinStreakCount(chk){
+  var seen={}; chk.forEach(function(c){ seen[c.d]=true; });
+  var n=0, d=new Date(today()+'T00:00:00');
+  var todayHas = !!seen[today()];
+  if(!todayHas){ d.setDate(d.getDate()-1); }
+  while(true){
+    var iso=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    if(seen[iso]){ n++; d.setDate(d.getDate()-1); } else break;
+  }
+  return n;
+}
+function comebackEarned(relapses, start){
+  if(!relapses.length) return false;
+  var last=relapses[relapses.length-1];
+  var lastD=new Date(last.d+'T00:00:00');
+  var startD=new Date(start+'T00:00:00');
+  var gapHrs=Math.abs(startD-lastD)/3600000;
+  return gapHrs<=48 && daysBetween(start)>=1;
+}
 function render(){
   var start=g('start',today());
   var days=daysBetween(start);
@@ -297,8 +567,82 @@ function render(){
   var pool= days<7?ACTIONS_DETOX : days<30?ACTIONS_MOMENTUM : ACTIONS_REWIRED;
   document.getElementById('todayaction').textContent=pool[days % pool.length];
   document.getElementById('dailyq').textContent='"'+QUOTES[days % QUOTES.length]+'"';
-  /* plan view */
-  document.getElementById('planintro').textContent='built around your streak. you are '+days+' day'+(days===1?'':'s')+' in.';
+  /* rewire progress ring */
+  var rewirePct=Math.min(100, Math.round((days/90)*100));
+  var CIRC=414.7;
+  var off=CIRC - (CIRC*rewirePct/100);
+  var ringEl=document.getElementById('ringfill');
+  if(ringEl) ringEl.style.strokeDashoffset=off;
+  document.getElementById('ringpct').textContent=rewirePct;
+  document.getElementById('ringsub').textContent=days+'/90 days toward a full rewire';
+  /* growth stage */
+  var stage=stageFor(days);
+  var stageIdx=STAGES.indexOf(stage);
+  var nextStage=STAGES[stageIdx+1];
+  document.getElementById('stageemoji').textContent=stage.emoji;
+  document.getElementById('stagename').textContent=stage.name;
+  document.getElementById('stagenext').textContent= nextStage ? ('next: '+nextStage.name+' '+nextStage.emoji+' at day '+nextStage.min) : 'you\'re at the final stage. hold it.';
+  /* what's coming back timeline */
+  var cb=''; COMEBACK.forEach(function(c,i){
+    var next2=COMEBACK.find(function(x){return x.d>days;});
+    var cls= days>=c.d ? 'done' : (next2 && next2.d===c.d ? 'next' : '');
+    cb+='<div class="chip '+cls+'"><b>day '+c.d+'</b>'+c.label+(days>=c.d?' ✓':'')+'</div>';
+  });
+  document.getElementById('cbrow').innerHTML=cb;
+  /* relapse intelligence pattern card */
+  var relapses=JSON.parse(g('relapses','[]'));
+  var patcard=document.getElementById('patcard');
+  if(relapses.length>=1){
+    patcard.style.display='block';
+    var trigCounts={}, placeCounts={}, bandCounts={};
+    relapses.forEach(function(r){
+      if(r.trigger){ trigCounts[r.trigger]=(trigCounts[r.trigger]||0)+1; }
+      if(r.place){ placeCounts[r.place]=(placeCounts[r.place]||0)+1; }
+      var band=bandFor(r.hourOfDay);
+      bandCounts[band]=(bandCounts[band]||0)+1;
+    });
+    var topTrig=topKey(trigCounts), topPlace=topKey(placeCounts), topBand=topKey(bandCounts);
+    document.getElementById('pattrig').textContent= topTrig || 'not enough data';
+    document.getElementById('patplace').textContent= topPlace || 'not enough data';
+    document.getElementById('pattime').textContent= topBand || 'not enough data';
+    document.getElementById('pattactic').textContent= topTrig ? tacticFor(topTrig) : tacticFor('other');
+  } else {
+    patcard.style.display='none';
+  }
+  /* badges */
+  var chkStreak=checkinStreakCount(chk);
+  var journalArr=JSON.parse(g('journal','[]'));
+  var state={days:days, surfed:parseInt(g('surfed','0'),10), chkStreak:chkStreak, journalCount:journalArr.length, comeback:comebackEarned(relapses, start)};
+  var earnedBefore=JSON.parse(g('badges_earned','[]'));
+  var bg=''; var earnedNow=[];
+  BADGES.forEach(function(b){
+    var earned=b.check(state);
+    if(earned) earnedNow.push(b.id);
+    bg+='<div class="badge '+(earned?'earned':'locked')+'"><span class="badgeemoji">'+(earned?b.emoji:'🔒')+'</span><span class="badgename">'+b.name+'</span></div>';
+  });
+  document.getElementById('bgrid').innerHTML=bg;
+  var newlyEarned=earnedNow.filter(function(id){ return earnedBefore.indexOf(id)===-1; });
+  if(newlyEarned.length){
+    s('badges_earned', JSON.stringify(earnedNow));
+    var firstNew=BADGES.find(function(b){return b.id===newlyEarned[0];});
+    if(firstNew) showToast(firstNew);
+  } else if(earnedNow.length!==earnedBefore.length){
+    s('badges_earned', JSON.stringify(earnedNow));
+  }
+  /* lessons course progress */
+  var lessonsRead=JSON.parse(g('lessons_read','[]'));
+  var cprog=document.getElementById('courseprog');
+  if(cprog) cprog.textContent=lessonsRead.length+'/30 read';
+  /* plan view (merged into streak tab expander) */
+  var scoreVal=g('score', null);
+  var scoreLine='';
+  if(scoreVal){
+    var sn=parseInt(scoreVal,10);
+    scoreLine = sn>=80 ? ('you started at '+sn+'. guys in the severe zone feel the flatline hardest around week 2, your lessons are pre-loaded for it. ')
+      : sn>=65 ? ('you started at '+sn+'. high-dependency guys usually see real relief by week 3 to 4 if they stay consistent. ')
+      : ('you started at '+sn+'. moderate cases tend to rewire faster, the systems still matter just as much. ');
+  }
+  document.getElementById('planintro').textContent= scoreLine+'built around your streak. you are '+days+' day'+(days===1?'':'s')+' in.';
   var ph= days<7?['detox (day 1-7)','the hardest week. your only job: outlast urges and check in daily.'] : days<30?['momentum (day 8-30)','fog lifts, energy returns. build the replacement life now.'] : days<90?['rewired (day 31-90)','the default is changing. hold the line, help the new guys.'] : ['beyond 90','you did the thing. keep the systems that got you here.'];
   document.getElementById('phasenow').textContent=ph[0];
   document.getElementById('phasedesc').textContent=ph[1];
@@ -311,11 +655,27 @@ function render(){
   document.getElementById('dots').innerHTML=dh;
   var hh=''; chk.slice(-14).reverse().forEach(function(c){ hh+='<div class="row"><span>'+c.d+' · '+(c.m||'')+'</span><span class="mut">urge '+c.u+'/10</span></div>'; });
   document.getElementById('hist').innerHTML= hh || '<p class="mut" style="font-size:13px;padding:8px 0">no check-ins yet. first one takes 30 seconds.</p>';
+  /* lessons tab */
+  renderLessons(days);
+  /* journal tab */
+  renderJournal();
+}
+function bandFor(hr){
+  if(hr===null || hr===undefined || isNaN(hr)) return 'unknown';
+  if(hr>=5 && hr<12) return 'morning';
+  if(hr>=12 && hr<17) return 'afternoon';
+  if(hr>=17 && hr<22) return 'evening';
+  return 'late night';
+}
+function topKey(counts){
+  var keys=Object.keys(counts); if(!keys.length) return null;
+  keys.sort(function(a,b){ return counts[b]-counts[a]; });
+  return keys[0];
 }
 
 /* ---------- NAV ---------- */
 function go(v){
-  ['streak','checkin','plan'].forEach(function(x){
+  ['streak','checkin','lessons','lesson','journal'].forEach(function(x){
     var vv=document.getElementById('v-'+x), tt=document.getElementById('t-'+x);
     if(vv) vv.classList.toggle('on', x===v);
     if(tt) tt.classList.toggle('on', x===v);
@@ -327,12 +687,42 @@ function openCommunity(){ window.open('https://whop.com/goonbuster/','_blank'); 
 /* ---------- RELAPSE ---------- */
 function askRelapse(){ document.getElementById('relconf').classList.add('on'); }
 function hideRelapse(){ document.getElementById('relconf').classList.remove('on'); }
+var trigSel=null, placeSel=null;
+document.getElementById('trigpick').addEventListener('click',function(e){
+  var t=e.target.closest('.chipbtn'); if(!t) return;
+  Array.prototype.forEach.call(document.getElementById('trigpick').children,function(c){c.classList.remove('sel');});
+  t.classList.add('sel'); trigSel=t.dataset.v;
+});
+document.getElementById('placepick').addEventListener('click',function(e){
+  var t=e.target.closest('.chipbtn'); if(!t) return;
+  Array.prototype.forEach.call(document.getElementById('placepick').children,function(c){c.classList.remove('sel');});
+  t.classList.add('sel'); placeSel=t.dataset.v;
+});
 function doRelapse(){
   var days=daysBetween(g('start',today()));
   s('best', String(Math.max(parseInt(g('best','0'),10), days)));
   s('resets', String(parseInt(g('resets','0'),10)+1));
   s('start', today());
-  hideRelapse(); render(); window.scrollTo({top:0});
+  hideRelapse();
+  trigSel=null; placeSel=null;
+  Array.prototype.forEach.call(document.getElementById('trigpick').children,function(c){c.classList.remove('sel');});
+  Array.prototype.forEach.call(document.getElementById('placepick').children,function(c){c.classList.remove('sel');});
+  document.getElementById('relcapture').classList.add('on');
+  render(); window.scrollTo({top:0});
+}
+function saveRelapseCapture(){
+  var relapses=JSON.parse(g('relapses','[]'));
+  relapses.push({d:today(), trigger:trigSel, place:placeSel, hourOfDay:new Date().getHours()});
+  s('relapses', JSON.stringify(relapses));
+  document.getElementById('relcapture').classList.remove('on');
+  render();
+}
+function skipRelapseCapture(){
+  var relapses=JSON.parse(g('relapses','[]'));
+  relapses.push({d:today(), trigger:null, place:null, hourOfDay:new Date().getHours()});
+  s('relapses', JSON.stringify(relapses));
+  document.getElementById('relcapture').classList.remove('on');
+  render();
 }
 
 /* ---------- CHECK-IN ---------- */
@@ -397,6 +787,92 @@ function panicWin(){
 function closePanic(){
   document.getElementById('panic').classList.remove('on');
   clearInterval(pTimer); clearInterval(pLine); clearTimeout(pBreath);
+}
+
+/* ---------- LESSONS (rewire course) ---------- */
+var currentLesson=null;
+function renderLessons(days){
+  var read=JSON.parse(g('lessons_read','[]'));
+  var lg=document.getElementById('lgrid');
+  if(!lg) return;
+  var html='';
+  /* lesson N unlocks on streak day N. day 1 = lesson 1, so a fresh user (days=0, "day 1" displayed)
+     has lesson 1 unlocked, and a user 10 full days in (days=10) has lessons 1-10 unlocked. */
+  var unlockCount=Math.max(1, days);
+  LESSONS.forEach(function(l,i){
+    var num=i+1;
+    var unlocked = num<=unlockCount;
+    var isRead=read.indexOf(num)!==-1;
+    if(unlocked){
+      html+='<div class="lrow'+(isRead?' read':'')+'" onclick="openLesson('+num+')"><div class="lnum">'+num+'</div><div class="ltitle">'+l.t+'</div>'+(isRead?'<span class="lcheck">✓</span>':'')+'</div>';
+    } else {
+      html+='<div class="lrow locked"><div class="lnum">'+num+'</div><div class="ltitle">'+l.t+'</div><span>🔒</span></div>';
+    }
+  });
+  lg.innerHTML=html;
+}
+function openLesson(num){
+  var l=LESSONS[num-1]; if(!l) return;
+  currentLesson=num;
+  document.getElementById('lreadnum').textContent='lesson '+num+' of 30';
+  document.getElementById('lreadtitle').textContent=l.t;
+  document.getElementById('lreadbody').textContent=l.b;
+  var read=JSON.parse(g('lessons_read','[]'));
+  var isRead=read.indexOf(num)!==-1;
+  var btn=document.getElementById('lreadmark');
+  btn.textContent= isRead ? 'read ✓' : 'mark as read';
+  btn.disabled=isRead;
+  go('lesson');
+}
+function closeLesson(){ currentLesson=null; go('lessons'); }
+function markLessonRead(){
+  if(!currentLesson) return;
+  var read=JSON.parse(g('lessons_read','[]'));
+  if(read.indexOf(currentLesson)===-1){ read.push(currentLesson); s('lessons_read', JSON.stringify(read)); }
+  var btn=document.getElementById('lreadmark');
+  btn.textContent='read ✓'; btn.disabled=true;
+  render();
+}
+
+/* ---------- JOURNAL ---------- */
+function saveJournal(){
+  var txt=(document.getElementById('jentry').value||'').trim();
+  if(!txt) return;
+  var j=JSON.parse(g('journal','[]'));
+  j.push({d:today(), ts:Date.now(), text:txt.slice(0,2000)});
+  s('journal', JSON.stringify(j));
+  document.getElementById('jentry').value='';
+  render();
+}
+function renderJournal(){
+  var stream=document.getElementById('jstream');
+  if(!stream) return;
+  var j=JSON.parse(g('journal','[]'));
+  var chk=JSON.parse(g('checkins','[]'));
+  var items=[];
+  j.forEach(function(e){ items.push({d:e.d, ts:e.ts||0, tag:'journal', text:e.text}); });
+  chk.forEach(function(c){ if(c.n){ items.push({d:c.d, ts:new Date(c.d+'T12:00:00').getTime(), tag:'check-in', text:c.n+' (urge '+c.u+'/10, feeling '+(c.m||'')+')'}); } });
+  items.sort(function(a,b){ return b.ts-a.ts; });
+  var filterVal=(document.getElementById('jfilter').value||'').trim().toLowerCase();
+  if(filterVal){ items=items.filter(function(it){ return it.text.toLowerCase().indexOf(filterVal)!==-1; }); }
+  var html='';
+  items.forEach(function(it){
+    html+='<div class="jentry"><div class="jmeta"><span>'+it.d+'</span><span class="jtag">'+it.tag+'</span></div><div class="jtext"></div></div>';
+  });
+  stream.innerHTML= html || '<p class="mut" style="font-size:13px;padding:8px 0">nothing here yet. write your first entry above.</p>';
+  /* set text via textContent to avoid any HTML injection from user input */
+  var rows=stream.querySelectorAll('.jentry');
+  rows.forEach(function(row,i){ row.querySelector('.jtext').textContent=items[i].text; });
+}
+
+/* ---------- TOAST ---------- */
+function showToast(badge){
+  var wrap=document.getElementById('toastwrap');
+  var el=document.createElement('div');
+  el.className='toast';
+  el.innerHTML='<span class="toastemoji">'+badge.emoji+'</span><div><div class="toasttitle">badge earned</div><div class="toastsub">'+badge.name+'</div></div>';
+  wrap.appendChild(el);
+  setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); },2500);
 }
 
 /* ---------- SETTINGS ---------- */
