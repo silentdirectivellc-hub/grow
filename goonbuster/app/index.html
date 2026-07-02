@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>GoonBuster — Your Streak</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#06070b">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GoonBuster">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  :root{--bg:#06070b;--card:#11131c;--line:#1e2230;--accent:#22e3a0;--red:#ff5a6a;--amber:#fbbf24;--mut:#8b93a7}
+  html,body{height:100%}
+  body{background:var(--bg);color:#fff;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
+  .wrap{max-width:520px;margin:0 auto;min-height:100%;padding:calc(14px + env(safe-area-inset-top)) 20px 120px}
+  header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+  .logo{font-weight:900;letter-spacing:-.5px;font-size:18px}
+  .logo b{color:var(--accent)}
+  .hbtns{display:flex;gap:8px}
+  .icobtn{background:var(--card);border:1px solid var(--line);color:var(--mut);border-radius:10px;padding:7px 12px;font-size:13px;font-weight:700;cursor:pointer}
+  .view{display:none;animation:f .3s ease}
+  .view.on{display:block}
+  @keyframes f{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+  .eyebrow{color:var(--accent);font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase}
+  .mut{color:var(--mut)}
+  /* streak */
+  .bignum{font-size:92px;font-weight:900;letter-spacing:-4px;line-height:1;text-align:center;margin:10px 0 0}
+  .bignum small{font-size:22px;color:var(--mut);letter-spacing:0;font-weight:700}
+  .daysub{text-align:center;color:var(--mut);font-size:14px;margin:2px 0 14px}
+  .pbar{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin:10px 0 6px}
+  .pbar>i{display:block;height:100%;background:var(--accent);transition:width .4s}
+  .pmeta{display:flex;justify-content:space-between;font-size:12.5px;color:var(--mut)}
+  .stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:12px 0}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
+  .stat b{display:block;font-size:22px;font-weight:900}
+  .stat span{font-size:11.5px;color:var(--mut)}
+  .btn{display:block;width:100%;background:var(--accent);color:#05130d;font-weight:900;font-size:16px;padding:15px;border:0;border-radius:12px;cursor:pointer;text-align:center;text-decoration:none;letter-spacing:-.2px}
+  .btn.ghost{background:var(--card);color:#fff;border:1px solid var(--line);font-weight:700}
+  .btn.danger{background:transparent;color:var(--mut);border:1px dashed var(--line);font-weight:700;font-size:13px;padding:11px}
+  .btn+.btn{margin-top:9px}
+  .quote{font-size:14px;color:#e7e9ef;border-left:3px solid var(--accent);padding:2px 0 2px 12px;margin-top:4px}
+  /* check-in */
+  .lbl{font-weight:800;font-size:14px;margin:14px 0 8px}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .moods{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
+  .mood{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:11px 4px;text-align:center;font-size:13px;font-weight:700;cursor:pointer}
+  .mood.sel{border-color:var(--accent);color:var(--accent)}
+  textarea,input[type=text],input[type=date]{width:100%;background:var(--card);border:1px solid var(--line);border-radius:11px;color:#fff;padding:12px;font-size:15px;font-family:inherit}
+  textarea{min-height:74px;resize:vertical}
+  .hist .row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+  .hist .row:last-child{border-bottom:0}
+  .dot7{display:flex;gap:7px;margin:8px 0 2px}
+  .d7{width:30px;height:30px;border-radius:9px;background:var(--line);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--mut)}
+  .d7.hit{background:rgba(34,227,160,.18);color:var(--accent);font-weight:800}
+  /* plan */
+  .phase{border-left:3px solid var(--accent)}
+  .today{background:linear-gradient(135deg,rgba(34,227,160,.12),rgba(34,227,160,.03));border:1px solid rgba(34,227,160,.35)}
+  .mst{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .mst:last-child{border-bottom:0}
+  .mk{width:24px;height:24px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;flex:none}
+  .mk.hit{border-color:var(--accent);background:rgba(34,227,160,.15);color:var(--accent);font-weight:900}
+  /* tabbar */
+  nav{position:fixed;bottom:0;left:0;right:0;background:rgba(9,10,16,.92);backdrop-filter:blur(12px);border-top:1px solid var(--line);z-index:40}
+  .tabs{max-width:520px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 90px 1fr 1fr;align-items:center;padding:8px 8px calc(8px + env(safe-area-inset-bottom))}
+  .tab{background:none;border:0;color:var(--mut);font-size:11.5px;font-weight:700;cursor:pointer;padding:7px 2px;text-align:center}
+  .tab .ti{display:block;font-size:19px;margin-bottom:2px}
+  .tab.on{color:var(--accent)}
+  .fabwrap{position:relative;height:1px}
+  .fab{position:absolute;left:50%;transform:translate(-50%,-58%);width:74px;height:74px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ff7d89,var(--red));border:4px solid #06070b;color:#fff;font-weight:900;font-size:13px;cursor:pointer;box-shadow:0 6px 24px rgba(255,90,106,.45)}
+  /* overlays */
+  .ovl{position:fixed;inset:0;background:var(--bg);z-index:60;display:none;overflow-y:auto}
+  .ovl.on{display:block}
+  .ovl .inner{max-width:520px;margin:0 auto;min-height:100%;padding:calc(24px + env(safe-area-inset-top)) 24px 40px;display:flex;flex-direction:column;justify-content:center}
+  .panic{background:radial-gradient(120% 100% at 50% 0%,#2a0d13 0%,#0b0507 60%,#06070b 100%)}
+  .breath{width:170px;height:170px;border-radius:50%;margin:26px auto;background:rgba(255,90,106,.12);border:2px solid rgba(255,90,106,.5);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;transition:transform linear;transform:scale(.72)}
+  .ptimer{text-align:center;font-size:44px;font-weight:900;letter-spacing:-1px}
+  .pline{min-height:76px;display:flex;align-items:center;justify-content:center;text-align:center;color:#ffdade;font-size:16.5px;font-weight:600;padding:0 6px}
+  .whybox{background:rgba(255,255,255,.05);border:1px solid rgba(255,90,106,.35);border-radius:12px;padding:12px 14px;font-size:14px;color:#fff;margin:14px 0}
+  .whybox span{display:block;color:#ff9aa5;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:800;margin-bottom:4px}
+  h2.big{font-size:clamp(24px,5.5vw,32px);font-weight:900;letter-spacing:-1px;margin-bottom:6px}
+  .fine{color:var(--mut);font-size:12.5px;text-align:center;margin-top:12px}
+  .conf{display:none;margin-top:10px}
+  .conf.on{display:block}
+</style>
+</head>
+<body>
+
+<!-- MEMBER GATE -->
+<div class="ovl on" id="gate">
+  <div class="inner">
+    <span class="eyebrow">GoonBuster · members</span>
+    <h2 class="big">enter your member code.</h2>
+    <p class="mut" style="margin-bottom:16px">it's pinned in the welcome post of the GoonBuster community on Whop.</p>
+    <input type="text" id="gcode" placeholder="member code" autocapitalize="characters" autocomplete="off">
+    <div style="height:10px"></div>
+    <button class="btn" onclick="checkGate()">unlock the app</button>
+    <p class="fine" id="gerr"></p>
+    <p class="fine">not a member yet? <a href="https://whop.com/goonbuster/goonbuster-membership/" style="color:var(--accent)">start your free trial</a></p>
+  </div>
+</div>
+
+<!-- ONBOARDING -->
+<div class="ovl" id="onb">
+  <div class="inner">
+    <span class="eyebrow">60 seconds · one time</span>
+    <h2 class="big">why are you quitting?</h2>
+    <p class="mut" style="margin-bottom:14px">write it raw. when an urge hits, the panic button shows you your own words. that's the weapon.</p>
+    <textarea id="whyin" placeholder="i'm done being controlled. i want my focus, my confidence, my drive back..."></textarea>
+    <div class="lbl">when did your current streak start?</div>
+    <input type="date" id="startin">
+    <p class="fine" style="text-align:left;margin:6px 0 14px">fresh start? leave it as today. already clean a while? set the real date, you keep your days.</p>
+    <button class="btn" onclick="finishOnb()">lock it in</button>
+  </div>
+</div>
+
+<!-- PANIC MODE -->
+<div class="ovl panic" id="panic">
+  <div class="inner">
+    <span class="eyebrow" style="color:#ff9aa5">panic mode · ride it out</span>
+    <div class="ptimer" id="ptime">5:00</div>
+    <p class="fine" style="margin-top:0;color:#ff9aa5">urges peak and die in about 5 minutes. outlast it.</p>
+    <div class="breath" id="breath"><span id="btxt">breathe</span></div>
+    <div class="pline" id="pline">this feeling is a wave. it peaks, then it dies. you only have to outlast it.</div>
+    <div class="whybox" id="pwhy"><span>your own words</span><em id="pwhytxt"></em></div>
+    <button class="btn" onclick="panicWin()">it passed. i'm good ✊</button>
+    <button class="btn ghost" onclick="closePanic()">close</button>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div class="ovl" id="setts">
+  <div class="inner">
+    <h2 class="big">settings</h2>
+    <div class="lbl">your why</div>
+    <textarea id="whyedit"></textarea>
+    <div class="lbl">streak start date</div>
+    <input type="date" id="startedit">
+    <div style="height:14px"></div>
+    <button class="btn" onclick="saveSettings()">save</button>
+    <button class="btn ghost" onclick="exportData()">export my data</button>
+    <button class="btn ghost" onclick="closeSettings()">back</button>
+    <button class="btn danger" onclick="wipeAll()">erase everything on this device</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <header>
+    <div class="logo">Goon<b>Buster</b></div>
+    <div class="hbtns">
+      <button class="icobtn" onclick="openCommunity()">crew</button>
+      <button class="icobtn" onclick="openSettings()">⚙</button>
+    </div>
+  </header>
+
+  <!-- STREAK -->
+  <div class="view on" id="v-streak">
+    <div class="card" style="text-align:center">
+      <span class="eyebrow">current streak</span>
+      <div class="bignum"><span id="days">0</span> <small>days</small></div>
+      <div class="daysub" id="daysub">day 1 of your 90-day rewire</div>
+      <div class="pbar"><i id="pfill"></i></div>
+      <div class="pmeta"><span id="pnext"></span><span id="ppct"></span></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="stbest">0</b><span>best streak</span></div>
+      <div class="stat"><b id="stsurf">0</b><span>urges beaten</span></div>
+      <div class="stat"><b id="stchk">0</b><span>check-ins</span></div>
+    </div>
+    <div class="card">
+      <span class="eyebrow">today's rep</span>
+      <p id="todayaction" style="font-size:15px;font-weight:700;margin-top:6px"></p>
+      <p class="mut" style="font-size:13px;margin-top:4px">one small rep a day. that's how the default changes.</p>
+    </div>
+    <div class="card">
+      <div class="quote" id="dailyq"></div>
+    </div>
+    <button class="btn" onclick="go('checkin')">daily check-in →</button>
+    <button class="btn danger" id="relapsebtn" onclick="askRelapse()">i relapsed</button>
+    <div class="conf card" id="relconf">
+      <p style="font-weight:800;margin-bottom:6px">resetting the counter, not the progress.</p>
+      <p class="mut" style="font-size:13.5px;margin-bottom:12px">every day you stacked still rewired you. log it, learn the trigger, go again. the only real loss is quitting the quit.</p>
+      <button class="btn" style="background:var(--red);color:#fff" onclick="doRelapse()">confirm reset</button>
+      <button class="btn ghost" onclick="hideRelapse()">never mind, streak lives</button>
+    </div>
+  </div>
+
+  <!-- CHECK-IN -->
+  <div class="view" id="v-checkin">
+    <h2 class="big">daily check-in</h2>
+    <p class="mut" style="margin-bottom:6px">30 seconds. the guys who check in daily keep their streaks. <span id="chkstate"></span></p>
+    <div class="dot7" id="dots"></div>
+    <div class="lbl">urge level today: <span id="urgeval" style="color:var(--accent)">3</span>/10</div>
+    <input type="range" min="0" max="10" value="3" id="urge" oninput="document.getElementById('urgeval').textContent=this.value">
+    <div class="lbl">how do you feel?</div>
+    <div class="moods" id="moods">
+      <div class="mood" data-m="rough">😮‍💨 rough</div>
+      <div class="mood" data-m="meh">😐 meh</div>
+      <div class="mood sel" data-m="solid">🙂 solid</div>
+      <div class="mood" data-m="strong">🔥 strong</div>
+    </div>
+    <div class="lbl">note (optional)</div>
+    <textarea id="note" placeholder="triggers, wins, whatever's real today"></textarea>
+    <div style="height:12px"></div>
+    <button class="btn" onclick="saveCheckin()">save check-in</button>
+    <div class="card hist" style="margin-top:16px"><span class="eyebrow">last 14 days</span><div id="hist"></div></div>
+  </div>
+
+  <!-- PLAN -->
+  <div class="view" id="v-plan">
+    <h2 class="big">your 90-day rewire</h2>
+    <p class="mut" style="margin-bottom:12px" id="planintro"></p>
+    <div class="card today"><span class="eyebrow">where you are</span><p id="phasenow" style="font-weight:800;font-size:15px;margin-top:6px"></p><p class="mut" id="phasedesc" style="font-size:13.5px;margin-top:4px"></p></div>
+    <div class="card phase"><b>day 1-7 · detox</b><p class="mut" style="font-size:13.5px">the urges peak, then fade. panic button + daily check-ins carry you through the hardest week. phone out of the bedroom, cold showers, move your body.</p></div>
+    <div class="card phase"><b>day 8-30 · momentum</b><p class="mut" style="font-size:13.5px">brain fog lifts, energy and focus come back. build the replacement life: training, sunlight, real conversations, skill work.</p></div>
+    <div class="card phase"><b>day 31-90 · rewired</b><p class="mut" style="font-size:13.5px">the default changes. confidence, drive and control become normal. now you help the next guy through week one.</p></div>
+    <div class="card"><span class="eyebrow">milestones</span><div id="msts"></div></div>
+  </div>
+</div>
+
+<nav>
+  <div class="tabs">
+    <button class="tab on" id="t-streak" onclick="go('streak')"><span class="ti">🔥</span>streak</button>
+    <button class="tab" id="t-checkin" onclick="go('checkin')"><span class="ti">✅</span>check-in</button>
+    <div class="fabwrap"><button class="fab" onclick="openPanic()">PANIC</button></div>
+    <button class="tab" id="t-plan" onclick="go('plan')"><span class="ti">🧠</span>plan</button>
+    <button class="tab" onclick="openCommunity()"><span class="ti">👥</span>crew</button>
+  </div>
+</nav>
+
+<script>
+var LS = window.localStorage;
+function g(k,d){ var v=LS.getItem('gb_'+k); return v===null?d:v; }
+function s(k,v){ LS.setItem('gb_'+k, v); }
+function today(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function daysBetween(iso){ var a=new Date(iso+'T00:00:00'); var b=new Date(today()+'T00:00:00'); return Math.max(0, Math.round((b-a)/86400000)); }
+
+/* ---------- GATE ---------- */
+var CODE='REWIRED';
+function checkGate(){
+  var v=(document.getElementById('gcode').value||'').trim().toUpperCase();
+  if(v===CODE){ s('member','1'); document.getElementById('gate').classList.remove('on'); boot(); }
+  else{ document.getElementById('gerr').textContent='that code isn\'t right. it\'s pinned in the community welcome post.'; }
+}
+document.getElementById('gcode').addEventListener('keydown',function(e){ if(e.key==='Enter') checkGate(); });
+
+/* ---------- ONBOARDING ---------- */
+function finishOnb(){
+  var why=(document.getElementById('whyin').value||'').trim();
+  if(!why){ document.getElementById('whyin').placeholder='write at least one real sentence. it matters mid-urge.'; return; }
+  var st=document.getElementById('startin').value || today();
+  s('why', why); s('start', st); if(!g('best',null)) s('best','0'); if(!g('resets',null)) s('resets','0'); if(!g('surfed',null)) s('surfed','0');
+  document.getElementById('onb').classList.remove('on'); render();
+}
+
+/* ---------- CONTENT ---------- */
+var QUOTES=[
+  "your streak isn't a number. it's proof you keep your word to yourself.",
+  "you don't need more motivation. you need fewer negotiations.",
+  "the urge is loud because it's dying.",
+  "discipline is choosing what you want most over what you want now.",
+  "nobody's coming to do the reps for you. good. it means the credit's all yours.",
+  "a bad day with your streak intact beats a good day without it.",
+  "the man you're becoming is watching the man you are today.",
+  "boredom is a trigger. build a life that isn't boring.",
+  "you've already survived every urge you've ever had. undefeated.",
+  "day one is the price. day ninety is the prize."
+];
+var ACTIONS_DETOX=["phone charges outside the bedroom tonight","20 pushups the second an urge hits, no negotiation","cold finish on your shower today","10-minute walk after dinner, no phone","block or delete one trigger app or site right now","write 3 lines in your check-in about your worst trigger","screens off for the last hour before bed"];
+var ACTIONS_MOMENTUM=["10 minutes of morning sunlight before any screen","train today, gym or 30 squats minimum","no phone for the first 30 minutes awake","message one friend and actually make a plan","read 10 pages of anything real","plan tomorrow in 3 bullets before bed","cook one real meal today","15 minutes on a skill you want to be known for"];
+var ACTIONS_REWIRED=["drop one honest reply helping a guy in the crew who's on day 1","do the hard task you've been dodging, first thing","one real conversation with a stranger today","deep work: 50 minutes, one tab, phone in another room","train hard today, you're past excuses","write a 3-line weekly review in your check-in","plan something next month you'll actually look forward to"];
+var MILESTONES=[1,3,7,14,21,30,45,60,90];
+
+/* ---------- RENDER ---------- */
+function render(){
+  var start=g('start',today());
+  var days=daysBetween(start);
+  var best=Math.max(parseInt(g('best','0'),10), days);
+  var dayN=Math.min(days+1,90);
+  document.getElementById('days').textContent=days;
+  document.getElementById('daysub').textContent= days>=90 ? "90-day rewire complete. you're the proof now." : "day "+dayN+" of your 90-day rewire";
+  var next=MILESTONES.find(function(m){return m>days;})||90;
+  var prev=0; for(var i=0;i<MILESTONES.length;i++){ if(MILESTONES[i]<=days) prev=MILESTONES[i]; }
+  var pct= next===prev ? 100 : Math.round(((days-prev)/(next-prev))*100);
+  document.getElementById('pfill').style.width=Math.min(100,Math.max(3,pct))+'%';
+  document.getElementById('pnext').textContent= days>=90 ? 'legend status' : 'next milestone: '+next+' days';
+  document.getElementById('ppct').textContent= days>=90 ? '💯' : (next-days)+' to go';
+  document.getElementById('stbest').textContent=best;
+  document.getElementById('stsurf').textContent=g('surfed','0');
+  var chk=JSON.parse(g('checkins','[]'));
+  document.getElementById('stchk').textContent=chk.length;
+  var pool= days<7?ACTIONS_DETOX : days<30?ACTIONS_MOMENTUM : ACTIONS_REWIRED;
+  document.getElementById('todayaction').textContent=pool[days % pool.length];
+  document.getElementById('dailyq').textContent='"'+QUOTES[days % QUOTES.length]+'"';
+  /* plan view */
+  document.getElementById('planintro').textContent='built around your streak. you are '+days+' day'+(days===1?'':'s')+' in.';
+  var ph= days<7?['detox (day 1-7)','the hardest week. your only job: outlast urges and check in daily.'] : days<30?['momentum (day 8-30)','fog lifts, energy returns. build the replacement life now.'] : days<90?['rewired (day 31-90)','the default is changing. hold the line, help the new guys.'] : ['beyond 90','you did the thing. keep the systems that got you here.'];
+  document.getElementById('phasenow').textContent=ph[0];
+  document.getElementById('phasedesc').textContent=ph[1];
+  var mh=''; MILESTONES.forEach(function(m){ var hit=days>=m; mh+='<div class="mst"><div class="mk'+(hit?' hit':'')+'">'+(hit?'✓':'')+'</div><div>'+m+' day'+(m===1?'':'s')+(hit?' <span class="mut">· done</span>':'')+'</div></div>'; });
+  document.getElementById('msts').innerHTML=mh;
+  /* check-in view */
+  var t=today(); var doneToday=chk.some(function(c){return c.d===t;});
+  document.getElementById('chkstate').textContent= doneToday? 'you already checked in today ✅':'';
+  var dh=''; for(var k=6;k>=0;k--){ var d=new Date(); d.setDate(d.getDate()-k); var iso=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); var hit=chk.some(function(c){return c.d===iso;}); dh+='<div class="d7'+(hit?' hit':'')+'">'+['S','M','T','W','T','F','S'][d.getDay()]+'</div>'; }
+  document.getElementById('dots').innerHTML=dh;
+  var hh=''; chk.slice(-14).reverse().forEach(function(c){ hh+='<div class="row"><span>'+c.d+' · '+(c.m||'')+'</span><span class="mut">urge '+c.u+'/10</span></div>'; });
+  document.getElementById('hist').innerHTML= hh || '<p class="mut" style="font-size:13px;padding:8px 0">no check-ins yet. first one takes 30 seconds.</p>';
+}
+
+/* ---------- NAV ---------- */
+function go(v){
+  ['streak','checkin','plan'].forEach(function(x){
+    var vv=document.getElementById('v-'+x), tt=document.getElementById('t-'+x);
+    if(vv) vv.classList.toggle('on', x===v);
+    if(tt) tt.classList.toggle('on', x===v);
+  });
+  window.scrollTo({top:0});
+}
+function openCommunity(){ window.open('https://whop.com/goonbuster/','_blank'); }
+
+/* ---------- RELAPSE ---------- */
+function askRelapse(){ document.getElementById('relconf').classList.add('on'); }
+function hideRelapse(){ document.getElementById('relconf').classList.remove('on'); }
+function doRelapse(){
+  var days=daysBetween(g('start',today()));
+  s('best', String(Math.max(parseInt(g('best','0'),10), days)));
+  s('resets', String(parseInt(g('resets','0'),10)+1));
+  s('start', today());
+  hideRelapse(); render(); window.scrollTo({top:0});
+}
+
+/* ---------- CHECK-IN ---------- */
+var moodSel='solid';
+document.querySelectorAll('.mood').forEach(function(m){ m.addEventListener('click',function(){ document.querySelectorAll('.mood').forEach(function(x){x.classList.remove('sel');}); this.classList.add('sel'); moodSel=this.dataset.m; }); });
+function saveCheckin(){
+  var chk=JSON.parse(g('checkins','[]')); var t=today();
+  chk=chk.filter(function(c){return c.d!==t;});
+  chk.push({d:t, u:document.getElementById('urge').value, m:moodSel, n:(document.getElementById('note').value||'').slice(0,500)});
+  s('checkins', JSON.stringify(chk));
+  document.getElementById('note').value='';
+  render(); go('streak');
+}
+
+/* ---------- PANIC ---------- */
+var PLINES=[
+  "this feeling is a wave. it peaks, then it dies. you only have to outlast it, not fight it forever.",
+  "you're not craving porn. your brain is craving dopamine. pay it with 20 pushups instead.",
+  "five minutes. that's the life of an urge. you've survived 100% of them so far.",
+  "picture yourself 10 minutes from now: proud you held, or starting over. you're choosing right now.",
+  "the version of you that's free exists on the other side of this exact moment.",
+  "don't negotiate with it. negotiation is how every relapse starts.",
+  "get up. change rooms. urges live in the room you're in.",
+  "breathe. the urge screams, then it whispers, then it's gone.",
+  "you didn't stack all these days to trade them for 10 minutes you won't even respect.",
+  "close the tab in your head. the fantasy is a salesman. stop taking the meeting."
+];
+var pTimer=null, pLine=null, pBreath=null, pSecs=300;
+function openPanic(){
+  document.getElementById('panic').classList.add('on');
+  document.getElementById('pwhytxt').textContent=g('why','because i want my life back.');
+  pSecs=300; tickPanic();
+  pTimer=setInterval(tickPanic,1000);
+  var li=0; document.getElementById('pline').textContent=PLINES[0];
+  pLine=setInterval(function(){ li=(li+1)%PLINES.length; document.getElementById('pline').textContent=PLINES[li]; },11000);
+  startBreath();
+}
+function tickPanic(){
+  pSecs=Math.max(0,pSecs-1);
+  var m=Math.floor(pSecs/60), sec=pSecs%60;
+  document.getElementById('ptime').textContent=m+':'+String(sec).padStart(2,'0');
+  if(pSecs===0){ clearInterval(pTimer); document.getElementById('ptime').textContent='you outlasted it.'; }
+}
+function startBreath(){
+  var el=document.getElementById('breath'), tx=document.getElementById('btxt');
+  var phases=[['inhale',4,1],['hold',7,1],['exhale',8,.72]];
+  var i=0;
+  function step(){
+    if(!document.getElementById('panic').classList.contains('on')) return;
+    var p=phases[i%3];
+    tx.textContent=p[0]+' '+p[1];
+    el.style.transitionDuration=p[1]+'s';
+    el.style.transform='scale('+p[2]+')';
+    i++; pBreath=setTimeout(step,p[1]*1000);
+  }
+  step();
+}
+function panicWin(){
+  s('surfed', String(parseInt(g('surfed','0'),10)+1));
+  closePanic(); render();
+}
+function closePanic(){
+  document.getElementById('panic').classList.remove('on');
+  clearInterval(pTimer); clearInterval(pLine); clearTimeout(pBreath);
+}
+
+/* ---------- SETTINGS ---------- */
+function openSettings(){
+  document.getElementById('whyedit').value=g('why','');
+  document.getElementById('startedit').value=g('start',today());
+  document.getElementById('setts').classList.add('on');
+}
+function closeSettings(){ document.getElementById('setts').classList.remove('on'); }
+function saveSettings(){
+  var w=(document.getElementById('whyedit').value||'').trim(); if(w) s('why',w);
+  var st=document.getElementById('startedit').value; if(st) s('start',st);
+  closeSettings(); render();
+}
+function exportData(){
+  var out={}; for(var i=0;i<LS.length;i++){ var k=LS.key(i); if(k.indexOf('gb_')===0) out[k]=LS.getItem(k); }
+  var blob=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='goonbuster_data.json'; a.click();
+}
+function wipeAll(){
+  if(!confirm('erase your streak, check-ins and settings on this device?')) return;
+  var kill=[]; for(var i=0;i<LS.length;i++){ var k=LS.key(i); if(k.indexOf('gb_')===0) kill.push(k); }
+  kill.forEach(function(k){LS.removeItem(k);});
+  location.reload();
+}
+
+/* ---------- BOOT ---------- */
+function boot(){
+  if(!g('why',null) || !g('start',null)){
+    document.getElementById('startin').value=today();
+    document.getElementById('onb').classList.add('on');
+  }
+  render();
+}
+if(g('member',null)==='1'){ document.getElementById('gate').classList.remove('on'); boot(); }
+document.addEventListener('visibilitychange',function(){ if(!document.hidden && g('member',null)==='1') render(); });
+setInterval(function(){ if(g('member',null)==='1') render(); },60000);
+if('serviceWorker' in navigator && location.protocol==='https:'){ navigator.serviceWorker.register('sw.js'); }
+</script>
+</body>
+</html>
