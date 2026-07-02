@@ -172,6 +172,21 @@ function reveal(){
                '<div class="row"><span>escalation risk</span><b>'+(score>60?'high':'moderate')+'</b></div>'+
                '<div class="row"><span>without a system</span><b>relapse likely</b></div>';
 }
+// placement attribution: ?src=NAME persists locally and rides the CTA into Whop checkout as UTM
+try{
+  var _qs=new URLSearchParams(location.search);
+  var _src=_qs.get('src')||_qs.get('utm_source');
+  if(_src) localStorage.setItem('gb_src', _src.slice(0,40));
+  _src=localStorage.getItem('gb_src');
+  if(_src){
+    var _cta=document.getElementById('cta');
+    var _u=new URL(_cta.href);
+    _u.searchParams.set('utm_source', _src);
+    _u.searchParams.set('utm_medium', 'shoutout');
+    _u.searchParams.set('utm_campaign', 'gb_launch');
+    _cta.href=_u.toString();
+  }
+}catch(e){}
 </script>
 </body>
 </html>
