@@ -1,4 +1,4 @@
-var CACHE = 'gb-v2';
+var CACHE = 'gb-v3';
 var ASSETS = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', function (e) {
@@ -15,11 +15,17 @@ self.addEventListener('fetch', function (e) {
   if (e.request.method !== 'GET') return;
   e.respondWith(
     fetch(e.request).then(function (res) {
-      var copy = res.clone();
-      caches.open(CACHE).then(function (c) { c.put(e.request, copy); });
+      if (res.ok && res.type === 'basic') {
+        var copy = res.clone();
+        caches.open(CACHE).then(function (c) { c.put(e.request, copy); });
+      }
       return res;
     }).catch(function () {
-      return caches.match(e.request).then(function (hit) { return hit || caches.match('./index.html'); });
+      return caches.match(e.request).then(function (hit) {
+        if (hit) return hit;
+        if (e.request.mode === 'navigate') return caches.match('./index.html');
+        return Response.error();
+      });
     })
   );
 });
