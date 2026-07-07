@@ -22,7 +22,7 @@
   .logo{font-weight:900;letter-spacing:-.5px;font-size:18px}
   .logo b{color:var(--accent)}
   .hbtns{display:flex;gap:8px}
-  .icobtn{background:var(--card);border:1px solid var(--line);color:var(--mut);border-radius:10px;padding:7px 12px;font-size:13px;font-weight:700;cursor:pointer}
+  .icobtn{background:var(--card);border:1px solid var(--line);color:var(--mut);border-radius:10px;padding:7px 12px;font-size:13px;font-weight:700;cursor:pointer;min-height:44px}
   .view{display:none;animation:f .3s ease}
   .view.on{display:block}
   @keyframes f{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
@@ -47,11 +47,15 @@
   .quote{font-size:14px;color:#e7e9ef;border-left:3px solid var(--accent);padding:2px 0 2px 12px;margin-top:4px}
   /* check-in */
   .lbl{font-weight:800;font-size:14px;margin:14px 0 8px}
-  input[type=range]{width:100%;accent-color:var(--accent)}
+  input[type=range]{width:100%;accent-color:var(--accent);-webkit-appearance:none;appearance:none;background:transparent;height:44px;margin:0}
+  input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:var(--line)}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:var(--accent);border:0;margin-top:-11px}
+  input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:var(--line)}
+  input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:var(--accent);border:0}
   .moods{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
-  .mood{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:11px 4px;text-align:center;font-size:13px;font-weight:700;cursor:pointer}
+  .mood{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:13px 4px;text-align:center;font-size:13px;font-weight:700;cursor:pointer}
   .mood.sel{border-color:var(--accent);color:var(--accent)}
-  textarea,input[type=text],input[type=date]{width:100%;background:var(--card);border:1px solid var(--line);border-radius:11px;color:#fff;padding:12px;font-size:15px;font-family:inherit}
+  textarea,input[type=text],input[type=date]{width:100%;background:var(--card);border:1px solid var(--line);border-radius:11px;color:#fff;padding:12px;font-size:16px;font-family:inherit}
   textarea{min-height:74px;resize:vertical}
   .hist .row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:13.5px}
   .hist .row:last-child{border-bottom:0}
@@ -94,7 +98,8 @@
   /* lessons */
   .lgrid{display:flex;flex-direction:column;gap:8px}
   .lrow{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 14px;cursor:pointer;display:flex;align-items:center;gap:10px}
-  .lrow.locked{opacity:.45;cursor:default}
+  .lrow.locked{opacity:.45;cursor:pointer}
+  .lday{font-size:11px;font-weight:800;color:var(--mut);flex:none}
   .lrow.read{border-color:rgba(34,227,160,.35)}
   .lnum{width:28px;height:28px;border-radius:50%;background:var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex:none}
   .lrow.read .lnum{background:rgba(34,227,160,.18);color:var(--accent)}
@@ -116,15 +121,15 @@
   .tactictag span{display:block;color:var(--accent);font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:800;margin-bottom:3px}
   /* relapse capture */
   .chipgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 4px}
-  .chipbtn{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 8px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;text-align:center}
+  .chipbtn{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 8px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;text-align:center}
   .chipbtn.sel{border-color:var(--accent);color:var(--accent)}
   /* badges */
   .bgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
   .badge{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 6px;text-align:center}
   .badge.earned{border-color:rgba(34,227,160,.4);background:rgba(34,227,160,.06)}
-  .badge.locked{opacity:.4}
   .badgeemoji{font-size:24px;display:block;margin-bottom:4px}
-  .badgename{font-size:10.5px;font-weight:800;color:#e7e9ef}
+  .badge.locked .badgeemoji{filter:grayscale(1);opacity:.45}
+  .badgename{font-size:11.5px;font-weight:800;color:#e7e9ef}
   .badge.locked .badgename{color:var(--mut)}
   /* toast */
   .toastwrap{position:fixed;top:calc(14px + env(safe-area-inset-top));left:0;right:0;display:flex;justify-content:center;z-index:80;pointer-events:none}
@@ -149,7 +154,8 @@
   .ovl .inner{max-width:520px;margin:0 auto;min-height:100%;padding:calc(24px + env(safe-area-inset-top)) 24px 40px;display:flex;flex-direction:column;justify-content:center}
   .panic{background:radial-gradient(120% 100% at 50% 0%,#2a0d13 0%,#0b0507 60%,#06070b 100%)}
   .breath{width:170px;height:170px;border-radius:50%;margin:26px auto;background:rgba(255,90,106,.12);border:2px solid rgba(255,90,106,.5);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;transition:transform linear;transform:scale(.72)}
-  .ptimer{text-align:center;font-size:44px;font-weight:900;letter-spacing:-1px}
+  .ptimer{text-align:center;font-size:44px;font-weight:900;letter-spacing:-1px;min-height:66px;display:flex;align-items:center;justify-content:center}
+  .ptimer.done{font-size:22px}
   .pline{min-height:76px;display:flex;align-items:center;justify-content:center;text-align:center;color:#ffdade;font-size:16.5px;font-weight:600;padding:0 6px}
   .whybox{background:rgba(255,255,255,.05);border:1px solid rgba(255,90,106,.35);border-radius:12px;padding:12px 14px;font-size:14px;color:#fff;margin:14px 0}
   .whybox span{display:block;color:#ff9aa5;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:800;margin-bottom:4px}
@@ -157,6 +163,10 @@
   .fine{color:var(--mut);font-size:12.5px;text-align:center;margin-top:12px}
   .conf{display:none;margin-top:10px}
   .conf.on{display:block}
+  /* touch feedback */
+  .btn:active,.mood:active,.chipbtn:active,.icobtn:active,.lrow:active,.tab:active{transform:scale(.97);opacity:.8;transition:transform .08s ease,opacity .08s ease}
+  .fab:active{transform:translate(-50%,-58%) scale(.97);opacity:.9;transition:transform .08s ease,opacity .08s ease}
+  .fine a{display:inline-block;padding:13px 8px;margin:-10px -4px}
 </style>
 </head>
 <body>
@@ -182,8 +192,10 @@
     <h2 class="big">why are you quitting?</h2>
     <p class="mut" style="margin-bottom:14px">write it raw. when an urge hits, the panic button shows you your own words. that's the weapon.</p>
     <textarea id="whyin" placeholder="i'm done being controlled. i want my focus, my confidence, my drive back..."></textarea>
+    <p class="fine" id="whyerr" style="display:none;text-align:left;color:var(--red);margin-top:6px">write at least one real sentence. it matters mid-urge.</p>
     <div class="lbl">when did your current streak start?</div>
     <input type="date" id="startin">
+    <p class="fine" id="starterr" style="display:none;text-align:left;color:var(--red);margin-top:6px">your start date can't be in the future. we set it back to today.</p>
     <p class="fine" style="text-align:left;margin:6px 0 14px">fresh start? leave it as today. already clean a while? set the real date, you keep your days.</p>
     <div class="lbl">your dependency score from the 60-second check <span class="mut" style="font-weight:400">(skip if you don't remember)</span></div>
     <input type="text" id="scorein" inputmode="numeric" placeholder="e.g. 78 (leave blank to skip)">
@@ -214,9 +226,13 @@
     <textarea id="whyedit"></textarea>
     <div class="lbl">streak start date</div>
     <input type="date" id="startedit">
+    <p class="fine" id="settserr" style="display:none;text-align:left;color:var(--red);margin-top:6px"></p>
     <div style="height:14px"></div>
     <button class="btn" onclick="saveSettings()">save</button>
     <button class="btn ghost" onclick="exportData()">export my data</button>
+    <button class="btn ghost" onclick="document.getElementById('importfile').click()">import my data</button>
+    <input type="file" id="importfile" accept=".json,application/json" style="display:none">
+    <p class="fine" id="imperr" style="display:none;text-align:left;color:var(--red)"></p>
     <button class="btn ghost" onclick="closeSettings()">back</button>
     <button class="btn danger" onclick="wipeAll()">erase everything on this device</button>
   </div>
@@ -397,26 +413,77 @@
 <div class="toastwrap" id="toastwrap"></div>
 
 <script>
-var LS = window.localStorage;
-function g(k,d){ var v=LS.getItem('gb_'+k); return v===null?d:v; }
-function s(k,v){ LS.setItem('gb_'+k, v); }
+/* guarded storage: private mode / blocked storage falls back to in-memory so the app still runs for the session */
+var LS;
+try{
+  LS=window.localStorage;
+  LS.setItem('gb__t','1'); LS.removeItem('gb__t');
+}catch(e){
+  LS=(function(){
+    var m={};
+    return {
+      getItem:function(k){ return Object.prototype.hasOwnProperty.call(m,k)?m[k]:null; },
+      setItem:function(k,v){ m[k]=String(v); },
+      removeItem:function(k){ delete m[k]; },
+      key:function(i){ var ks=Object.keys(m); return i<ks.length?ks[i]:null; },
+      get length(){ return Object.keys(m).length; }
+    };
+  })();
+}
+function g(k,d){ var v=null; try{ v=LS.getItem('gb_'+k); }catch(e){} return v===null?d:v; }
+function s(k,v){ try{ LS.setItem('gb_'+k, v); }catch(e){} }
+/* safe JSON reader for array keys: quarantines a corrupt value under gb_corrupt_<key>, resets to default, keeps booting */
+function safeParse(k,d){
+  var raw=g(k,d);
+  try{
+    var v=JSON.parse(raw);
+    if(!Array.isArray(v)) throw new Error('not an array');
+    return v;
+  }catch(e){
+    try{ LS.setItem('gb_corrupt_'+k, String(raw)); }catch(e2){}
+    s(k,d);
+    return JSON.parse(d);
+  }
+}
+function esc(x){ return String(x).replace(/[&<>"']/g,function(ch){ return '&#'+ch.charCodeAt(0)+';'; }); }
+var MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function fmtDate(iso){
+  if(iso===today()) return 'today';
+  var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso||''));
+  if(!m) return String(iso||'');
+  return MONTHS[parseInt(m[2],10)-1]+' '+parseInt(m[3],10);
+}
 function today(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
-function daysBetween(iso){ var a=new Date(iso+'T00:00:00'); var b=new Date(today()+'T00:00:00'); return Math.max(0, Math.round((b-a)/86400000)); }
+function daysBetween(iso){ var a=new Date(iso+'T12:00:00'); var b=new Date(today()+'T12:00:00'); return Math.max(0, Math.round((b-a)/86400000)); }
 
 /* ---------- GATE ---------- */
-var CODE='REWIRED';
+/* rotatable accepted codes. gb_member stores which code unlocked; legacy value '1' stays valid forever. */
+var CODES=['REWIRED'];
+function codeOk(v){ return CODES.indexOf(String(v||'').trim().toUpperCase())!==-1; }
+function isMember(){
+  var m=g('member',null);
+  if(m===null) return false;
+  if(m==='1') return true;
+  return codeOk(m);
+}
 function checkGate(){
   var v=(document.getElementById('gcode').value||'').trim().toUpperCase();
-  if(v===CODE){ s('member','1'); document.getElementById('gate').classList.remove('on'); boot(); }
+  if(codeOk(v)){ s('member', v); document.getElementById('gate').classList.remove('on'); boot(); }
   else{ document.getElementById('gerr').textContent='that code isn\'t right. it\'s pinned in the community welcome post.'; }
 }
 document.getElementById('gcode').addEventListener('keydown',function(e){ if(e.key==='Enter') checkGate(); });
 
 /* ---------- ONBOARDING ---------- */
 function finishOnb(){
-  var why=(document.getElementById('whyin').value||'').trim();
-  if(!why){ document.getElementById('whyin').placeholder='write at least one real sentence. it matters mid-urge.'; return; }
+  var whyEl=document.getElementById('whyin');
+  var why=(whyEl.value||'').trim();
+  var whyErr=document.getElementById('whyerr');
+  if(!why){ whyErr.style.display='block'; whyEl.style.borderColor='var(--red)'; return; }
+  whyErr.style.display='none'; whyEl.style.borderColor='';
   var st=document.getElementById('startin').value || today();
+  var startErr=document.getElementById('starterr');
+  if(st>today()){ st=today(); document.getElementById('startin').value=st; startErr.style.display='block'; return; }
+  startErr.style.display='none';
   s('why', why); s('start', st); if(!g('best',null)) s('best','0'); if(!g('resets',null)) s('resets','0'); if(!g('surfed',null)) s('surfed','0');
   var scoreRaw=(document.getElementById('scorein').value||'').trim();
   var scoreNum=parseInt(scoreRaw,10);
@@ -539,18 +606,29 @@ function checkinStreakCount(chk){
   }
   return n;
 }
-function comebackEarned(relapses, start){
-  if(!relapses.length) return false;
+/* comeback badge: earned on the first check-in or panic-win within 48h after a relapse.
+   relapse records carry ts (Date.now()); legacy records without ts still award, never crash. */
+function markComebackIfEligible(){
+  if(g('comeback',null)==='1') return;
+  var relapses=safeParse('relapses','[]');
+  if(!relapses.length) return;
   var last=relapses[relapses.length-1];
-  var lastD=new Date(last.d+'T00:00:00');
-  var startD=new Date(start+'T00:00:00');
-  var gapHrs=Math.abs(startD-lastD)/3600000;
-  return gapHrs<=48 && daysBetween(start)>=1;
+  if(!last) return;
+  var ok;
+  if(last.ts){
+    var gap=Date.now()-last.ts;
+    ok = gap>=0 && gap<=172800000;
+  } else {
+    ok = true;
+  }
+  if(ok) s('comeback','1');
 }
 function render(){
   var start=g('start',today());
   var days=daysBetween(start);
-  var best=Math.max(parseInt(g('best','0'),10), days);
+  var storedBest=parseInt(g('best','0'),10); if(isNaN(storedBest)) storedBest=0;
+  var best=Math.max(storedBest, days);
+  if(best>storedBest) s('best', String(best));
   var dayN=Math.min(days+1,90);
   document.getElementById('days').textContent=days;
   document.getElementById('daysub').textContent= days>=90 ? "90-day rewire complete. you're the proof now." : "day "+dayN+" of your 90-day rewire";
@@ -562,7 +640,7 @@ function render(){
   document.getElementById('ppct').textContent= days>=90 ? '💯' : (next-days)+' to go';
   document.getElementById('stbest').textContent=best;
   document.getElementById('stsurf').textContent=g('surfed','0');
-  var chk=JSON.parse(g('checkins','[]'));
+  var chk=safeParse('checkins','[]');
   document.getElementById('stchk').textContent=chk.length;
   var pool= days<7?ACTIONS_DETOX : days<30?ACTIONS_MOMENTUM : ACTIONS_REWIRED;
   document.getElementById('todayaction').textContent=pool[days % pool.length];
@@ -590,7 +668,7 @@ function render(){
   });
   document.getElementById('cbrow').innerHTML=cb;
   /* relapse intelligence pattern card */
-  var relapses=JSON.parse(g('relapses','[]'));
+  var relapses=safeParse('relapses','[]');
   var patcard=document.getElementById('patcard');
   if(relapses.length>=1){
     patcard.style.display='block';
@@ -611,26 +689,28 @@ function render(){
   }
   /* badges */
   var chkStreak=checkinStreakCount(chk);
-  var journalArr=JSON.parse(g('journal','[]'));
-  var state={days:days, surfed:parseInt(g('surfed','0'),10), chkStreak:chkStreak, journalCount:journalArr.length, comeback:comebackEarned(relapses, start)};
-  var earnedBefore=JSON.parse(g('badges_earned','[]'));
-  var bg=''; var earnedNow=[];
+  var journalArr=safeParse('journal','[]');
+  var state={days:days, surfed:parseInt(g('surfed','0'),10), chkStreak:chkStreak, journalCount:journalArr.length, comeback:g('comeback',null)==='1'};
+  /* badges are append-only: once earned, always earned. render from the stored union, toast only genuinely new ids. */
+  var earnedBefore=safeParse('badges_earned','[]');
+  var earnedNow=[];
+  BADGES.forEach(function(b){ if(b.check(state)) earnedNow.push(b.id); });
+  var merged=earnedBefore.slice();
+  earnedNow.forEach(function(id){ if(merged.indexOf(id)===-1) merged.push(id); });
+  var bg='';
   BADGES.forEach(function(b){
-    var earned=b.check(state);
-    if(earned) earnedNow.push(b.id);
-    bg+='<div class="badge '+(earned?'earned':'locked')+'"><span class="badgeemoji">'+(earned?b.emoji:'🔒')+'</span><span class="badgename">'+b.name+'</span></div>';
+    var earned=merged.indexOf(b.id)!==-1;
+    bg+='<div class="badge '+(earned?'earned':'locked')+'"><span class="badgeemoji">'+b.emoji+'</span><span class="badgename">'+b.name+'</span></div>';
   });
   document.getElementById('bgrid').innerHTML=bg;
   var newlyEarned=earnedNow.filter(function(id){ return earnedBefore.indexOf(id)===-1; });
   if(newlyEarned.length){
-    s('badges_earned', JSON.stringify(earnedNow));
+    s('badges_earned', JSON.stringify(merged));
     var firstNew=BADGES.find(function(b){return b.id===newlyEarned[0];});
     if(firstNew) showToast(firstNew);
-  } else if(earnedNow.length!==earnedBefore.length){
-    s('badges_earned', JSON.stringify(earnedNow));
   }
   /* lessons course progress */
-  var lessonsRead=JSON.parse(g('lessons_read','[]'));
+  var lessonsRead=safeParse('lessons_read','[]');
   var cprog=document.getElementById('courseprog');
   if(cprog) cprog.textContent=lessonsRead.length+'/30 read';
   /* plan view (merged into streak tab expander) */
@@ -653,7 +733,7 @@ function render(){
   document.getElementById('chkstate').textContent= doneToday? 'you already checked in today ✅':'';
   var dh=''; for(var k=6;k>=0;k--){ var d=new Date(); d.setDate(d.getDate()-k); var iso=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); var hit=chk.some(function(c){return c.d===iso;}); dh+='<div class="d7'+(hit?' hit':'')+'">'+['S','M','T','W','T','F','S'][d.getDay()]+'</div>'; }
   document.getElementById('dots').innerHTML=dh;
-  var hh=''; chk.slice(-14).reverse().forEach(function(c){ hh+='<div class="row"><span>'+c.d+' · '+(c.m||'')+'</span><span class="mut">urge '+c.u+'/10</span></div>'; });
+  var hh=''; chk.slice(-14).reverse().forEach(function(c){ hh+='<div class="row"><span>'+esc(fmtDate(c.d))+' · '+esc(c.m||'')+'</span><span class="mut">urge '+esc(c.u)+'/10</span></div>'; });
   document.getElementById('hist').innerHTML= hh || '<p class="mut" style="font-size:13px;padding:8px 0">no check-ins yet. first one takes 30 seconds.</p>';
   /* lessons tab */
   renderLessons(days);
@@ -711,15 +791,15 @@ function doRelapse(){
   render(); window.scrollTo({top:0});
 }
 function saveRelapseCapture(){
-  var relapses=JSON.parse(g('relapses','[]'));
-  relapses.push({d:today(), trigger:trigSel, place:placeSel, hourOfDay:new Date().getHours()});
+  var relapses=safeParse('relapses','[]');
+  relapses.push({d:today(), ts:Date.now(), trigger:trigSel, place:placeSel, hourOfDay:new Date().getHours()});
   s('relapses', JSON.stringify(relapses));
   document.getElementById('relcapture').classList.remove('on');
   render();
 }
 function skipRelapseCapture(){
-  var relapses=JSON.parse(g('relapses','[]'));
-  relapses.push({d:today(), trigger:null, place:null, hourOfDay:new Date().getHours()});
+  var relapses=safeParse('relapses','[]');
+  relapses.push({d:today(), ts:Date.now(), trigger:null, place:null, hourOfDay:new Date().getHours()});
   s('relapses', JSON.stringify(relapses));
   document.getElementById('relcapture').classList.remove('on');
   render();
@@ -729,11 +809,12 @@ function skipRelapseCapture(){
 var moodSel='solid';
 document.querySelectorAll('.mood').forEach(function(m){ m.addEventListener('click',function(){ document.querySelectorAll('.mood').forEach(function(x){x.classList.remove('sel');}); this.classList.add('sel'); moodSel=this.dataset.m; }); });
 function saveCheckin(){
-  var chk=JSON.parse(g('checkins','[]')); var t=today();
+  var chk=safeParse('checkins','[]'); var t=today();
   chk=chk.filter(function(c){return c.d!==t;});
   chk.push({d:t, u:document.getElementById('urge').value, m:moodSel, n:(document.getElementById('note').value||'').slice(0,500)});
   s('checkins', JSON.stringify(chk));
   document.getElementById('note').value='';
+  markComebackIfEligible();
   render(); go('streak');
 }
 
@@ -750,21 +831,31 @@ var PLINES=[
   "you didn't stack all these days to trade them for 10 minutes you won't even respect.",
   "close the tab in your head. the fantasy is a salesman. stop taking the meeting."
 ];
-var pTimer=null, pLine=null, pBreath=null, pSecs=300;
+var pTimer=null, pLine=null, pBreath=null, panicEndTs=0;
 function openPanic(){
   document.getElementById('panic').classList.add('on');
   document.getElementById('pwhytxt').textContent=g('why','because i want my life back.');
-  pSecs=300; tickPanic();
+  /* wall-clock deadline so backgrounding or locking the phone never freezes the countdown */
+  panicEndTs=Date.now()+300000;
+  document.getElementById('ptime').classList.remove('done');
+  tickPanic();
   pTimer=setInterval(tickPanic,1000);
   var li=0; document.getElementById('pline').textContent=PLINES[0];
   pLine=setInterval(function(){ li=(li+1)%PLINES.length; document.getElementById('pline').textContent=PLINES[li]; },11000);
   startBreath();
 }
 function tickPanic(){
-  pSecs=Math.max(0,pSecs-1);
-  var m=Math.floor(pSecs/60), sec=pSecs%60;
-  document.getElementById('ptime').textContent=m+':'+String(sec).padStart(2,'0');
-  if(pSecs===0){ clearInterval(pTimer); document.getElementById('ptime').textContent='you outlasted it.'; }
+  var remain=Math.max(0, Math.ceil((panicEndTs-Date.now())/1000));
+  var pt=document.getElementById('ptime');
+  if(remain===0){
+    clearInterval(pTimer);
+    pt.classList.add('done');
+    pt.textContent='you outlasted it.';
+    return;
+  }
+  pt.classList.remove('done');
+  var m=Math.floor(remain/60), sec=remain%60;
+  pt.textContent=m+':'+String(sec).padStart(2,'0');
 }
 function startBreath(){
   var el=document.getElementById('breath'), tx=document.getElementById('btxt');
@@ -782,23 +873,25 @@ function startBreath(){
 }
 function panicWin(){
   s('surfed', String(parseInt(g('surfed','0'),10)+1));
+  markComebackIfEligible();
   closePanic(); render();
 }
 function closePanic(){
   document.getElementById('panic').classList.remove('on');
   clearInterval(pTimer); clearInterval(pLine); clearTimeout(pBreath);
+  panicEndTs=0;
 }
 
 /* ---------- LESSONS (rewire course) ---------- */
 var currentLesson=null;
 function renderLessons(days){
-  var read=JSON.parse(g('lessons_read','[]'));
+  var read=safeParse('lessons_read','[]');
   var lg=document.getElementById('lgrid');
   if(!lg) return;
   var html='';
-  /* lesson N unlocks on streak day N. day 1 = lesson 1, so a fresh user (days=0, "day 1" displayed)
-     has lesson 1 unlocked, and a user 10 full days in (days=10) has lessons 1-10 unlocked. */
-  var unlockCount=Math.max(1, days);
+  /* lesson N unlocks on displayed streak day N. displayed day = days+1, so a fresh user
+     (days=0, "day 1" shown) has lesson 1 unlocked and day 2 unlocks lesson 2, capped at the lesson count. */
+  var unlockCount=Math.min(LESSONS.length, Math.max(1, days+1));
   LESSONS.forEach(function(l,i){
     var num=i+1;
     var unlocked = num<=unlockCount;
@@ -806,10 +899,14 @@ function renderLessons(days){
     if(unlocked){
       html+='<div class="lrow'+(isRead?' read':'')+'" onclick="openLesson('+num+')"><div class="lnum">'+num+'</div><div class="ltitle">'+l.t+'</div>'+(isRead?'<span class="lcheck">✓</span>':'')+'</div>';
     } else {
-      html+='<div class="lrow locked"><div class="lnum">'+num+'</div><div class="ltitle">'+l.t+'</div><span>🔒</span></div>';
+      html+='<div class="lrow locked" onclick="lockedLessonMsg('+num+','+days+')"><div class="lnum">'+num+'</div><div class="ltitle">'+l.t+'</div><span class="lday">day '+num+'</span></div>';
     }
   });
   lg.innerHTML=html;
+}
+function lockedLessonMsg(num, days){
+  var away=(num-1)-days; if(away<1) away=1;
+  toastMsg('🔒','locked for now','lesson '+num+' unlocks on day '+num+' of your streak ('+away+' day'+(away===1?'':'s')+' away)');
 }
 function openLesson(num){
   var l=LESSONS[num-1]; if(!l) return;
@@ -817,7 +914,7 @@ function openLesson(num){
   document.getElementById('lreadnum').textContent='lesson '+num+' of 30';
   document.getElementById('lreadtitle').textContent=l.t;
   document.getElementById('lreadbody').textContent=l.b;
-  var read=JSON.parse(g('lessons_read','[]'));
+  var read=safeParse('lessons_read','[]');
   var isRead=read.indexOf(num)!==-1;
   var btn=document.getElementById('lreadmark');
   btn.textContent= isRead ? 'read ✓' : 'mark as read';
@@ -827,7 +924,7 @@ function openLesson(num){
 function closeLesson(){ currentLesson=null; go('lessons'); }
 function markLessonRead(){
   if(!currentLesson) return;
-  var read=JSON.parse(g('lessons_read','[]'));
+  var read=safeParse('lessons_read','[]');
   if(read.indexOf(currentLesson)===-1){ read.push(currentLesson); s('lessons_read', JSON.stringify(read)); }
   var btn=document.getElementById('lreadmark');
   btn.textContent='read ✓'; btn.disabled=true;
@@ -838,26 +935,27 @@ function markLessonRead(){
 function saveJournal(){
   var txt=(document.getElementById('jentry').value||'').trim();
   if(!txt) return;
-  var j=JSON.parse(g('journal','[]'));
+  var j=safeParse('journal','[]');
   j.push({d:today(), ts:Date.now(), text:txt.slice(0,2000)});
   s('journal', JSON.stringify(j));
   document.getElementById('jentry').value='';
+  document.getElementById('jfilter').value='';
   render();
 }
 function renderJournal(){
   var stream=document.getElementById('jstream');
   if(!stream) return;
-  var j=JSON.parse(g('journal','[]'));
-  var chk=JSON.parse(g('checkins','[]'));
+  var j=safeParse('journal','[]');
+  var chk=safeParse('checkins','[]');
   var items=[];
-  j.forEach(function(e){ items.push({d:e.d, ts:e.ts||0, tag:'journal', text:e.text}); });
-  chk.forEach(function(c){ if(c.n){ items.push({d:c.d, ts:new Date(c.d+'T12:00:00').getTime(), tag:'check-in', text:c.n+' (urge '+c.u+'/10, feeling '+(c.m||'')+')'}); } });
-  items.sort(function(a,b){ return b.ts-a.ts; });
+  j.forEach(function(e){ var ts=e.ts; if(!ts){ ts=new Date(e.d+'T12:00:00').getTime(); if(isNaN(ts)) ts=0; } items.push({d:e.d, ts:ts, tag:'journal', text:String(e.text||'')}); });
+  chk.forEach(function(c){ if(c.n){ var cts=new Date(c.d+'T12:00:00').getTime(); if(isNaN(cts)) cts=0; items.push({d:c.d, ts:cts, tag:'check-in', text:c.n+' (urge '+c.u+'/10, feeling '+(c.m||'')+')'}); } });
+  items.sort(function(a,b){ if(b.ts!==a.ts) return b.ts-a.ts; return a.d===b.d ? 0 : (a.d<b.d ? 1 : -1); });
   var filterVal=(document.getElementById('jfilter').value||'').trim().toLowerCase();
   if(filterVal){ items=items.filter(function(it){ return it.text.toLowerCase().indexOf(filterVal)!==-1; }); }
   var html='';
   items.forEach(function(it){
-    html+='<div class="jentry"><div class="jmeta"><span>'+it.d+'</span><span class="jtag">'+it.tag+'</span></div><div class="jtext"></div></div>';
+    html+='<div class="jentry"><div class="jmeta"><span>'+esc(fmtDate(it.d))+'</span><span class="jtag">'+it.tag+'</span></div><div class="jtext"></div></div>';
   });
   stream.innerHTML= html || '<p class="mut" style="font-size:13px;padding:8px 0">nothing here yet. write your first entry above.</p>';
   /* set text via textContent to avoid any HTML injection from user input */
@@ -866,11 +964,15 @@ function renderJournal(){
 }
 
 /* ---------- TOAST ---------- */
-function showToast(badge){
+function showToast(badge){ toastMsg(badge.emoji,'badge earned',badge.name); }
+function toastMsg(emoji,title,sub){
   var wrap=document.getElementById('toastwrap');
   var el=document.createElement('div');
   el.className='toast';
-  el.innerHTML='<span class="toastemoji">'+badge.emoji+'</span><div><div class="toasttitle">badge earned</div><div class="toastsub">'+badge.name+'</div></div>';
+  el.innerHTML='<span class="toastemoji"></span><div><div class="toasttitle"></div><div class="toastsub"></div></div>';
+  el.querySelector('.toastemoji').textContent=emoji;
+  el.querySelector('.toasttitle').textContent=title;
+  el.querySelector('.toastsub').textContent=sub;
   wrap.appendChild(el);
   setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); },2500);
 }
@@ -879,12 +981,30 @@ function showToast(badge){
 function openSettings(){
   document.getElementById('whyedit').value=g('why','');
   document.getElementById('startedit').value=g('start',today());
+  document.getElementById('startedit').max=today();
+  document.getElementById('settserr').style.display='none';
+  document.getElementById('imperr').style.display='none';
   document.getElementById('setts').classList.add('on');
 }
 function closeSettings(){ document.getElementById('setts').classList.remove('on'); }
 function saveSettings(){
+  var err=document.getElementById('settserr');
   var w=(document.getElementById('whyedit').value||'').trim(); if(w) s('why',w);
-  var st=document.getElementById('startedit').value; if(st) s('start',st);
+  var st=document.getElementById('startedit').value;
+  if(st && st>today()){
+    document.getElementById('startedit').value=today();
+    err.textContent='your start date can\'t be in the future. we set it back to today.';
+    err.style.display='block';
+    return;
+  }
+  err.style.display='none';
+  if(st){
+    /* keep best-streak credit before the start date moves */
+    var curDays=daysBetween(g('start',today()));
+    var curBest=parseInt(g('best','0'),10); if(isNaN(curBest)) curBest=0;
+    if(curDays>curBest) s('best', String(curDays));
+    s('start',st);
+  }
   closeSettings(); render();
 }
 function exportData(){
@@ -893,23 +1013,78 @@ function exportData(){
   var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='goonbuster_data.json'; a.click();
 }
 function wipeAll(){
-  if(!confirm('erase your streak, check-ins and settings on this device?')) return;
-  var kill=[]; for(var i=0;i<LS.length;i++){ var k=LS.key(i); if(k.indexOf('gb_')===0) kill.push(k); }
+  if(!confirm('this erases your data on this device. your member access stays. continue?')) return;
+  var kill=[]; for(var i=0;i<LS.length;i++){ var k=LS.key(i); if(k.indexOf('gb_')===0 && k!=='gb_member') kill.push(k); }
   kill.forEach(function(k){LS.removeItem(k);});
   location.reload();
 }
+/* import my data: validate first, write only if the whole file checks out, then reload */
+document.getElementById('importfile').addEventListener('change',function(ev){
+  var f=ev.target.files && ev.target.files[0];
+  ev.target.value='';
+  if(!f) return;
+  var reader=new FileReader();
+  reader.onload=function(){
+    var err=document.getElementById('imperr');
+    try{
+      var data=JSON.parse(reader.result);
+      if(!data || typeof data!=='object' || Array.isArray(data)) throw new Error('bad file');
+      var ARRAY_KEYS=['gb_checkins','gb_relapses','gb_journal','gb_badges_earned','gb_lessons_read'];
+      var keys=Object.keys(data); var pairs=[];
+      for(var i=0;i<keys.length;i++){
+        var k=keys[i];
+        if(k.indexOf('gb_')!==0) continue;
+        var v=data[k];
+        if(typeof v!=='string') throw new Error('bad value');
+        if(ARRAY_KEYS.indexOf(k)!==-1 && !Array.isArray(JSON.parse(v))) throw new Error('bad array');
+        if(k==='gb_start' && !/^\d{4}-\d{2}-\d{2}$/.test(v)) throw new Error('bad date');
+        pairs.push([k,v]);
+      }
+      if(!pairs.length) throw new Error('no gb_ keys');
+      pairs.forEach(function(p){ LS.setItem(p[0], p[1]); });
+      location.reload();
+    }catch(ex){
+      err.textContent='that file doesn\'t look like a goonbuster export. nothing was imported.';
+      err.style.display='block';
+    }
+  };
+  reader.readAsText(f);
+});
 
 /* ---------- BOOT ---------- */
 function boot(){
   if(!g('why',null) || !g('start',null)){
     document.getElementById('startin').value=today();
+    document.getElementById('startin').max=today();
     document.getElementById('onb').classList.add('on');
   }
   render();
 }
-if(g('member',null)==='1'){ document.getElementById('gate').classList.remove('on'); boot(); }
-document.addEventListener('visibilitychange',function(){ if(!document.hidden && g('member',null)==='1') render(); });
-setInterval(function(){ if(g('member',null)==='1') render(); },60000);
+/* auto-redeem ?code= from a web purchase redirect (same validation path as manual entry), then strip the param */
+try{
+  if(location.search){
+    var qm=location.search.match(/[?&]code=([^&]+)/);
+    if(qm){
+      var qv=decodeURIComponent(qm[1]).trim().toUpperCase();
+      if(codeOk(qv)) s('member', qv);
+      if(window.history && typeof history.replaceState==='function'){ history.replaceState(null,'',location.pathname+location.hash); }
+    }
+  }
+}catch(e){}
+/* ask the browser to protect our storage from eviction */
+try{ if(typeof navigator!=='undefined' && navigator.storage && typeof navigator.storage.persist==='function'){ navigator.storage.persist(); } }catch(e){}
+/* boot is wrapped so one bad render can never kill the listeners below */
+try{
+  if(isMember()){ document.getElementById('gate').classList.remove('on'); boot(); }
+}catch(e){}
+document.addEventListener('visibilitychange',function(){
+  if(document.hidden) return;
+  try{
+    if(panicEndTs && document.getElementById('panic').classList.contains('on')) tickPanic();
+    if(isMember()) render();
+  }catch(e){}
+});
+setInterval(function(){ try{ if(isMember()) render(); }catch(e){} },60000);
 if('serviceWorker' in navigator && location.protocol==='https:'){ navigator.serviceWorker.register('sw.js'); }
 </script>
 </body>
