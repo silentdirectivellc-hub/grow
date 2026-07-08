@@ -140,6 +140,20 @@
   @keyframes toastin{from{opacity:0;transform:translateY(-14px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
   @keyframes toastout{to{opacity:0;transform:translateY(-10px) scale(.96)}}
   .filterbox{margin-bottom:10px}
+  /* crew (community) */
+  .crewpost{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px;position:relative;cursor:pointer}
+  .crewhead{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .crewhandle{font-weight:800;font-size:14px;color:#fff;overflow-wrap:anywhere}
+  .crewflair{background:rgba(34,227,160,.14);color:var(--accent);border-radius:6px;padding:2px 7px;font-size:10.5px;font-weight:800;letter-spacing:.4px;flex:none}
+  .crewtime{color:var(--mut);font-size:12px;flex:none}
+  .crewdots{margin-left:auto;background:none;border:0;color:var(--mut);font-size:20px;font-weight:800;cursor:pointer;padding:0 6px;line-height:1;min-height:34px;flex:none}
+  .crewbody{font-size:14.5px;color:#e7e9ef;white-space:pre-line;overflow-wrap:anywhere}
+  .crewfoot{color:var(--mut);font-size:12.5px;margin-top:8px}
+  .crewmenu{display:none;position:absolute;top:42px;right:12px;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;z-index:5;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+  .crewmenu.on{display:block}
+  .crewmenu button{display:block;width:100%;background:none;border:0;color:#fff;font-size:13px;font-weight:700;padding:11px 20px;text-align:left;cursor:pointer;min-height:44px}
+  .crewmenu button:active{background:var(--line)}
+  .crewempty{color:var(--mut);font-size:13.5px;padding:16px 0;text-align:center}
   /* tabbar */
   nav{position:fixed;bottom:0;left:0;right:0;background:rgba(9,10,16,.92);backdrop-filter:blur(12px);border-top:1px solid var(--line);z-index:40}
   .tabs{max-width:520px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 90px 1fr 1fr;align-items:center;padding:8px 8px calc(8px + env(safe-area-inset-bottom))}
@@ -235,6 +249,20 @@
     <p class="fine" id="imperr" style="display:none;text-align:left;color:var(--red)"></p>
     <button class="btn ghost" onclick="closeSettings()">back</button>
     <button class="btn danger" onclick="wipeAll()">erase everything on this device</button>
+  </div>
+</div>
+
+<!-- CREW HANDLE PICKER -->
+<div class="ovl" id="crewJoin">
+  <div class="inner">
+    <span class="eyebrow">crew · one time</span>
+    <h2 class="big">pick your crew name.</h2>
+    <p class="mut" style="margin-bottom:16px">anonymous. no email. your name lives on this device.</p>
+    <input type="text" id="crewHandle" placeholder="crew name" autocapitalize="none" autocomplete="off" autocorrect="off" maxlength="20">
+    <p class="fine" id="crewHandleErr" style="display:none;text-align:left;color:var(--red);margin-top:6px"></p>
+    <p class="fine" style="text-align:left;margin:6px 0 14px">3 to 20 characters. lowercase letters, numbers, underscore.</p>
+    <button class="btn" id="crewJoinBtn" onclick="crewJoin()">join the crew</button>
+    <button class="btn ghost" onclick="crewCancelJoin()">back</button>
   </div>
 </div>
 
@@ -399,6 +427,47 @@
       <div id="jstream"></div>
     </div>
   </div>
+
+  <!-- CREW (in-app community) -->
+  <div class="view" id="v-crew">
+    <h2 class="big">the crew</h2>
+    <p class="mut" style="margin-bottom:12px">anonymous. no email. just the guys doing the same reps.</p>
+
+    <!-- shown when CREW_API is empty: crew ships dark, zero network -->
+    <div class="card" id="crewDark" style="display:none">
+      <span class="eyebrow">crew</span>
+      <p style="font-size:15px;font-weight:700;margin-top:6px">crew opens at launch.</p>
+      <p class="mut" style="font-size:13.5px;margin-top:6px">the in-app crew goes live when the app ships. for now, keep stacking days.</p>
+    </div>
+
+    <!-- live feed (shown when CREW_API is set) -->
+    <div id="crewLive" style="display:none">
+      <div class="card">
+        <textarea id="crewText" maxlength="500" placeholder="share a win. ask for backup."></textarea>
+        <div style="height:8px"></div>
+        <button class="btn" id="crewPostBtn" onclick="crewSubmitPost()">post to the crew</button>
+        <p class="fine" id="crewComposerNote" style="display:none;text-align:left;color:var(--amber);margin-top:8px">reconnecting...</p>
+      </div>
+      <div id="crewFeed"></div>
+      <p class="fine" style="margin-top:16px">be cool in here. report or block anything off. questions: support@silentdirectivellc.com</p>
+    </div>
+
+    <!-- thread view (shown when CREW_API is set and a row is tapped) -->
+    <div id="crewThread" style="display:none">
+      <button class="icobtn" onclick="crewBackToFeed()" style="margin-bottom:12px">← back to crew</button>
+      <div id="crewThreadPost"></div>
+      <div class="card">
+        <span class="eyebrow">replies</span>
+        <div id="crewReplies"></div>
+      </div>
+      <div class="card">
+        <textarea id="crewReplyText" maxlength="500" placeholder="drop some backup."></textarea>
+        <div style="height:8px"></div>
+        <button class="btn" id="crewReplyBtn" onclick="crewSubmitReply()">reply</button>
+        <p class="fine" id="crewReplyNote" style="display:none;text-align:left;color:var(--amber);margin-top:8px">reconnecting...</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <nav>
@@ -407,12 +476,17 @@
     <button class="tab" id="t-lessons" onclick="go('lessons')"><span class="ti">🧠</span>lessons</button>
     <div class="fabwrap"><button class="fab" onclick="openPanic()">PANIC</button></div>
     <button class="tab" id="t-journal" onclick="go('journal')"><span class="ti">📓</span>journal</button>
-    <button class="tab" onclick="openCommunity()"><span class="ti">👥</span>crew</button>
+    <button class="tab" id="t-crew" onclick="go('crew')"><span class="ti">👥</span>crew</button>
   </div>
 </nav>
 <div class="toastwrap" id="toastwrap"></div>
 
 <script>
+/* ---------- CREW feature flag ----------
+   '' = crew ships dark: the tab shows a placeholder and makes ZERO network calls.
+   set to the deployed worker origin (e.g. 'https://goonbuster-crew.xxx.workers.dev')
+   to activate the in-app community. contract: context/goonbuster_crew_v1_spec.md */
+var CREW_API='https://goonbuster-crew.silentdirectivellc.workers.dev';
 /* guarded storage: private mode / blocked storage falls back to in-memory so the app still runs for the session */
 var LS;
 try{
@@ -755,14 +829,348 @@ function topKey(counts){
 
 /* ---------- NAV ---------- */
 function go(v){
-  ['streak','checkin','lessons','lesson','journal'].forEach(function(x){
+  ['streak','checkin','lessons','lesson','journal','crew'].forEach(function(x){
     var vv=document.getElementById('v-'+x), tt=document.getElementById('t-'+x);
     if(vv) vv.classList.toggle('on', x===v);
     if(tt) tt.classList.toggle('on', x===v);
   });
   window.scrollTo({top:0});
+  if(v==='crew'){ try{ crewEnter(); }catch(e){} }
 }
-function openCommunity(){ window.open('https://whop.com/goonbuster/','_blank'); }
+/* crew is now an in-app tab, not a Whop link-out. header + nav both land here. */
+function openCommunity(){ go('crew'); }
+
+/* ---------- CREW (in-app community) ----------
+   contract: context/goonbuster_crew_v1_spec.md. bearer token after /join.
+   HARD RULE: if CREW_API is empty OR any request fails, the crew tab must never throw
+   into the rest of the app (streak/panic/lessons/journal). every network call + parse is
+   wrapped in try/catch, and all user text is set via textContent (never innerHTML). */
+var crewCurrentPostId=null;
+
+function crewDay(){ try{ return daysBetween(g('start',today())); }catch(e){ return 0; } }
+
+function crewRandId(){
+  try{
+    if(window.crypto && crypto.getRandomValues){
+      var a=new Uint8Array(16); crypto.getRandomValues(a);
+      var out=''; for(var i=0;i<a.length;i++){ out+=('0'+a[i].toString(16)).slice(-2); }
+      return out;
+    }
+  }catch(e){}
+  return 'd'+Date.now().toString(16)+Math.floor(Math.random()*1e9).toString(16);
+}
+function crewDeviceId(){
+  var id=g('crew_device',null);
+  if(id) return id;
+  id=crewRandId(); s('crew_device', id); return id;
+}
+
+function crewRelTime(ts){
+  var n=Number(ts);
+  if(!n || isNaN(n)) return '';
+  if(n<1e12) n=n*1000;
+  var diff=Date.now()-n; if(diff<0) diff=0;
+  var sec=Math.floor(diff/1000);
+  if(sec<60) return 'just now';
+  var mn=Math.floor(sec/60); if(mn<60) return mn+'m';
+  var hr=Math.floor(mn/60); if(hr<24) return hr+'h';
+  var dy=Math.floor(hr/24); if(dy<7) return dy+'d';
+  var dt=new Date(n);
+  return MONTHS[dt.getMonth()]+' '+dt.getDate();
+}
+
+/* single guarded transport. cb(err,data). never throws, never rejects into the app. */
+function crewApi(method, path, body, cb){
+  var done=false;
+  function finish(err,data){ if(done) return; done=true; try{ cb(err,data); }catch(e){} }
+  try{
+    var base=String(CREW_API).replace(/\/+$/,'');
+    var xhr=new XMLHttpRequest();
+    xhr.open(method, base+path, true);
+    xhr.setRequestHeader('Content-Type','application/json');
+    var tok=g('crew_token',null);
+    if(tok) xhr.setRequestHeader('Authorization','Bearer '+tok);
+    xhr.timeout=12000;
+    xhr.onreadystatechange=function(){
+      if(xhr.readyState!==4) return;
+      try{
+        if(xhr.status>=200 && xhr.status<300){
+          var data=null;
+          if(xhr.responseText){ data=JSON.parse(xhr.responseText); }
+          finish(null,data);
+        } else {
+          finish({status:xhr.status},null);
+        }
+      }catch(e){ finish({status:-1},null); }
+    };
+    xhr.ontimeout=function(){ finish({status:0},null); };
+    xhr.onerror=function(){ finish({status:0},null); };
+    xhr.send(body?JSON.stringify(body):null);
+  }catch(e){ finish({status:-1},null); }
+}
+
+function crewCloseMenus(){
+  try{
+    var ms=document.querySelectorAll('.crewmenu.on');
+    Array.prototype.forEach.call(ms,function(m){ m.classList.remove('on'); });
+  }catch(e){}
+}
+
+/* build a post/reply element. ALL user-supplied text goes through textContent, never innerHTML. */
+function crewMakeItemEl(item, targetType, clickable){
+  var it=item||{};
+  var row=document.createElement('div'); row.className='crewpost';
+  var head=document.createElement('div'); head.className='crewhead';
+  var h=document.createElement('span'); h.className='crewhandle'; h.textContent=String(it.handle||'anon');
+  var fl=document.createElement('span'); fl.className='crewflair'; fl.textContent='day '+String(it.days!=null?it.days:0);
+  var tm=document.createElement('span'); tm.className='crewtime'; tm.textContent=crewRelTime(it.ts);
+  var dots=document.createElement('button'); dots.type='button'; dots.className='crewdots'; dots.textContent='⋯';
+  head.appendChild(h); head.appendChild(fl); head.appendChild(tm); head.appendChild(dots);
+  var menu=document.createElement('div'); menu.className='crewmenu';
+  var rep=document.createElement('button'); rep.type='button'; rep.textContent='report';
+  var blk=document.createElement('button'); blk.type='button'; blk.textContent='block';
+  menu.appendChild(rep); menu.appendChild(blk);
+  var body=document.createElement('div'); body.className='crewbody'; body.textContent=String(it.text||'');
+  row.appendChild(head); row.appendChild(menu); row.appendChild(body);
+  if(clickable){
+    var foot=document.createElement('div'); foot.className='crewfoot';
+    var rc=(it.replyCount!=null?it.replyCount:0);
+    foot.textContent=rc+' '+(Number(rc)===1?'reply':'replies');
+    row.appendChild(foot);
+  }
+  dots.onclick=function(e){ if(e&&e.stopPropagation) e.stopPropagation(); var open=menu.classList.contains('on'); crewCloseMenus(); if(!open) menu.classList.add('on'); };
+  rep.onclick=function(e){ if(e&&e.stopPropagation) e.stopPropagation(); menu.classList.remove('on'); crewReport(targetType, it.id); };
+  blk.onclick=function(e){ if(e&&e.stopPropagation) e.stopPropagation(); menu.classList.remove('on'); crewBlock(String(it.handle||'')); };
+  if(clickable){ row.onclick=function(){ crewOpenThread(it.id); }; }
+  else { row.style.cursor='default'; }
+  return row;
+}
+
+function crewFilterBlocked(posts){
+  try{
+    var blocks=safeParse('crew_blocks','[]');
+    var arr=posts||[];
+    if(!blocks.length) return arr;
+    return arr.filter(function(p){ return blocks.indexOf(String((p||{}).handle||''))===-1; });
+  }catch(e){ return posts||[]; }
+}
+
+function crewRenderFeed(posts){
+  var feed=document.getElementById('crewFeed');
+  if(!feed) return;
+  while(feed.firstChild) feed.removeChild(feed.firstChild);
+  if(!posts || !posts.length){
+    var e=document.createElement('div'); e.className='crewempty';
+    e.textContent='quiet in here. be the first to post today.';
+    feed.appendChild(e); return;
+  }
+  posts.forEach(function(p){ feed.appendChild(crewMakeItemEl(p,'post',true)); });
+}
+
+function crewRenderThread(post, replies){
+  var pc=document.getElementById('crewThreadPost');
+  if(pc){ while(pc.firstChild) pc.removeChild(pc.firstChild); pc.appendChild(crewMakeItemEl(post,'post',false)); }
+  var rc=document.getElementById('crewReplies');
+  if(rc){
+    while(rc.firstChild) rc.removeChild(rc.firstChild);
+    var reps=crewFilterBlocked(replies||[]);
+    if(!reps.length){
+      var e=document.createElement('div'); e.className='crewempty'; e.textContent='no replies yet. be the backup.'; rc.appendChild(e);
+    } else {
+      reps.forEach(function(r){ rc.appendChild(crewMakeItemEl(r,'reply',false)); });
+    }
+  }
+}
+
+function crewSetReconnecting(on){
+  try{
+    ['crewPostBtn','crewText','crewReplyBtn','crewReplyText'].forEach(function(id){ var el=document.getElementById(id); if(el) el.disabled=!!on; });
+    var n1=document.getElementById('crewComposerNote'); if(n1) n1.style.display=on?'block':'none';
+    var n2=document.getElementById('crewReplyNote'); if(n2) n2.style.display=on?'block':'none';
+  }catch(e){}
+}
+
+function crewShowCached(){
+  try{ crewRenderFeed(crewFilterBlocked(safeParse('crew_feed','[]'))); }catch(e){}
+}
+
+function crewLoadFeed(){
+  try{
+    var live=document.getElementById('crewLive'), thread=document.getElementById('crewThread');
+    if(live) live.style.display='block';
+    if(thread) thread.style.display='none';
+    crewSetReconnecting(false);
+    crewShowCached();
+    if(!CREW_API) return;
+    crewApi('GET','/feed',null,function(err,data){
+      try{
+        if(err || !data || !data.posts){ crewSetReconnecting(true); return; }
+        crewSetReconnecting(false);
+        var posts=crewFilterBlocked(data.posts);
+        s('crew_feed', JSON.stringify(posts));
+        crewRenderFeed(posts);
+      }catch(e){}
+    });
+  }catch(e){}
+}
+
+function crewOpenThread(id){
+  try{
+    if(id==null || id==='') return;
+    crewCurrentPostId=id;
+    var live=document.getElementById('crewLive'), thread=document.getElementById('crewThread');
+    if(live) live.style.display='none';
+    if(thread) thread.style.display='block';
+    var pc=document.getElementById('crewThreadPost'); if(pc){ while(pc.firstChild) pc.removeChild(pc.firstChild); }
+    var rc=document.getElementById('crewReplies'); if(rc){ while(rc.firstChild) rc.removeChild(rc.firstChild); }
+    var rt=document.getElementById('crewReplyText'); if(rt) rt.value='';
+    window.scrollTo({top:0});
+    if(!CREW_API) return;
+    crewApi('GET','/post/'+encodeURIComponent(id),null,function(err,data){
+      try{
+        if(err || !data || !data.post){ crewSetReconnecting(true); return; }
+        crewSetReconnecting(false);
+        crewRenderThread(data.post, data.replies||[]);
+      }catch(e){}
+    });
+  }catch(e){}
+}
+
+function crewBackToFeed(){
+  try{ crewCurrentPostId=null; var thread=document.getElementById('crewThread'); if(thread) thread.style.display='none'; crewLoadFeed(); window.scrollTo({top:0}); }catch(e){}
+}
+
+function crewSubmitPost(){
+  try{
+    var el=document.getElementById('crewText'); if(!el) return;
+    var txt=(el.value||'').trim();
+    if(!txt) return;
+    if(!CREW_API) return;
+    var btn=document.getElementById('crewPostBtn'); if(btn) btn.disabled=true;
+    crewApi('POST','/post',{text:txt.slice(0,500), days:crewDay()},function(err,data){
+      try{
+        if(btn) btn.disabled=false;
+        if(err){ crewSetReconnecting(true); return; }
+        el.value='';
+        crewLoadFeed();
+        toastMsg('✊','posted','the crew sees it.');
+      }catch(e){}
+    });
+  }catch(e){}
+}
+
+function crewSubmitReply(){
+  try{
+    if(crewCurrentPostId==null) return;
+    var el=document.getElementById('crewReplyText'); if(!el) return;
+    var txt=(el.value||'').trim();
+    if(!txt) return;
+    if(!CREW_API) return;
+    var btn=document.getElementById('crewReplyBtn'); if(btn) btn.disabled=true;
+    var pid=crewCurrentPostId;
+    crewApi('POST','/reply',{postId:pid, text:txt.slice(0,500), days:crewDay()},function(err,data){
+      try{
+        if(btn) btn.disabled=false;
+        if(err){ crewSetReconnecting(true); return; }
+        el.value='';
+        crewOpenThread(pid);
+      }catch(e){}
+    });
+  }catch(e){}
+}
+
+function crewReport(type, id){
+  try{
+    if(id==null) return;
+    if(!CREW_API) return;
+    crewApi('POST','/report',{targetType:type, targetId:id, reason:'user_report'},function(err){
+      try{ toastMsg('🚩','reported','thanks. we take it from here.'); }catch(e){}
+    });
+  }catch(e){}
+}
+
+function crewBlock(handle){
+  try{
+    handle=String(handle||''); if(!handle) return;
+    var blocks=safeParse('crew_blocks','[]');
+    if(blocks.indexOf(handle)===-1){ blocks.push(handle); s('crew_blocks', JSON.stringify(blocks)); }
+    if(CREW_API){ crewApi('POST','/block',{handle:handle},function(){}); }
+    var posts=crewFilterBlocked(safeParse('crew_feed','[]'));
+    s('crew_feed', JSON.stringify(posts));
+    var thread=document.getElementById('crewThread');
+    if(thread && thread.style.display!=='none'){ crewBackToFeed(); }
+    else { crewRenderFeed(posts); }
+    toastMsg('🔕','blocked','you won\'t see that handle anymore.');
+  }catch(e){}
+}
+
+function crewOpenJoin(){
+  try{
+    var h=document.getElementById('crewHandle'); if(h) h.value='';
+    var er=document.getElementById('crewHandleErr'); if(er) er.style.display='none';
+    var jb=document.getElementById('crewJoinBtn'); if(jb) jb.disabled=false;
+    var ov=document.getElementById('crewJoin'); if(ov) ov.classList.add('on');
+  }catch(e){}
+}
+function crewCloseJoin(){ try{ var ov=document.getElementById('crewJoin'); if(ov) ov.classList.remove('on'); }catch(e){} }
+function crewCancelJoin(){ crewCloseJoin(); try{ go('streak'); }catch(e){} }
+
+function crewJoin(){
+  try{
+    var el=document.getElementById('crewHandle'); if(!el) return;
+    var hnd=(el.value||'').trim().toLowerCase();
+    var err=document.getElementById('crewHandleErr');
+    if(!/^[a-z0-9_]{3,20}$/.test(hnd)){
+      if(err){ err.textContent='3 to 20 characters. lowercase letters, numbers, underscore.'; err.style.display='block'; }
+      return;
+    }
+    if(err) err.style.display='none';
+    if(!CREW_API){ crewCloseJoin(); return; }
+    var btn=document.getElementById('crewJoinBtn'); if(btn) btn.disabled=true;
+    var deviceId=crewDeviceId();
+    crewApi('POST','/join',{handle:hnd, deviceId:deviceId},function(e2,data){
+      try{
+        if(btn) btn.disabled=false;
+        if(e2 || !data || !data.token){
+          if(err){ err.textContent=(e2 && e2.status===409)?'that name\'s taken. pick another.':'couldn\'t reach the crew. try again in a sec.'; err.style.display='block'; }
+          return;
+        }
+        s('crew_token', String(data.token));
+        s('crew_handle', String(data.handle||hnd));
+        crewCloseJoin();
+        crewLoadFeed();
+      }catch(ex){}
+    });
+  }catch(e){}
+}
+
+function crewEnter(){
+  try{
+    crewCloseJoin();
+    var dark=document.getElementById('crewDark');
+    var live=document.getElementById('crewLive');
+    var thread=document.getElementById('crewThread');
+    if(!CREW_API){
+      if(dark) dark.style.display='block';
+      if(live) live.style.display='none';
+      if(thread) thread.style.display='none';
+      return;
+    }
+    if(dark) dark.style.display='none';
+    var token=g('crew_token',null), handle=g('crew_handle',null);
+    if(!token || !handle){
+      if(live) live.style.display='none';
+      if(thread) thread.style.display='none';
+      crewOpenJoin();
+      return;
+    }
+    crewLoadFeed();
+  }catch(e){}
+}
+
+/* tapping elsewhere closes any open row menu. dots/menu clicks call stopPropagation so they survive. */
+try{ document.addEventListener('click',function(){ crewCloseMenus(); }); }catch(e){}
+try{ var crewHandleEl=document.getElementById('crewHandle'); if(crewHandleEl){ crewHandleEl.addEventListener('keydown',function(e){ if(e.key==='Enter') crewJoin(); }); } }catch(e){}
 
 /* ---------- RELAPSE ---------- */
 function askRelapse(){ document.getElementById('relconf').classList.add('on'); }
