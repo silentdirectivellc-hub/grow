@@ -190,12 +190,12 @@
   <div class="inner">
     <span class="eyebrow">GoonBuster · members</span>
     <h2 class="big">enter your member code.</h2>
-    <p class="mut" style="margin-bottom:16px">it's pinned in the welcome post of the GoonBuster community on Whop.</p>
+    <p class="mut" style="margin-bottom:16px">you get it on the confirmation screen right after you start your trial.</p>
     <input type="text" id="gcode" placeholder="member code" autocapitalize="characters" autocomplete="off">
     <div style="height:10px"></div>
     <button class="btn" onclick="checkGate()">unlock the app</button>
     <p class="fine" id="gerr"></p>
-    <p class="fine">not a member yet? <a href="https://whop.com/goonbuster/goonbuster-membership/" style="color:var(--accent)">start your free trial</a></p>
+    <p class="fine">not a member yet? <a href="https://buy.stripe.com/dRm5kF79E2Lgb6Fe79ffy13" style="color:var(--accent)">start your free trial</a></p>
   </div>
 </div>
 
@@ -543,7 +543,7 @@ function isMember(){
 function checkGate(){
   var v=(document.getElementById('gcode').value||'').trim().toUpperCase();
   if(codeOk(v)){ s('member', v); document.getElementById('gate').classList.remove('on'); boot(); }
-  else{ document.getElementById('gerr').textContent='that code isn\'t right. it\'s pinned in the community welcome post.'; }
+  else{ document.getElementById('gerr').textContent='that code isn\'t right. it\'s on the confirmation screen right after you start your trial.'; }
 }
 document.getElementById('gcode').addEventListener('keydown',function(e){ if(e.key==='Enter') checkGate(); });
 
