@@ -241,8 +241,6 @@ try{
     <input type="date" id="startin">
     <p class="fine" id="starterr" style="display:none;text-align:left;color:var(--red);margin-top:6px">your start date can't be in the future. we set it back to today.</p>
     <p class="fine" style="text-align:left;margin:6px 0 14px">fresh start? leave it as today. already clean a while? set the real date, you keep your days.</p>
-    <div class="lbl">your dependency score from the 60-second check <span class="mut" style="font-weight:400">(skip if you don't remember)</span></div>
-    <input type="text" id="scorein" inputmode="numeric" placeholder="e.g. 78 (leave blank to skip)">
     <div style="height:14px"></div>
     <button class="btn" onclick="finishOnb()">lock it in</button>
   </div>
@@ -607,9 +605,6 @@ function finishOnb(){
   if(st>today()){ st=today(); document.getElementById('startin').value=st; startErr.style.display='block'; return; }
   startErr.style.display='none';
   s('why', why); s('start', st); if(!g('best',null)) s('best','0'); if(!g('resets',null)) s('resets','0'); if(!g('surfed',null)) s('surfed','0');
-  var scoreRaw=(document.getElementById('scorein').value||'').trim();
-  var scoreNum=parseInt(scoreRaw,10);
-  if(!isNaN(scoreNum) && scoreNum>=0 && scoreNum<=100){ s('score', String(scoreNum)); }
   document.getElementById('onb').classList.remove('on'); render();
 }
 
