@@ -81,6 +81,25 @@ try{
   .checks li{padding:7px 0 7px 28px;position:relative;color:#e7e9ef;font-size:15px}
   .checks li:before{content:"\2713";position:absolute;left:0;color:var(--accent);font-weight:900}
   h1.big{font-size:clamp(26px,5.5vw,38px);font-weight:900;letter-spacing:-1.5px;margin-bottom:6px}
+  /* pledge */
+  .pledgebox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 18px;margin:20px 0}
+  .pledgetext{font-size:17px;font-weight:700;line-height:1.45;color:#fff;margin-bottom:18px}
+  .pledgelabel{display:block;color:var(--mut);font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+  .pledgeinput{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:15px 16px;font-size:18px;font-weight:700;color:#fff;font-family:inherit}
+  .pledgeinput:focus{outline:none;border-color:var(--accent)}
+  #pledgebtn{opacity:.5;pointer-events:none;transition:opacity .2s}
+  #pledgebtn.ready{opacity:1;pointer-events:auto}
+  /* win-back overlay */
+  .wb{position:fixed;inset:0;background:rgba(3,4,7,.86);display:none;align-items:flex-end;justify-content:center;z-index:60}
+  .wb.on{display:flex}
+  .wbcard{background:var(--card);border-top:1px solid var(--line);border-radius:20px 20px 0 0;padding:26px 22px 34px;width:100%;max-width:520px;animation:wbup .3s cubic-bezier(.16,1,.3,1)}
+  @keyframes wbup{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  .wbh{font-size:clamp(22px,5.4vw,28px);font-weight:900;letter-spacing:-.8px;line-height:1.15;margin:8px 0 10px}
+  .wbrow{background:var(--bg);border:1.5px solid var(--accent);border-radius:13px;padding:14px 16px;margin:16px 0}
+  .wbprice{font-size:26px;font-weight:900;color:#fff}
+  .wbprice span{font-size:16px;color:var(--mut);font-weight:700}
+  .wbsub{font-size:13px;color:var(--mut);margin-top:2px}
+  .wbsub s{color:var(--mut)}
 </style>
 </head>
 <body>
@@ -112,13 +131,27 @@ try{
     <div class="meter"><i id="met"></i></div>
     <p class="sub" id="scmsg"></p>
     <div class="bd" id="bd"></div>
-    <div class="opt" onclick="next()">see my reset plan &rarr;</div>
+    <div class="opt" onclick="next()">this is fixable. start my reset &rarr;</div>
+  </div>
+
+  <!-- pledge / commitment (consistency bias: a promise to yourself before the ask) -->
+  <div class="step" data-s="pledge">
+    <span class="eyebrow">your commitment</span>
+    <h1 class="big">before the plan, make it real.</h1>
+    <p class="sub">guys who put their name on it are the ones who make it stick. this is a promise to yourself, nobody else sees it.</p>
+    <div class="pledgebox">
+      <p class="pledgetext">I'm done letting this run my life. I'm starting my reset today, and I'm giving it a real shot.</p>
+      <label class="pledgelabel" for="pname">sign it (first name)</label>
+      <input id="pname" class="pledgeinput" type="text" autocomplete="given-name" maxlength="24" placeholder="your name" />
+    </div>
+    <div class="btn" id="pledgebtn" onclick="signPledge()">I commit &rarr;</div>
+    <p class="fine">no account, no email. your name stays on this device.</p>
   </div>
 
   <!-- plan + paywall -->
   <div class="step" data-s="plan">
     <span class="eyebrow">your personalized reset plan</span>
-    <h1 class="big">you can be rewired in 90 days.</h1>
+    <h1 class="big" id="planhead">you can be rewired in 90 days.</h1>
     <p class="sub">based on your answers, here's your timeline. it works if you don't do it alone.</p>
     <div class="tl">
       <div class="t"><div class="d">day 1-7 · detox</div><div class="x">the urges peak, then fade. panic button + daily check-ins carry you through the hardest week.</div></div>
@@ -135,7 +168,24 @@ try{
     </ul>
     <a class="btn" id="cta" href="https://buy.stripe.com/dRm5kF79E2Lgb6Fe79ffy13">start my free trial &rarr;</a>
     <p class="fine">free for 7 days, card on file. cancel anytime in one tap, no guilt-trip screens, no countdown timers. you've got nothing to lose but the habit.</p>
+    <p class="fine" style="margin-top:10px"><a href="#" id="notnow" style="color:var(--mut);text-decoration:underline">not right now</a></p>
     <p class="fine" style="margin-top:6px"><a href="privacy.html" style="color:var(--mut)">privacy</a> &middot; <a href="terms.html" style="color:var(--mut)">terms</a></p>
+  </div>
+</div>
+
+<!-- WIN-BACK: a real second, cheaper offer when he tries to leave the paywall.
+     Layer 2 of the wall. Real discounted annual (Stripe payment link). One time. -->
+<div id="winback" class="wb">
+  <div class="wbcard">
+    <span class="eyebrow">before you close this</span>
+    <h2 class="wbh">your reset does not have to cost <span style="color:var(--accent)">$12.99 a month.</span></h2>
+    <p class="sub">if a monthly plan is not it right now, lock in a full year for <b style="color:#fff">$77.99</b>. that is $6.50 a month, the whole plan, the crew, the panic button, paid once. this offer is only on this screen.</p>
+    <div class="wbrow">
+      <div><div class="wbprice">$77.99<span>/yr</span></div><div class="wbsub"><s>$155.88 at monthly</s> &middot; save 50%</div></div>
+    </div>
+    <a class="btn" id="wbcta" href="https://buy.stripe.com/eVqbJ30Lgfy23Ede79ffy14">get my year for $77.99 &rarr;</a>
+    <p class="fine">one payment of $77.99 for 12 months, then renews yearly unless cancelled. cancel anytime.</p>
+    <p class="fine" style="margin-top:8px"><a href="#" id="wbclose" style="color:var(--mut);text-decoration:underline">no thanks, take me back</a></p>
   </div>
 </div>
 
@@ -194,6 +244,32 @@ function reveal(){
 }
 /* guarded analytics capture: if posthog is blocked or broken, this is a no-op. */
 function ph(ev,props){ try{ if(window.posthog && typeof window.posthog.capture==='function'){ window.posthog.capture(ev,props||{}); } }catch(e){} }
+
+/* pledge step: a name typed enables the commit button; signing personalizes the
+   plan headline and advances. Name stays on-device (localStorage), never sent. */
+(function(){
+  var pn=document.getElementById('pname'), pb=document.getElementById('pledgebtn');
+  if(pn && pb){
+    pn.addEventListener('input', function(){ pb.classList.toggle('ready', pn.value.trim().length>=2); });
+    pn.addEventListener('keydown', function(e){ if(e.key==='Enter' && pn.value.trim().length>=2) signPledge(); });
+  }
+})();
+function signPledge(){
+  var pn=document.getElementById('pname');
+  var name=(pn && pn.value.trim().slice(0,24))||'';
+  if(name.length<2) return;
+  try{ localStorage.setItem('gb_name', name); }catch(e){}
+  var safe=name.replace(/[<>&"]/g,''); // headline is set via textContent below, this is belt-and-suspenders
+  var ph1=document.getElementById('planhead');
+  if(ph1){ ph1.textContent = safe+', you can be rewired in 90 days.'; }
+  ph('gb_pledge_signed',{});
+  next();
+}
+/* On the plan step, if we already have a saved name (came back), personalize. */
+(function(){
+  try{ var nm=localStorage.getItem('gb_name'); var ph1=document.getElementById('planhead');
+    if(nm && ph1){ ph1.textContent = nm.replace(/[<>&"]/g,'')+', you can be rewired in 90 days.'; } }catch(e){}
+})();
 // placement attribution: ?src=NAME persists locally and rides the CTA into Stripe
 // checkout as UTM + client_reference_id (Stripe accepts [A-Za-z0-9_-], max 200
 // chars; same sanitize rule as app/index.html). No src = 'organic'.
@@ -217,6 +293,34 @@ try{
       ph('gb_cta_click',{src:_src||'organic'});
     });
   }
+
+  // Same attribution on the win-back CTA so a saved conversion is credited.
+  var _wb=document.getElementById('wbcta');
+  if(_wb){
+    var _wu=new URL(_wb.href);
+    if(_src){ _wu.searchParams.set('utm_source', _src); _wu.searchParams.set('utm_medium','winback'); _wu.searchParams.set('utm_campaign','gb_winback'); }
+    _wu.searchParams.set('client_reference_id', _ref);
+    _wb.href=_wu.toString();
+    _wb.addEventListener('click', function(){ ph('gb_winback_accept',{src:_src||'organic'}); });
+  }
+
+  // Multi-layer paywall: "not right now" opens the win-back layer ONCE per
+  // session instead of losing him silently. If already shown, let him go
+  // (collapse the plan step back toward the score so he can rethink).
+  var _wbEl=document.getElementById('winback');
+  var _notnow=document.getElementById('notnow');
+  var _wbclose=document.getElementById('wbclose');
+  function openWinback(){
+    var shown=false; try{ shown=sessionStorage.getItem('gb_winback_shown')==='1'; }catch(e){}
+    if(shown){ /* second time: just scroll them back up to reconsider the plan */ window.scrollTo({top:0}); return; }
+    try{ sessionStorage.setItem('gb_winback_shown','1'); }catch(e){}
+    if(_wbEl){ _wbEl.classList.add('on'); ph('gb_winback_view',{src:_src||'organic'}); }
+  }
+  function closeWinback(){ if(_wbEl){ _wbEl.classList.remove('on'); } }
+  if(_notnow){ _notnow.addEventListener('click', function(e){ e.preventDefault(); openWinback(); }); }
+  if(_wbclose){ _wbclose.addEventListener('click', function(e){ e.preventDefault(); closeWinback(); ph('gb_winback_decline',{}); }); }
+  if(_wbEl){ _wbEl.addEventListener('click', function(e){ if(e.target===_wbEl){ closeWinback(); } }); }
+
   ph('gb_landing_view',{src:_src||'organic'});
 }catch(e){}
 </script>
