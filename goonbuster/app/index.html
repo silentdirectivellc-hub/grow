@@ -1643,16 +1643,13 @@ function boot(){
   }
   render();
 }
-/* auto-redeem ?code= from a web purchase redirect (same validation path as manual entry), then strip the param.
-   A valid ?code= redemption is our best-effort PURCHASE signal for GoonBuster: the funnel is a Stripe
-   Payment Link (no server webhook), so the return trip is the only client-observable conversion. Tagged
-   via the app:'goonbuster' super-property; Stripe dashboard remains the revenue ground truth. */
+/* auto-redeem ?code= from a web purchase redirect (same validation path as manual entry), then strip the param */
 try{
   if(location.search){
     var qm=location.search.match(/[?&]code=([^&]+)/);
     if(qm){
       var qv=decodeURIComponent(qm[1]).trim().toUpperCase();
-      if(codeOk(qv)){ s('member', qv); ph('purchase',{plan:'trial',source:'code_redeem',code:qv}); }
+      if(codeOk(qv)) s('member', qv);
       if(window.history && typeof history.replaceState==='function'){ history.replaceState(null,'',location.pathname+location.hash); }
     }
   }
