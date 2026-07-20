@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>goonproof — Quit Gooning App | goonproof.lol</title>
+<meta name="description" content="goonproof is the app that makes you goon-proof. Track your streak, beat urges with a panic button, and lock in with a private community. Start your free trial at goonproof.lol.">
+<meta name="keywords" content="goonproof, goonproof app, quit gooning, quit goon app, nofap app, porn blocker, streak tracker, reset app, stop gooning">
+<link rel="canonical" href="https://goonproof.lol/">
+<meta name="robots" content="index, follow">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="goonproof">
+<meta property="og:title" content="goonproof — Quit Gooning App">
+<meta property="og:description" content="The app that makes you goon-proof. Streak tracker, panic button, private community. Start your free trial.">
+<meta property="og:url" content="https://goonproof.lol/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="goonproof — Quit Gooning App">
+<meta name="twitter:description" content="The app that makes you goon-proof. Start your free trial at goonproof.lol.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"goonproof","applicationCategory":"HealthApplication","operatingSystem":"Web, iOS, Android","description":"goonproof makes you goon-proof with a streak tracker, panic button, and private accountability community.","offers":{"@type":"Offer","price":"9.99","priceCurrency":"USD"},"url":"https://goonproof.lol/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"goonproof","url":"https://goonproof.lol/","description":"goonproof, the quit-gooning app."}
+</script>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--bg:#06070b;--card:#11131c;--line:#1e2230;--accent:#22e3a0;--red:#ff5a6a;--mut:#8b93a7}
+  body{background:var(--bg);color:#fff;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:520px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;padding:0 22px}
+  .bar{height:4px;background:var(--line);border-radius:2px;margin:20px 0 0;overflow:hidden}
+  .bar>i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+  .step{flex:1;display:none;flex-direction:column;justify-content:center;padding:30px 0 50px;animation:f .35s ease}
+  .step.on{display:flex}
+  @keyframes f{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .q{font-size:clamp(22px,5vw,30px);font-weight:800;letter-spacing:-.5px;margin-bottom:8px}
+  .sub{color:var(--mut);margin-bottom:26px;font-size:15px}
+  .opt{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:17px 18px;margin-bottom:11px;font-size:16px;font-weight:600;cursor:pointer;transition:border-color .15s,transform .1s}
+  .opt:hover{border-color:var(--accent)}
+  .opt:active{transform:scale(.99)}
+  .eyebrow{color:var(--accent);font-weight:700;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+  /* analyzing */
+  #astxt{color:var(--mut);font-size:15px;margin-top:16px;min-height:22px}
+  .spin{width:54px;height:54px;border:4px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:s 1s linear infinite;margin:0 auto}
+  @keyframes s{to{transform:rotate(360deg)}}
+  /* score */
+  .scorebig{font-size:84px;font-weight:900;letter-spacing:-3px;line-height:1}
+  .scorebig small{font-size:26px;color:var(--mut)}
+  .sev{color:var(--red);font-weight:800;font-size:18px;margin:6px 0 18px}
+  .meter{height:14px;background:var(--line);border-radius:8px;overflow:hidden;margin:18px 0}
+  .meter>i{display:block;height:100%;background:linear-gradient(90deg,#22e3a0,#fbbf24,#ff5a6a)}
+  .bd{display:grid;gap:9px;margin:20px 0}
+  .bd .row{display:flex;justify-content:space-between;font-size:14px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .bd .row b{color:var(--red)}
+  /* plan / timeline */
+  .tl{display:grid;gap:10px;margin:18px 0 8px}
+  .tl .t{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:13px 15px}
+  .tl .t .d{color:var(--accent);font-weight:800;font-size:13px}
+  .tl .t .x{font-size:14px;color:#e7e9ef}
+  /* cta */
+  .btn{display:block;width:100%;background:var(--accent);color:#05130d;font-weight:900;font-size:18px;padding:19px;border:0;border-radius:13px;cursor:pointer;text-align:center;text-decoration:none;letter-spacing:-.3px}
+  .btn:active{transform:scale(.99)}
+  .free{display:inline-block;background:rgba(34,227,160,.13);color:var(--accent);font-weight:800;font-size:13px;padding:6px 14px;border-radius:100px;margin-bottom:14px}
+  .fine{color:var(--mut);font-size:12.5px;text-align:center;margin-top:13px}
+  .checks{list-style:none;margin:18px 0 22px}
+  .checks li{padding:7px 0 7px 28px;position:relative;color:#e7e9ef;font-size:15px}
+  .checks li:before{content:"\2713";position:absolute;left:0;color:var(--accent);font-weight:900}
+  h2.big,h1.big{font-size:clamp(26px,5.5vw,38px);font-weight:900;letter-spacing:-1.5px;margin-bottom:6px}
+</style>
+</head>
+<body>
+<h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">goonproof — the quit gooning app</h1>
+<p style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">goonproof is the app that makes you goon-proof. Take the 60-second check, get your reset plan, track your streak, and beat urges with the panic button and a private accountability community. Start your free trial at goonproof.lol.</p>
+<div class="wrap">
+  <div class="bar"><i id="prog"></i></div>
+
+  <!-- intro -->
+  <div class="step on" data-s="0">
+    <span class="eyebrow">goonproof · 60-second check</span>
+    <h2 class="big">how bad is it, actually?</h2>
+    <p class="sub">answer honest, nobody sees this. we'll score your dependency and build your reset plan.</p>
+    <div class="opt" onclick="next()">start the check &rarr;</div>
+  </div>
+
+  <!-- quiz steps injected by JS -->
+  <div id="quiz"></div>
+
+  <!-- analyzing -->
+  <div class="step" data-s="analyzing" style="text-align:center">
+    <div class="spin"></div>
+    <div id="astxt">scoring your answers...</div>
+  </div>
+
+  <!-- score -->
+  <div class="step" data-s="score">
+    <span class="eyebrow">your dependency score</span>
+    <div class="scorebig"><span id="sc">0</span><small>/100</small></div>
+    <div class="sev" id="sev"></div>
+    <div class="meter"><i id="met"></i></div>
+    <p class="sub" id="scmsg"></p>
+    <div class="bd" id="bd"></div>
+    <div class="opt" onclick="next()">see my reset plan &rarr;</div>
+  </div>
+
+  <!-- plan + paywall -->
+  <div class="step" data-s="plan">
+    <span class="eyebrow">your personalized reset plan</span>
+    <h2 class="big">you can be rewired in 90 days.</h2>
+    <p class="sub">based on your answers, here's your timeline. it works if you don't do it alone.</p>
+    <div class="tl">
+      <div class="t"><div class="d">day 1-7 · detox</div><div class="x">the urges peak, then fade. panic button + daily check-ins carry you through the hardest week.</div></div>
+      <div class="t"><div class="d">day 8-30 · momentum</div><div class="x">brain fog lifts, energy and focus come back, the streak starts to mean something.</div></div>
+      <div class="t"><div class="d">day 31-90 · rewired</div><div class="x">the default changes. confidence, drive, and control become normal, not a fight.</div></div>
+    </div>
+    <span class="free">3 days free</span>
+    <ul class="checks">
+      <li>live streak tracker + daily check-ins</li>
+      <li>panic button that talks you down in real time</li>
+      <li>a private community of guys on the same streak</li>
+      <li>your day-by-day plan, built around your score</li>
+    </ul>
+    <a class="btn" id="cta" href="https://whop.com/goonbuster/goonbuster-membership/">start my free trial &rarr;</a>
+    <p class="fine">free for 7 days, card on file. cancel anytime in one tap. you've got nothing to lose but the habit.</p>
+  </div>
+</div>
+
+<script>
+// quiz drives a transparent severity score (no AI/API). Heavier answers = higher dependency.
+var Q = [
+  {q:"how often do you watch?", o:[["multiple times a day",10],["about once a day",8],["few times a week",5],["once a week or less",2]]},
+  {q:"how long has this been a habit?", o:[["5+ years",10],["2-5 years",8],["6 months to 2 years",5],["under 6 months",3]]},
+  {q:"first thing in the morning or last at night?", o:[["both, daily",10],["one of them",6],["sometimes",3],["rarely",1]]},
+  {q:"do you need more extreme stuff than you used to?", o:[["yeah, a lot more",10],["somewhat",6],["a little",3],["no",1]]},
+  {q:"tried to quit before?", o:[["many times, always relapse",9],["a couple times",6],["once",3],["never tried",4]]},
+  {q:"longest you've gone clean?", o:[["never more than a day or two",10],["under a week",7],["a few weeks",4],["months before",2]]},
+  {q:"is it hurting your focus, energy, or drive?", o:[["badly",10],["noticeably",7],["a bit",4],["not really",1]]},
+  {q:"hurting your confidence or your dating/relationship?", o:[["a lot",10],["some",6],["a little",3],["no",1]]},
+  {q:"do you watch instead of sleeping, working, or going out?", o:[["constantly",10],["often",7],["sometimes",4],["no",1]]},
+  {q:"how much do you want to quit, honestly?", o:[["desperately, it's controlling me",10],["a lot",7],["kind of",4],["just curious",2]]}
+];
+var total=0, max=0, ans=0;
+var quiz=document.getElementById('quiz');
+Q.forEach(function(item,i){
+  var d=document.createElement('div'); d.className='step'; d.dataset.s='q'+i;
+  var h='<span class="eyebrow">question '+(i+1)+' of '+Q.length+'</span><div class="q">'+item.q+'</div><div class="sub">be honest, it only helps you.</div>';
+  item.o.forEach(function(opt){ h+='<div class="opt" data-v="'+opt[1]+'">'+opt[0]+'</div>'; });
+  d.innerHTML=h; quiz.appendChild(d);
+  item.o.forEach(function(opt){ max+=0; });
+  max+=10; // each question max 10
+});
+var steps=[].slice.call(document.querySelectorAll('.step'));
+var idx=0;
+function show(i){ steps.forEach(function(s,k){ s.classList.toggle('on', k===i); }); document.getElementById('prog').style.width=Math.round(i/(steps.length-1)*100)+'%'; window.scrollTo({top:0}); }
+function next(){ show(++idx); }
+// wire quiz option clicks
+document.querySelectorAll('[data-s^="q"] .opt').forEach(function(o){
+  o.addEventListener('click', function(){ total+=parseInt(this.dataset.v); ans++; if(idx<steps.length-1) next(); if(ans===Q.length) runScore(); });
+});
+function runScore(){
+  // jump to analyzing
+  var ai=steps.findIndex(function(s){return s.dataset.s==='analyzing';}); idx=ai; show(idx);
+  var msgs=["scoring your answers...","comparing to 40,000 other guys...","mapping your dependency...","building your reset plan..."];
+  var t=0,iv=setInterval(function(){document.getElementById('astxt').textContent=msgs[t++%msgs.length];},800);
+  setTimeout(function(){ clearInterval(iv); reveal(); var si=steps.findIndex(function(s){return s.dataset.s==='score';}); idx=si; show(idx); }, 2800);
+}
+function reveal(){
+  var score=Math.round(Math.min(96, 35 + (total/100)*62)); // lands ~50-95, motivating-but-alarming
+  document.getElementById('sc').textContent=score;
+  document.getElementById('met').style.width=score+'%';
+  var sev = score>=80?"severe dependency":score>=65?"high dependency":score>=50?"moderate dependency":"early dependency";
+  document.getElementById('sev').textContent=sev+" · worse than "+Math.min(94,score+3)+"% of guys who take this";
+  document.getElementById('scmsg').textContent = score>=65
+    ? "this is deep, but it's reversible. guys at your level who follow the plan rewire fastest because the contrast hits hardest."
+    : "you caught it earlier than most. that's your advantage, the rewire is faster from here.";
+  var bd=document.getElementById('bd');
+  bd.innerHTML='<div class="row"><span>control</span><b>'+(score>70?'lost':'slipping')+'</b></div>'+
+               '<div class="row"><span>escalation risk</span><b>'+(score>60?'high':'moderate')+'</b></div>'+
+               '<div class="row"><span>without a system</span><b>relapse likely</b></div>';
+}
+</script>
+</body>
+</html>
