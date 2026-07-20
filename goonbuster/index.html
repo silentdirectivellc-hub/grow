@@ -51,6 +51,17 @@ if(!/PLACEHOLDER/.test(TT_PIXEL_ID)){
 }
 /* guarded ttq capture, mirrors ph() */
 function tt(ev,props){ try{ if(window.ttq && typeof window.ttq.track==='function'){ window.ttq.track(ev,props||{}); } }catch(e){} }
+
+/* Meta pixel. META_PIXEL_ID is replaced at deploy time; while it still reads
+   PLACEHOLDER the loader below no-ops, so shipping this early is safe. */
+var META_PIXEL_ID='META_PIXEL_PLACEHOLDER';
+if(!/PLACEHOLDER/.test(META_PIXEL_ID)){
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', META_PIXEL_ID);
+fbq('track', 'PageView');
+}
+/* guarded fbq capture, mirrors tt() */
+function fb(ev,props){ try{ if(window.fbq && typeof window.fbq==='function' && !/PLACEHOLDER/.test(META_PIXEL_ID)){ window.fbq('track',ev,props||{}); } }catch(e){} }
 </script>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
@@ -289,6 +300,7 @@ function signPledge(){
   var ph1=document.getElementById('planhead');
   if(ph1){ ph1.textContent = safe+', you can be rewired in 90 days.'; }
   ph('gb_pledge_signed',{});
+  fb('Lead'); tt('SubmitForm');
   next();
 }
 /* On the plan step, if we already have a saved name (came back), personalize. */
@@ -317,6 +329,7 @@ try{
     _cta.href=_u.toString();
     _cta.addEventListener('click',function(){
       ph('gb_cta_click',{src:_src||'organic'});
+      fb('InitiateCheckout'); tt('ClickButton');
     });
   }
 
@@ -348,6 +361,7 @@ try{
   if(_wbEl){ _wbEl.addEventListener('click', function(e){ if(e.target===_wbEl){ closeWinback(); } }); }
 
   ph('gb_landing_view',{src:_src||'organic'});
+  fb('ViewContent'); tt('ViewContent');
 }catch(e){}
 </script>
 </body>
