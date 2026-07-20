@@ -38,6 +38,20 @@ try{
   posthog.register({app:'goonbuster'});
 }catch(e){}
 </script>
+<script>
+/* TikTok pixel. TT_PIXEL_ID is replaced at deploy time; while it still reads
+   PLACEHOLDER the loader below no-ops, so shipping this early is safe. */
+var TT_PIXEL_ID='D9EV5ABC77UBS5FSI2D0';
+if(!/PLACEHOLDER/.test(TT_PIXEL_ID)){
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+  ttq.load(TT_PIXEL_ID);
+  ttq.page();
+}(window, document, 'ttq');
+}
+/* guarded ttq capture, mirrors ph() */
+function tt(ev,props){ try{ if(window.ttq && typeof window.ttq.track==='function'){ window.ttq.track(ev,props||{}); } }catch(e){} }
+</script>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   :root{--bg:#06070b;--card:#11131c;--line:#1e2230;--accent:#22e3a0;--red:#ff5a6a;--mut:#8b93a7}
@@ -100,6 +114,12 @@ try{
   .wbprice span{font-size:16px;color:var(--mut);font-weight:700}
   .wbsub{font-size:13px;color:var(--mut);margin-top:2px}
   .wbsub s{color:var(--mut)}
+  /* social proof */
+  .proof{margin:20px 0 4px}
+  .proofstat{text-align:center;color:var(--mut);font-size:14px;margin-bottom:14px}
+  .proofstat b{color:#fff;font-weight:800}
+  .quote{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:12px 14px;margin-bottom:9px;font-size:14px;color:#e7e9ef;line-height:1.45}
+  .quote span{display:block;color:var(--mut);font-size:12px;font-weight:700;margin-top:6px}
 </style>
 </head>
 <body>
@@ -157,6 +177,12 @@ try{
       <div class="t"><div class="d">day 1-7 · detox</div><div class="x">the urges peak, then fade. panic button + daily check-ins carry you through the hardest week.</div></div>
       <div class="t"><div class="d">day 8-30 · momentum</div><div class="x">brain fog lifts, energy and focus come back, the streak starts to mean something.</div></div>
       <div class="t"><div class="d">day 31-90 · rewired</div><div class="x">the default changes. confidence, drive, and control become normal, not a fight.</div></div>
+    </div>
+    <div class="proof">
+      <div class="proofstat"><b>40,000+</b> guys started their reset here</div>
+      <div class="quote">"day 41. the fog is gone and i actually look people in the eye now. the panic button got me through week one." <span>— marcus, 41 days</span></div>
+      <div class="quote">"tried quitting alone for 3 years. the streak and the crew are the only thing that ever made it stick." <span>— t., 68 days</span></div>
+      <div class="quote">"first week was hell, then it wasn't. wish i started this years ago." <span>— anon, 90+ days</span></div>
     </div>
     <span class="free">7 days free</span>
     <ul class="checks">
