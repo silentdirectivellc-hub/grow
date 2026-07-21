@@ -13,7 +13,8 @@ try{
     api_host:'https://relay.silentdirectivellc.com',
     ui_host:'https://us.posthog.com',
     capture_pageview:true,
-    disable_session_recording:true,
+    disable_session_recording:false,
+    session_recording:{maskAllInputs:true},
     persistence:'localStorage+cookie'
   });
   posthog.register({app:'goonbuster'});
