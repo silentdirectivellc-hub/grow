@@ -252,18 +252,18 @@ Q.forEach(function(item,i){
 });
 var steps=[].slice.call(document.querySelectorAll('.step'));
 var idx=0;
-function show(i){ steps.forEach(function(s,k){ s.classList.toggle('on', k===i); }); document.getElementById('prog').style.width=Math.round(i/(steps.length-1)*100)+'%'; window.scrollTo({top:0}); }
+function show(i){ steps.forEach(function(s,k){ s.classList.toggle('on', k===i); }); document.getElementById('prog').style.width=Math.round(i/(steps.length-1)*100)+'%'; window.scrollTo({top:0}); try{ if(steps[i] && steps[i].dataset.s==='pledge' && !window.__gbpv){ window.__gbpv=1; ph('gb_pledge_view',{}); } }catch(e){} }
 function next(){ show(++idx); }
 // wire quiz option clicks
 document.querySelectorAll('[data-s^="q"] .opt').forEach(function(o){
-  o.addEventListener('click', function(){ total+=parseInt(this.dataset.v); ans++; if(idx<steps.length-1) next(); if(ans===Q.length) runScore(); });
+  o.addEventListener('click', function(){ total+=parseInt(this.dataset.v); ans++; ph('gb_quiz_step',{i:ans}); if(idx<steps.length-1) next(); if(ans===Q.length) runScore(); });
 });
 function runScore(){
   // jump to analyzing
   var ai=steps.findIndex(function(s){return s.dataset.s==='analyzing';}); idx=ai; show(idx);
   var msgs=["scoring your answers...","comparing to 40,000 other guys...","mapping your dependency...","building your reset plan..."];
   var t=0,iv=setInterval(function(){document.getElementById('astxt').textContent=msgs[t++%msgs.length];},800);
-  setTimeout(function(){ clearInterval(iv); reveal(); var si=steps.findIndex(function(s){return s.dataset.s==='score';}); idx=si; show(idx); }, 2800);
+  setTimeout(function(){ clearInterval(iv); reveal(); var si=steps.findIndex(function(s){return s.dataset.s==='score';}); idx=si; show(idx); ph('gb_score_view',{}); }, 2800);
 }
 function reveal(){
   var score=Math.round(Math.min(96, 35 + (total/100)*62)); // lands ~50-95, motivating-but-alarming
@@ -302,6 +302,7 @@ function signPledge(){
   ph('gb_pledge_signed',{});
   fb('Lead'); tt('SubmitForm');
   next();
+  ph('gb_plan_view',{});
 }
 /* On the plan step, if we already have a saved name (came back), personalize. */
 (function(){
