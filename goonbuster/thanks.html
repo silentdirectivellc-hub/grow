@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You're in — GoonBuster</title>
+<meta name="robots" content="noindex, nofollow">
+<script>
+/* PostHog: same project + relay as the landing so distinct_id joins the funnel. */
+!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register identify alias reset get_distinct_id".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+try{
+  posthog.init('phc_Cntsp3LLGRdNg7tPwzuH9xS6CrCSvainYHMXFEuTM27i',{
+    api_host:'https://relay.silentdirectivellc.com',
+    ui_host:'https://us.posthog.com',
+    capture_pageview:true,
+    disable_session_recording:true,
+    persistence:'localStorage+cookie'
+  });
+  posthog.register({app:'goonbuster'});
+}catch(e){}
+function ph(ev,props){ try{ if(window.posthog && typeof window.posthog.capture==='function'){ window.posthog.capture(ev,props||{}); } }catch(e){} }
+</script>
+<script>
+/* TikTok pixel, same ID as the landing. */
+var TT_PIXEL_ID='D9EV5ABC77UBS5FSI2D0';
+if(!/PLACEHOLDER/.test(TT_PIXEL_ID)){
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+  ttq.load(TT_PIXEL_ID);
+  ttq.page();
+}(window, document, 'ttq');
+}
+function tt(ev,props){ try{ if(window.ttq && typeof window.ttq.track==='function'){ window.ttq.track(ev,props||{}); } }catch(e){} }
+/* Meta pixel placeholder, mirrors the landing (no-ops until an ID ships). */
+var META_PIXEL_ID='META_PIXEL_PLACEHOLDER';
+function fb(ev,props){ try{ if(window.fbq && typeof window.fbq==='function' && !/PLACEHOLDER/.test(META_PIXEL_ID)){ window.fbq('track',ev,props||{}); } }catch(e){} }
+</script>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--bg:#06070b;--card:#11131c;--line:#1e2230;--accent:#22e3a0;--mut:#8b93a7}
+  body{background:var(--bg);color:#fff;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:520px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:40px 22px}
+  .eyebrow{color:var(--accent);font-weight:700;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+  h1{font-size:clamp(28px,6vw,40px);font-weight:900;letter-spacing:-1.5px;margin-bottom:10px}
+  .sub{color:var(--mut);margin-bottom:24px;font-size:15px}
+  .codebox{background:var(--card);border:1.5px solid var(--accent);border-radius:14px;padding:20px;text-align:center;margin-bottom:22px}
+  .codelabel{color:var(--mut);font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+  .code{font-size:34px;font-weight:900;letter-spacing:6px;color:var(--accent)}
+  .btn{display:block;width:100%;background:var(--accent);color:#05130d;font-weight:900;font-size:18px;padding:19px;border:0;border-radius:13px;cursor:pointer;text-align:center;text-decoration:none;letter-spacing:-.3px}
+  .fine{color:var(--mut);font-size:12.5px;text-align:center;margin-top:14px}
+  .steps{list-style:none;margin:0 0 22px}
+  .steps li{padding:7px 0 7px 30px;position:relative;color:#e7e9ef;font-size:15px}
+  .steps li b{color:#fff}
+  .steps li:before{content:"\2713";position:absolute;left:0;color:var(--accent);font-weight:900}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">payment confirmed</span>
+  <h1>you're in. let's start day one.</h1>
+  <p class="sub">save this screen. your member code unlocks the app on any device, any time.</p>
+  <div class="codebox">
+    <div class="codelabel">your member code</div>
+    <div class="code">REWIRED</div>
+  </div>
+  <ul class="steps">
+    <li><b>open the app</b> with the button below, it unlocks automatically</li>
+    <li><b>add it to your home screen</b> (share button &rarr; "Add to Home Screen") so your streak is one tap away</li>
+    <li><b>do today's check-in</b>, the streak starts now</li>
+  </ul>
+  <a class="btn" id="openapp" href="app/?code=REWIRED">open my app &rarr;</a>
+  <p class="fine">manage or cancel your plan any time via the Stripe receipt in your email.</p>
+</div>
+<script>
+/* Fire purchase analytics exactly once per browser; the button stays the
+   primary path (no forced redirect, the code must be seeable/saveable). */
+try{
+  var plan=(new URLSearchParams(location.search).get('plan')||'monthly').toLowerCase();
+  var yearly = plan==='yearly';
+  var value = yearly ? 77.99 : 12.99;
+  var once=false;
+  try{ once = localStorage.getItem('gb_purchase_fired')==='1'; }catch(e){}
+  if(!once){
+    try{ localStorage.setItem('gb_purchase_fired','1'); }catch(e){}
+    var src='organic';
+    try{ src = localStorage.getItem('gb_src')||'organic'; }catch(e){}
+    ph('gb_purchase',{plan:plan, value:value, src:src});
+    if(yearly){ tt('CompletePayment',{value:value,currency:'USD',content_type:'product',content_id:'gb_yearly'}); }
+    else{ tt('Subscribe',{value:value,currency:'USD',content_type:'product',content_id:'gb_monthly_trial'}); }
+    fb('Purchase',{value:value,currency:'USD'});
+  }
+  var a=document.getElementById('openapp');
+  if(a && plan){ a.href='app/?code=REWIRED&plan='+encodeURIComponent(plan); }
+}catch(e){}
+</script>
+</body>
+</html>
