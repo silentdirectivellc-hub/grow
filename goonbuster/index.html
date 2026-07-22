@@ -179,6 +179,7 @@ function fb(ev,props){ try{ if(window.fbq && typeof window.fbq==='function' && !
     </div>
     <div class="btn" id="pledgebtn" onclick="signPledge()">I commit &rarr;</div>
     <p class="fine">no account, no email. your name stays on this device.</p>
+    <p class="fine" style="margin-top:10px"><a href="#" id="pskip" style="color:var(--mut);text-decoration:underline">skip, show my plan &rarr;</a></p>
   </div>
 
   <!-- plan + paywall -->
@@ -186,6 +187,8 @@ function fb(ev,props){ try{ if(window.fbq && typeof window.fbq==='function' && !
     <span class="eyebrow">your personalized reset plan</span>
     <h1 class="big" id="planhead">you can be rewired in 90 days.</h1>
     <p class="sub">based on your answers, here's your timeline. it works if you don't do it alone.</p>
+    <span class="free">7 days free</span>
+    <a class="btn" id="cta2" href="https://buy.stripe.com/dRm5kF79E2Lgb6Fe79ffy13" style="margin-bottom:18px">start my free trial &rarr;</a>
     <div class="tl">
       <div class="t"><div class="d">day 1-7 · detox</div><div class="x">the urges peak, then fade. panic button + daily check-ins carry you through the hardest week.</div></div>
       <div class="t"><div class="d">day 8-30 · momentum</div><div class="x">brain fog lifts, energy and focus come back, the streak starts to mean something.</div></div>
@@ -230,16 +233,13 @@ function fb(ev,props){ try{ if(window.fbq && typeof window.fbq==='function' && !
 
 <script>
 // quiz drives a transparent severity score (no AI/API). Heavier answers = higher dependency.
+/* 5 questions for paid traffic (was 10; ad clickers bail on long quizzes,
+   the 5 kept are the highest-signal ones). */
 var Q = [
   {q:"how often do you watch?", o:[["multiple times a day",10],["about once a day",8],["few times a week",5],["once a week or less",2]]},
   {q:"how long has this been a habit?", o:[["5+ years",10],["2-5 years",8],["6 months to 2 years",5],["under 6 months",3]]},
-  {q:"first thing in the morning or last at night?", o:[["both, daily",10],["one of them",6],["sometimes",3],["rarely",1]]},
   {q:"do you need more extreme stuff than you used to?", o:[["yeah, a lot more",10],["somewhat",6],["a little",3],["no",1]]},
-  {q:"tried to quit before?", o:[["many times, always relapse",9],["a couple times",6],["once",3],["never tried",4]]},
-  {q:"longest you've gone clean?", o:[["never more than a day or two",10],["under a week",7],["a few weeks",4],["months before",2]]},
   {q:"is it hurting your focus, energy, or drive?", o:[["badly",10],["noticeably",7],["a bit",4],["not really",1]]},
-  {q:"hurting your confidence or your dating/relationship?", o:[["a lot",10],["some",6],["a little",3],["no",1]]},
-  {q:"do you watch instead of sleeping, working, or going out?", o:[["constantly",10],["often",7],["sometimes",4],["no",1]]},
   {q:"how much do you want to quit, honestly?", o:[["desperately, it's controlling me",10],["a lot",7],["kind of",4],["just curious",2]]}
 ];
 var total=0, max=0, ans=0;
@@ -268,7 +268,7 @@ function runScore(){
   setTimeout(function(){ clearInterval(iv); reveal(); var si=steps.findIndex(function(s){return s.dataset.s==='score';}); idx=si; show(idx); ph('gb_score_view',{}); }, 2800);
 }
 function reveal(){
-  var score=Math.round(Math.min(96, 35 + (total/100)*62)); // lands ~50-95, motivating-but-alarming
+  var score=Math.round(Math.min(96, 35 + (total/max)*62)); // lands ~50-95, motivating-but-alarming (max adapts to question count)
   document.getElementById('sc').textContent=score;
   document.getElementById('met').style.width=score+'%';
   var sev = score>=80?"severe dependency":score>=65?"high dependency":score>=50?"moderate dependency":"early dependency";
@@ -306,6 +306,12 @@ function signPledge(){
   next();
   ph('gb_plan_view',{});
 }
+/* pledge skip: same advance as signing, minus the name. No typing gate for
+   paid traffic; the pledge stays as an optional booster. */
+(function(){
+  var sk=document.getElementById('pskip');
+  if(sk){ sk.addEventListener('click', function(e){ e.preventDefault(); ph('gb_pledge_skip',{}); next(); ph('gb_plan_view',{}); }); }
+})();
 /* On the plan step, if we already have a saved name (came back), personalize. */
 (function(){
   try{ var nm=localStorage.getItem('gb_name'); var ph1=document.getElementById('planhead');
@@ -320,8 +326,9 @@ try{
   if(_src) localStorage.setItem('gb_src', _src.slice(0,40));
   _src=localStorage.getItem('gb_src');
   var _ref=String(_src||'').replace(/[^A-Za-z0-9_-]/g,'').slice(0,200)||'organic';
-  var _cta=document.getElementById('cta');
-  if(_cta){
+  ['cta','cta2'].forEach(function(id){
+    var _cta=document.getElementById(id);
+    if(!_cta) return;
     var _u=new URL(_cta.href);
     if(_src){
       _u.searchParams.set('utm_source', _src);
@@ -331,10 +338,10 @@ try{
     _u.searchParams.set('client_reference_id', _ref);
     _cta.href=_u.toString();
     _cta.addEventListener('click',function(){
-      ph('gb_cta_click',{src:_src||'organic'});
+      ph('gb_cta_click',{src:_src||'organic',pos:id});
       fb('InitiateCheckout'); tt('ClickButton');
     });
-  }
+  });
 
   // Same attribution on the win-back CTA so a saved conversion is credited.
   var _wb=document.getElementById('wbcta');
