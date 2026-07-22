@@ -82,6 +82,11 @@ try{
   .checks li{padding:7px 0 7px 28px;position:relative;color:#e7e9ef;font-size:15px}
   .checks li:before{content:"\2713";position:absolute;left:0;color:var(--accent);font-weight:900}
   h1.big{font-size:clamp(26px,5.5vw,38px);font-weight:900;letter-spacing:-1.5px;margin-bottom:6px}
+  /* paid-traffic doorway (ad-continuity intro) */
+  .step{position:relative}
+  .ghostnum{position:absolute;top:50%;left:50%;transform:translate(-50%,-58%);font-size:230px;font-weight:900;color:var(--accent);opacity:.055;letter-spacing:-10px;pointer-events:none;z-index:0}
+  .doorway>*{position:relative;z-index:1}
+  .shield{width:58px;height:58px;border-radius:14px;margin-bottom:16px}
   /* pledge */
   .pledgebox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 18px;margin:20px 0}
   .pledgetext{font-size:17px;font-weight:700;line-height:1.45;color:#fff;margin-bottom:18px}
@@ -114,6 +119,36 @@ try{
     <p class="sub">answer honest, nobody sees this. we'll score your dependency and build your reset plan.</p>
     <div class="opt" onclick="next()">start the check &rarr;</div>
   </div>
+
+  <!-- paid-traffic doorway: shown INSTEAD of the intro above when the visitor came
+       from a TikTok ad (src=tt_*). Mirrors the ad they just watched (dependency test,
+       the 96 score, shield endcard) so the page reads as a continuation of the video,
+       not a cold survey. Organic traffic never sees this. -->
+  <template id="paidIntro">
+    <div class="doorway" style="display:contents">
+      <span class="ghostnum">96</span>
+      <img class="shield" src="shield.png" alt="GoonBuster" width="58" height="58">
+      <span class="eyebrow">the &#127805; dependency test</span>
+      <h1 class="big">he scored 96. what's your number?</h1>
+      <p class="sub">10 honest questions, 60 seconds. nobody sees your answers.</p>
+      <div class="btn" onclick="ph('gb_intro_cta_click',{});next()">get my score &rarr;</div>
+      <p class="fine">40,000+ guys have taken it</p>
+    </div>
+  </template>
+  <script>
+  /* swap intro content for ad traffic BEFORE the quiz-builder script collects steps.
+     Reads ?src= (or remembered gb_src) exactly like the attribution block below. */
+  try{
+    var _pq=new URLSearchParams(location.search);
+    var _psrc=_pq.get('src')||_pq.get('utm_source')||'';
+    try{ if(!_psrc) _psrc=localStorage.getItem('gb_src')||''; }catch(e){}
+    if(/^tt_/i.test(_psrc) || /tiktok/i.test(_psrc)){
+      var _intro=document.querySelector('.step[data-s="0"]');
+      var _tpl=document.getElementById('paidIntro');
+      if(_intro && _tpl){ _intro.innerHTML=''; _intro.appendChild(_tpl.content.cloneNode(true)); }
+    }
+  }catch(e){}
+  </script>
 
   <!-- quiz steps injected by JS -->
   <div id="quiz"></div>
