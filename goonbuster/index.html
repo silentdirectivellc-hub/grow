@@ -32,7 +32,8 @@ try{
     api_host:'https://relay.silentdirectivellc.com',
     ui_host:'https://us.posthog.com',
     capture_pageview:true,
-    disable_session_recording:true,
+    disable_session_recording:false,
+    session_recording:{maskAllInputs:true},
     persistence:'localStorage+cookie'
   });
   posthog.register({app:'goonbuster'});
@@ -160,11 +161,11 @@ try{
     </div>
     <span class="free">7 days free</span>
     <ul class="checks">
-      <li>the GoonBuster app on your phone: live streak tracker + daily check-ins</li>
+      <li>the GoonBuster app on your phone or computer: live streak tracker + daily check-ins</li>
       <li>panic button that talks you down in real time</li>
       <li>a private community of guys on the same streak</li>
       <li>your day-by-day plan, built around your score</li>
-      <li>private by design: your streak and journal live on YOUR phone, not our servers. no account, no cloud, nothing to leak</li>
+      <li>private by design: your streak and journal live on YOUR device, not our servers. no account, no cloud, nothing to leak</li>
     </ul>
     <a class="btn" id="cta" href="https://buy.stripe.com/dRm5kF79E2Lgb6Fe79ffy13">start my free trial &rarr;</a>
     <p class="fine">free for 7 days, card on file. cancel anytime in one tap, no guilt-trip screens, no countdown timers. you've got nothing to lose but the habit.</p>
