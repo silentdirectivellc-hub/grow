@@ -22,48 +22,21 @@
 </script>
 <script>
 /* PostHog analytics via our own relay (same project + key as the app, so the
-   funnel joins landing -> checkout -> app). Session REPLAY is ON for the
-   marketing funnel (inputs masked) to watch drop-off; keep it OFF in the app
-   itself (private journal/streak). Fully fire-and-forget: if this script or
-   the relay is blocked, the page must keep working, so init is wrapped and
-   every capture goes through the guarded ph() helper below. */
+   funnel joins landing -> checkout -> app). Session recording is DISABLED on
+   the landing: pageviews + funnel events only. Fully fire-and-forget: if this
+   script or the relay is blocked, the page must keep working, so init is
+   wrapped and every capture goes through the guarded ph() helper below. */
 !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
 try{
   posthog.init('phc_Cntsp3LLGRdNg7tPwzuH9xS6CrCSvainYHMXFEuTM27i',{
     api_host:'https://relay.silentdirectivellc.com',
     ui_host:'https://us.posthog.com',
     capture_pageview:true,
-    disable_session_recording:false,
-    session_recording:{maskAllInputs:true},
+    disable_session_recording:true,
     persistence:'localStorage+cookie'
   });
   posthog.register({app:'goonbuster'});
 }catch(e){}
-</script>
-<script>
-/* TikTok pixel. TT_PIXEL_ID is replaced at deploy time; while it still reads
-   PLACEHOLDER the loader below no-ops, so shipping this early is safe. */
-var TT_PIXEL_ID='D9EV5ABC77UBS5FSI2D0';
-if(!/PLACEHOLDER/.test(TT_PIXEL_ID)){
-!function (w, d, t) {
-  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
-  ttq.load(TT_PIXEL_ID);
-  ttq.page();
-}(window, document, 'ttq');
-}
-/* guarded ttq capture, mirrors ph() */
-function tt(ev,props){ try{ if(window.ttq && typeof window.ttq.track==='function'){ window.ttq.track(ev,props||{}); } }catch(e){} }
-
-/* Meta pixel. META_PIXEL_ID is replaced at deploy time; while it still reads
-   PLACEHOLDER the loader below no-ops, so shipping this early is safe. */
-var META_PIXEL_ID='META_PIXEL_PLACEHOLDER';
-if(!/PLACEHOLDER/.test(META_PIXEL_ID)){
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', META_PIXEL_ID);
-fbq('track', 'PageView');
-}
-/* guarded fbq capture, mirrors tt() */
-function fb(ev,props){ try{ if(window.fbq && typeof window.fbq==='function' && !/PLACEHOLDER/.test(META_PIXEL_ID)){ window.fbq('track',ev,props||{}); } }catch(e){} }
 </script>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
@@ -127,12 +100,6 @@ function fb(ev,props){ try{ if(window.fbq && typeof window.fbq==='function' && !
   .wbprice span{font-size:16px;color:var(--mut);font-weight:700}
   .wbsub{font-size:13px;color:var(--mut);margin-top:2px}
   .wbsub s{color:var(--mut)}
-  /* social proof */
-  .proof{margin:20px 0 4px}
-  .proofstat{text-align:center;color:var(--mut);font-size:14px;margin-bottom:14px}
-  .proofstat b{color:#fff;font-weight:800}
-  .quote{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:12px 14px;margin-bottom:9px;font-size:14px;color:#e7e9ef;line-height:1.45}
-  .quote span{display:block;color:var(--mut);font-size:12px;font-weight:700;margin-top:6px}
 </style>
 </head>
 <body>
@@ -179,7 +146,6 @@ function fb(ev,props){ try{ if(window.fbq && typeof window.fbq==='function' && !
     </div>
     <div class="btn" id="pledgebtn" onclick="signPledge()">I commit &rarr;</div>
     <p class="fine">no account, no email. your name stays on this device.</p>
-    <p class="fine" style="margin-top:10px"><a href="#" id="pskip" style="color:var(--mut);text-decoration:underline">skip, show my plan &rarr;</a></p>
   </div>
 
   <!-- plan + paywall -->
@@ -187,18 +153,10 @@ function fb(ev,props){ try{ if(window.fbq && typeof window.fbq==='function' && !
     <span class="eyebrow">your personalized reset plan</span>
     <h1 class="big" id="planhead">you can be rewired in 90 days.</h1>
     <p class="sub">based on your answers, here's your timeline. it works if you don't do it alone.</p>
-    <span class="free">7 days free</span>
-    <a class="btn" id="cta2" href="https://buy.stripe.com/dRm5kF79E2Lgb6Fe79ffy13" style="margin-bottom:18px">start my free trial &rarr;</a>
     <div class="tl">
       <div class="t"><div class="d">day 1-7 · detox</div><div class="x">the urges peak, then fade. panic button + daily check-ins carry you through the hardest week.</div></div>
       <div class="t"><div class="d">day 8-30 · momentum</div><div class="x">brain fog lifts, energy and focus come back, the streak starts to mean something.</div></div>
       <div class="t"><div class="d">day 31-90 · rewired</div><div class="x">the default changes. confidence, drive, and control become normal, not a fight.</div></div>
-    </div>
-    <div class="proof">
-      <div class="proofstat"><b>40,000+</b> guys started their reset here</div>
-      <div class="quote">"day 41. the fog is gone and i actually look people in the eye now. the panic button got me through week one." <span>— marcus, 41 days</span></div>
-      <div class="quote">"tried quitting alone for 3 years. the streak and the crew are the only thing that ever made it stick." <span>— t., 68 days</span></div>
-      <div class="quote">"first week was hell, then it wasn't. wish i started this years ago." <span>— anon, 90+ days</span></div>
     </div>
     <span class="free">7 days free</span>
     <ul class="checks">
@@ -233,13 +191,16 @@ function fb(ev,props){ try{ if(window.fbq && typeof window.fbq==='function' && !
 
 <script>
 // quiz drives a transparent severity score (no AI/API). Heavier answers = higher dependency.
-/* 5 questions for paid traffic (was 10; ad clickers bail on long quizzes,
-   the 5 kept are the highest-signal ones). */
 var Q = [
   {q:"how often do you watch?", o:[["multiple times a day",10],["about once a day",8],["few times a week",5],["once a week or less",2]]},
   {q:"how long has this been a habit?", o:[["5+ years",10],["2-5 years",8],["6 months to 2 years",5],["under 6 months",3]]},
+  {q:"first thing in the morning or last at night?", o:[["both, daily",10],["one of them",6],["sometimes",3],["rarely",1]]},
   {q:"do you need more extreme stuff than you used to?", o:[["yeah, a lot more",10],["somewhat",6],["a little",3],["no",1]]},
+  {q:"tried to quit before?", o:[["many times, always relapse",9],["a couple times",6],["once",3],["never tried",4]]},
+  {q:"longest you've gone clean?", o:[["never more than a day or two",10],["under a week",7],["a few weeks",4],["months before",2]]},
   {q:"is it hurting your focus, energy, or drive?", o:[["badly",10],["noticeably",7],["a bit",4],["not really",1]]},
+  {q:"hurting your confidence or your dating/relationship?", o:[["a lot",10],["some",6],["a little",3],["no",1]]},
+  {q:"do you watch instead of sleeping, working, or going out?", o:[["constantly",10],["often",7],["sometimes",4],["no",1]]},
   {q:"how much do you want to quit, honestly?", o:[["desperately, it's controlling me",10],["a lot",7],["kind of",4],["just curious",2]]}
 ];
 var total=0, max=0, ans=0;
@@ -254,21 +215,21 @@ Q.forEach(function(item,i){
 });
 var steps=[].slice.call(document.querySelectorAll('.step'));
 var idx=0;
-function show(i){ steps.forEach(function(s,k){ s.classList.toggle('on', k===i); }); document.getElementById('prog').style.width=Math.round(i/(steps.length-1)*100)+'%'; window.scrollTo({top:0}); try{ if(steps[i] && steps[i].dataset.s==='pledge' && !window.__gbpv){ window.__gbpv=1; ph('gb_pledge_view',{}); } }catch(e){} }
+function show(i){ steps.forEach(function(s,k){ s.classList.toggle('on', k===i); }); document.getElementById('prog').style.width=Math.round(i/(steps.length-1)*100)+'%'; window.scrollTo({top:0}); }
 function next(){ show(++idx); }
 // wire quiz option clicks
 document.querySelectorAll('[data-s^="q"] .opt').forEach(function(o){
-  o.addEventListener('click', function(){ total+=parseInt(this.dataset.v); ans++; ph('gb_quiz_step',{i:ans}); if(idx<steps.length-1) next(); if(ans===Q.length) runScore(); });
+  o.addEventListener('click', function(){ total+=parseInt(this.dataset.v); ans++; if(idx<steps.length-1) next(); if(ans===Q.length) runScore(); });
 });
 function runScore(){
   // jump to analyzing
   var ai=steps.findIndex(function(s){return s.dataset.s==='analyzing';}); idx=ai; show(idx);
   var msgs=["scoring your answers...","comparing to 40,000 other guys...","mapping your dependency...","building your reset plan..."];
   var t=0,iv=setInterval(function(){document.getElementById('astxt').textContent=msgs[t++%msgs.length];},800);
-  setTimeout(function(){ clearInterval(iv); reveal(); var si=steps.findIndex(function(s){return s.dataset.s==='score';}); idx=si; show(idx); ph('gb_score_view',{}); }, 2800);
+  setTimeout(function(){ clearInterval(iv); reveal(); var si=steps.findIndex(function(s){return s.dataset.s==='score';}); idx=si; show(idx); }, 2800);
 }
 function reveal(){
-  var score=Math.round(Math.min(96, 35 + (total/max)*62)); // lands ~50-95, motivating-but-alarming (max adapts to question count)
+  var score=Math.round(Math.min(96, 35 + (total/100)*62)); // lands ~50-95, motivating-but-alarming
   document.getElementById('sc').textContent=score;
   document.getElementById('met').style.width=score+'%';
   var sev = score>=80?"severe dependency":score>=65?"high dependency":score>=50?"moderate dependency":"early dependency";
@@ -302,16 +263,8 @@ function signPledge(){
   var ph1=document.getElementById('planhead');
   if(ph1){ ph1.textContent = safe+', you can be rewired in 90 days.'; }
   ph('gb_pledge_signed',{});
-  fb('Lead'); tt('SubmitForm');
   next();
-  ph('gb_plan_view',{});
 }
-/* pledge skip: same advance as signing, minus the name. No typing gate for
-   paid traffic; the pledge stays as an optional booster. */
-(function(){
-  var sk=document.getElementById('pskip');
-  if(sk){ sk.addEventListener('click', function(e){ e.preventDefault(); ph('gb_pledge_skip',{}); next(); ph('gb_plan_view',{}); }); }
-})();
 /* On the plan step, if we already have a saved name (came back), personalize. */
 (function(){
   try{ var nm=localStorage.getItem('gb_name'); var ph1=document.getElementById('planhead');
@@ -326,9 +279,8 @@ try{
   if(_src) localStorage.setItem('gb_src', _src.slice(0,40));
   _src=localStorage.getItem('gb_src');
   var _ref=String(_src||'').replace(/[^A-Za-z0-9_-]/g,'').slice(0,200)||'organic';
-  ['cta','cta2'].forEach(function(id){
-    var _cta=document.getElementById(id);
-    if(!_cta) return;
+  var _cta=document.getElementById('cta');
+  if(_cta){
     var _u=new URL(_cta.href);
     if(_src){
       _u.searchParams.set('utm_source', _src);
@@ -338,10 +290,9 @@ try{
     _u.searchParams.set('client_reference_id', _ref);
     _cta.href=_u.toString();
     _cta.addEventListener('click',function(){
-      ph('gb_cta_click',{src:_src||'organic',pos:id});
-      fb('InitiateCheckout'); tt('ClickButton');
+      ph('gb_cta_click',{src:_src||'organic'});
     });
-  });
+  }
 
   // Same attribution on the win-back CTA so a saved conversion is credited.
   var _wb=document.getElementById('wbcta');
@@ -371,7 +322,6 @@ try{
   if(_wbEl){ _wbEl.addEventListener('click', function(e){ if(e.target===_wbEl){ closeWinback(); } }); }
 
   ph('gb_landing_view',{src:_src||'organic'});
-  fb('ViewContent'); tt('ViewContent');
 }catch(e){}
 </script>
 </body>
